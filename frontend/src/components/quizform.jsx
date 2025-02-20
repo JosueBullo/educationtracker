@@ -50,4 +50,3 @@ const QuizForm = () => {
 };
 
 export default QuizForm;
-  
