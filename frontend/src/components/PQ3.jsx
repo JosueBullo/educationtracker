@@ -5,116 +5,108 @@ import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti"; // 🎉 Confetti Effect
 
 const questions = [
-  {
-    text: "What subject do you consider your strongest?",
-    type: "radio",
-    name: "strongest-subject",
-    options: [
-      "Math",
-      "Science",
-      "English",
-      "Filipino",
-      "Social Studies",
-      "TLE (Technical-Vocational)",
-      "Arts and Music",
-      "PE and Sports",
-    ],
-  },
-  {
-    text: "What field are you most interested in for your future career?",
-    type: "radio",
-    name: "career-field",
-    options: [
-      "Science, Technology, Engineering, and Mathematics (STEM)",
-      "Business and Entrepreneurship",
-      "Social Sciences and Humanities",
-      "Arts, Media, and Communication",
-      "Technical/Vocational and Skilled Work",
-      "Sports and Fitness",
-    ],
-  },
-  {
-    text: "What are your top three Senior High School strand choices?",
-    type: "radio",
-    name: "shs-strand",
-    options: ["STEM", "ABM", "HUMSS", "TVL", "GAS", "Arts and Design", "Sports"],
-  },
-  {
-    text: "Why are you choosing your preferred SHS strand?",
-    type: "radio",
-    name: "shs-reason",
-    options: [
-      "It matches my subject strengths.",
-      "It aligns with my future career goals.",
-      "My family or teachers advised me to take it.",
-      "It has better job opportunities in the future.",
-      "I am still exploring my options.",
-    ],
-  },
-  {
-    text: "Are you confident that your chosen strand will help you in college or work?",
-    type: "radio",
-    name: "shs-confidence",
-    options: [
-      "Yes, I am sure it’s the right choice.",
-      "Maybe, but I might change my mind later.",
-      "No, I’m unsure about my future plans.",
-    ],
-  },
-  {
-    text: "Do you feel well-informed about the different SHS strands?",
-    type: "radio",
-    name: "shs-informed",
-    options: [
-      "Yes, I understand them well.",
-      "Somewhat, but I need more information.",
-      "No, I still have many questions.",
-    ],
-  },
-  {
-    text: "Who or what has the biggest influence on your SHS strand decision?",
-    type: "radio",
-    name: "shs-influence",
-    options: [
-      "Parents or family",
-      "Friends or classmates",
-      "Teachers or guidance counselors",
-      "Social media or online resources",
-      "My personal interests and strengths",
-    ],
-  },
-  {
-    text: "Would you consider changing strands if given the chance?",
-    type: "radio",
-    name: "shs-change",
-    options: [
-      "Yes, I am still unsure about my choice.",
-      "No, I am confident in my decision.",
-      "Maybe, if I find a better fit.",
-    ],
-  },
-  {
-    text: "How confident are you in your chosen strand?",
-    type: "radio",
-    name: "shs-confidence-level",
-    options: [
-      "1-3 (Not confident)",
-      "4-6 (Somewhat confident)",
-      "7-10 (Very confident)",
-    ],
-  },
-  {
-    text: "What would help you feel more confident in choosing a strand?",
-    type: "radio",
-    name: "shs-confidence-help",
-    options: [
-      "Career orientation or seminars",
-      "More guidance from teachers and counselors",
-      "More information about job opportunities",
-      "Personal experience or internships",
-    ],
-  },
-];
+    {
+      text: "What career path are you currently considering?",
+      type: "radio",
+      name: "career-path",
+      options: [
+        "Corporate/Business",
+        "Entrepreneurship",
+        "Healthcare/Medical Field",
+        "Education/Academia",
+        "Government/Public Service",
+        "IT/Technology",
+        "Arts and Creative Industry",
+        "Other",
+      ],
+    },
+    {
+      text: "How closely is your chosen career related to your college degree?",
+      type: "radio",
+      name: "career-degree-relation",
+      options: [
+        "Very closely related",
+        "Somewhat related",
+        "Not related at all",
+      ],
+    },
+    {
+      text: "What is the biggest factor influencing your career choice?",
+      type: "radio",
+      name: "career-choice-factor",
+      options: [
+        "Passion and interest",
+        "Salary and financial stability",
+        "Work-life balance",
+        "Job availability",
+      ],
+    },
+    {
+      text: "Would you consider shifting to a different field?",
+      type: "radio",
+      name: "career-shift",
+      options: [
+        "Yes, if better opportunities arise.",
+        "No, I want to stick to my field.",
+        "Maybe, if I develop new interests.",
+      ],
+    },
+    {
+      text: "How confident are you in securing a job in your field?",
+      type: "radio",
+      name: "job-confidence-level",
+      options: [
+        "1-3 (Not confident)",
+        "4-6 (Somewhat confident)",
+        "7-10 (Very confident)",
+      ],
+    },
+    {
+      text: "Are you willing to take further training or certifications?",
+      type: "radio",
+      name: "further-training",
+      options: [
+        "Yes, to improve my skills.",
+        "No, I feel prepared enough.",
+        "Maybe, if required for a job.",
+      ],
+    },
+    {
+      text: "What is your biggest fear about working?",
+      type: "radio",
+      name: "work-fear",
+      options: [
+        "Difficulty finding a job",
+        "Workplace stress and burnout",
+        "Low salary and financial struggles",
+        "Work-life balance issues",
+      ],
+    },
+    {
+      text: "Would you prefer to work in the Philippines or abroad?",
+      type: "radio",
+      name: "work-location-preference",
+      options: ["Philippines", "Abroad", "No preference"],
+    },
+    {
+      text: "How important is work-life balance in choosing your career?",
+      type: "radio",
+      name: "work-life-balance-importance",
+      options: ["Very important", "Somewhat important", "Not important"],
+    },
+    {
+      text: "What kind of support would help you feel more prepared for your career?",
+      type: "radio",
+      name: "career-preparation-support",
+      options: [
+        "Career coaching and mentoring",
+        "More job market information",
+        "Networking and job opportunities",
+        "Personal development training",
+      ],
+    },
+  ];
+  
 
 
 const PQ = () => {

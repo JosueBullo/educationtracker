@@ -56,6 +56,7 @@ const Portal = () => {
   const navigate = useNavigate();
 
   const handleSelection = (type) => {
+    localStorage.setItem("gradeLevel", type); // Store selected type in local storage
     navigate(`/documents/${type}`);
   };
 
@@ -68,7 +69,7 @@ const Portal = () => {
           <div className="portal">
             <h2>For Incoming Senior High School</h2>
             <img src={shsImg} alt="Select Portal" />
-            <button className="portal-btn" onClick={() => handleSelection("shs")}>
+            <button className="portal-btn" onClick={() => handleSelection("jhs")}>
               Predict Your Strand
             </button>
           </div>
@@ -76,7 +77,7 @@ const Portal = () => {
           <div className="portal">
             <h2>For Incoming College</h2>
             <img src={collegeImg} alt="Upload Grades" />
-            <button className="portal-btn" onClick={() => handleSelection("college")}>
+            <button className="portal-btn" onClick={() => handleSelection("shs")}>
               Predict Your Course
             </button>
           </div>
@@ -84,7 +85,7 @@ const Portal = () => {
           <div className="portal">
             <h2>For Your Future Career</h2>
             <img src={careerImg} alt="Upload Certificates" />
-            <button className="portal-btn" onClick={() => handleSelection("career")}>
+            <button className="portal-btn" onClick={() => handleSelection("college")}>
               Predict Your Career
             </button>
           </div>

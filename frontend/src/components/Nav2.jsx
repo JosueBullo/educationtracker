@@ -3,28 +3,27 @@ import { FaBars, FaBookOpen } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import '../components/css/Nav2.css';
 
-
 function Nav2() {
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
-    // Clear token and user data from localStorage or sessionStorage
-    localStorage.removeItem('auth-token');
-        localStorage.removeItem('user'); // If stored in sessionStorage, clear that too
+    // Clear all stored user data
+    localStorage.clear(); // Clears everything in local storage
+    sessionStorage.clear(); // Clears everything in session storage (if used)
 
-    // Optionally, you can clear other user-related data like profile info or user state
+    // Redirect to login page
+    navigate('/login');
 
-    // Redirect to the login page after logging out
-    navigate('/login');  // use navigate instead of history.push
+    // Reload the page to ensure all session data is cleared
+    window.location.reload();
   };
-
 
   return (
     <>
-      {/* Top nav2bar */}
+      {/* Top navbar */}
       <header className="top-navbar2">
         <div className="navbar2-content">
           <div className="hamburger2" onClick={toggleMenu}>
@@ -36,15 +35,14 @@ function Nav2() {
           </div>
         </div>
 
-         {/* Logout Button on the right */}
-         <div className="logout-container">
-            <button className="logout-button" onClick={handleLogout}>Logout</button>
-          </div>
-       
+        {/* Logout Button on the right */}
+        <div className="logout-container">
+          <button className="logout-button" onClick={handleLogout}>Logout</button>
+        </div>
       </header>
 
-      {/* sidebar2 */}
-      <nav2 className={`sidebar2 ${isOpen ? 'expanded' : 'collapsed'}`}>
+      {/* Sidebar */}
+      <nav className={`sidebar2 ${isOpen ? 'expanded' : 'collapsed'}`}>
         <ul className="nav2-list">
           <li className="nav2-item">
             <Link to="/dashboard" className="nav2-link">Home</Link>
@@ -53,14 +51,13 @@ function Nav2() {
             <Link to="/login" className="nav2-link">Login</Link>
           </li>
           <li className="nav2-item">
-            <Link to="/About" className="nav2-link">About</Link>
+            <Link to="/about" className="nav2-link">About</Link>
           </li>
-
           <li className="nav2-item">
             <Link to="/user-profile" className="nav2-link">User Profile</Link>
           </li>
         </ul>
-      </nav2>
+      </nav>
     </>
   );
 }

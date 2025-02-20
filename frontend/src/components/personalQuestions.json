@@ -1,0 +1,130 @@
+{
+    "Junior High School": [
+      {
+        "question": "What subject do you consider your strongest?",
+        "options": ["Math", "Science", "English", "Filipino", "Social Studies", "TLE (Technical-Vocational)", "Arts and Music", "PE and Sports"]
+      },
+      {
+        "question": "What field are you most interested in for your future career?",
+        "options": ["Science, Technology, Engineering, and Mathematics (STEM)", "Business and Entrepreneurship", "Social Sciences and Humanities", "Arts, Media, and Communication", "Technical/Vocational and Skilled Work", "Sports and Fitness", "Other"]
+      },
+      {
+        "question": "What are your top three Senior High School strand choices?",
+        "options": [" STEM (Science, Technology, Engineering, and Mathematics)", "ABM (Accountancy, Business, and Management)", "HUMSS (Humanities and Social Sciences)", "TVL (Technical-Vocational-Livelihood)", "GAS (General Academic Strand)",  "Arts and Design",  "Sports"]
+      },
+      {
+        "question": "Why are you choosing your preferred SHS strand?",
+        "options": ["  It matches my subject strengths.",  "It aligns with my future career goals.", "My family or teachers advised me to take it.",  "It has better job opportunities in the future.",  "I am still exploring my options."]
+      },
+      {
+        "question": "Are you confident that your chosen strand will help you in college or work?",
+        "options": [" Yes, I am sure it is the right choice",  "Maybe, but I might change my mind later.", "No, I am unsure about my future plans."]
+      },
+      {
+        "question": "Do you feel well-informed about the different SHS strands?",
+        "options": [" Yes, I understand them well.", "Somewhat, but I need more information.",  "No, I still have many questions."]
+      },
+      {
+        "question": "Who or what has the biggest influence on your SHS strand decision?",
+        "options": [" Parents or family",  "Friends or classmates",  "Teachers or guidance counselors", "Social media or online resources",  "My personal interests and strengths"]
+      },
+      {
+        "question": "Would you consider changing strands if given the chance?",
+        "options": ["  Yes, I am still unsure about my choice.",  "No, I am confident in my decision.", "Maybe, if I find a better fit."]
+      },
+      {
+        "question": "How confident are you in your chosen strand?",
+        "options": ["  1-3 (Not confident)",  "4-6 (Somewhat confident)", "7-10 (Very confident)"]
+      },
+      {
+        "question": "What would help you feel more confident in choosing a strand?",
+        "options": [ "Career orientation or seminars",  "More guidance from teachers and counselors",  "More information about job opportunities", "Personal experience or internships"]
+      }
+    ],
+    "Senior High School": [
+      {
+        "question": "What is your dream college course choice?",
+        "options": ["Engineering/Technology", "Business/Management", "Medicine/Health Sciences", "Education", "Social Sciences/Humanities", "IT/Computer Science", "Arts, Media, and Design", "Law/Political Science", "Other"]
+      },
+      {
+        "question": "Do you want to take a college course related to your SHS strand?",
+        "options": ["Yes, I want to continue in the same field.", "No, I want to shift to a different field.", "I'm still unsure."]
+      },
+      {
+        "question": "Why did you decide to continue or shift from your SHS strand",
+        "options": ["I enjoy my SHS strand and want to pursue it further.", " I discovered new interests outside my strand.", "My SHS strand does not match my career goals.", "My parents/guardians influenced my decision.", "Job demand and salary influenced my choice."]
+      },
+      {
+        "question": "How will you decide on your college course?",
+        "options": ["Based on my personal interests and passion", " High demand in the job market", "Family influence", "Academic strength in related subjects", "Potential salary and financial stability"]
+      },
+      {
+        "question": "Do you feel pressured to take a specific course?",
+        "options": ["Yes, by my parents/family.", "Yes, by society or job demand.", "No, I am choosing freely."]
+      },
+      {
+        "question": "How important is job availability in your decision?",
+        "options": [" Very important", "Somewhat important", "Not important, passion matters more"]
+      },
+      {
+        "question": "What is your biggest concern in choosing a course?",
+        "options": [" Difficulty of the course", "Tuition fees and financial constraints", "Future job opportunities", "Workload and stress level"]
+      },
+      {
+        "question": "Have you considered taking a gap year?",
+        "options": ["Yes, to explore options or work first.", " No, I want to proceed immediately.", "Maybe, depending on circumstances."]
+      },
+      {
+        "question": "How confident are you in your chosen course?",
+        "options": ["1-3 (Not confident)", " 4-6 (Somewhat confident)", " 7-10 (Very confident)"]
+      },
+      {
+        "question": "What support would help you decide better?",
+        "options": ["Career counseling and guidance", "More exposure to professionals in the field", " Internship or shadowing opportunities", " Financial aid or scholarship options"]
+      }
+    ],
+    "College": [
+      {
+        "question": "What career path are you currently considering?",
+        "options": ["Corporate/Business", "Entrepreneurship", "Healthcare/Medical Field", "Education/Academia", "Government/Public Service", "IT/Technology", "Arts and Creative Industry", "Other"]
+      },
+      {
+        "question": "How closely is your chosen career related to your college degree?",
+        "options": ["Very closely related", "Somewhat related", "Not related at all"]
+      },
+      {
+        "question": "What is the biggest factor influencing your career choice?",
+        "options": ["Passion and interest", "Salary and financial stability", "Work-life balance", "Job availability"]
+      },
+      {
+        "question": "Would you consider shifting to a different field?",
+        "options": ["Yes, if better opportunities arise.",  "No, I want to stick to my field.", "Maybe, if I develop new interests."]
+      },
+      {
+        "question": "How confident are you in securing a job in your field?",
+        "options": ["1-3 (Not confident)",  "4-6 (Somewhat confident)", "7-10 (Very confident)"]
+      },
+      {
+        "question": "Are you willing to take further training or certifications?",
+        "options": ["Yes, to improve my skills.",   "No, I feel prepared enough.", "Maybe, if required for a job."]
+      },
+
+      {
+        "question": "What is your biggest fear about working",
+        "options": ["Difficulty finding a job",   "Workplace stress and burnout.", "Low salary and financial struggles", "Work-life balance issues"]
+      },
+      {
+        "question": "Would you prefer to work in the Philippines or abroad?",
+        "options": ["Philippines",   " Abroad", "No preference"]
+      },
+      {
+        "question": "How important is work-life balance in choosing your career?",
+        "options": ["Very important",   "  Somewhat important",  "Not important"]
+      },
+      {
+        "question": "What kind of support would help you feel more prepared for your career?",
+        "options": ["Career coaching and mentoring",   " More job market information",  "Networking and job opportunities", "Personal development training"]
+      }
+    ]
+  }
+  

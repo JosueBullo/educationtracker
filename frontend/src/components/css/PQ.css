@@ -1,0 +1,160 @@
+.quiz-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px; /* More space around */
+    background-color: #ffffff; /* White background */
+    min-height: 100vh;
+    color: black;
+}
+
+.quiz-card {
+    background: #ffe0e0; /* Softer pinkish-white */
+    padding: 45px; /* Increased padding */
+    border-radius: 18px; /* More rounded edges */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+    width: 100%; /* Covers more space */
+    max-width: 750px; /* Wider card */
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    color: black;
+}
+
+.quiz-card:hover {
+    transform: scale(1.05); /* Bigger hover effect */
+}
+
+.question-header {
+    font-weight: bold;
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.question-text {
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background-color: #ff3333;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+}
+
+.option:hover {
+    background-color: #cc0000;
+    transform: scale(1.05);
+}
+
+.option input[type="radio"],
+.option input[type="checkbox"] {
+    display: none;
+}
+
+/* Button Container */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Back Button */
+.back-btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: #d9d9d9;
+    color: black;
+}
+
+.back-btn:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
+
+.back-btn:hover:not(:disabled) {
+    background-color: #c7c7c7;
+}
+
+/* Next Button */
+.next-btn {
+    padding: 12px 18px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.next-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.next-btn:hover:not(:disabled) {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 500px) {
+    .options {
+        grid-template-columns: 1fr;
+    }
+}
+
+.option {
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .option:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .option.selected {
+    background-color: #007bff;
+    color: white;
+  }
+  
+.congrats-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.congrats-text {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #28a745;
+  margin-bottom: 10px;
+}
+
+

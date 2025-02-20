@@ -62,6 +62,8 @@ import Dashboard from "./components/Dashboard";
 import Portal from "./components/Portal";
 import Documents from "./components/Documents";
 import PQ from "./components/PQ";
+import PQ2 from "./components/PQ2";
+import PQ3 from "./components/PQ3";
 import Exam from "./components/Exam";
 import Results from "./components/Results";
 
@@ -106,7 +108,9 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/portal" element={<Portal />} />
                 <Route path="/documents/:type" element={<Documents />} /> {/* Updated to dynamic route */}
-                <Route path="/personal-question" element={<PQ />} />
+                <Route path="/personal-question-jhs" element={<PQ />} />
+                <Route path="/personal-question-shs" element={<PQ2 />} />
+                <Route path="/personal-question-college" element={<PQ3 />} />
                 <Route path="/exam" element={<Exam />} />
                 <Route path="/results" element={<Results />} />
 
