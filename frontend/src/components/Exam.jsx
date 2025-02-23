@@ -9,12 +9,14 @@ const Exam = () => {
   const [gradeLevel, setGradeLevel] = useState("");
   const [quizData, setQuizData] = useState({});
   const [answers, setAnswers] = useState({});
+  const [scores, setScores] = useState({});
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     const storedGradeLevel = localStorage.getItem("gradeLevel");
     if (storedGradeLevel) {
       const level = storedGradeLevel.trim().toLowerCase();
-      setGradeLevel(storedGradeLevel); // Keep original case for display
+      setGradeLevel(storedGradeLevel);
 
       let selectedQuiz = {};
       switch (level) {
@@ -45,6 +47,39 @@ const Exam = () => {
         [question]: selectedOption,
       },
     }));
+  };
+
+  const calculateScores = () => {
+    let newScores = {};
+
+    Object.entries(quizData).forEach(([section, sectionData]) => {
+      if (Array.isArray(sectionData.quiz)) {
+        let correctCount = 0;
+        let totalQuestions = sectionData.quiz.length;
+        let answeredCount = 0;
+
+        sectionData.quiz.forEach((q) => {
+          const selectedAnswer = answers[section]?.[q.question];
+
+          if (selectedAnswer) {
+            answeredCount++; // Track answered questions
+            if (selectedAnswer === q.correctAnswer) {
+              correctCount++;
+            }
+          }
+        });
+
+        // If no questions were answered, force score to 0%
+        let percentage =
+          answeredCount > 0 ? ((correctCount / totalQuestions) * 100).toFixed(2) : "0.00";
+
+        newScores[section] = `${percentage}%`;
+      }
+    });
+
+    setScores(newScores);
+    localStorage.setItem("examScores", JSON.stringify(newScores));
+    setSubmitted(true);
   };
 
   return (
@@ -85,6 +120,18 @@ const Exam = () => {
           ))
         ) : (
           <p className="no-quiz">No quiz available for your grade level.</p>
+        )}
+        {!submitted && Object.keys(quizData).length > 0 && (
+          <button className="submit-btn" onClick={calculateScores}>Submit Exam</button>
+        )}
+
+        {submitted && (
+          <div className="score-container">
+            <h3>Exam Scores:</h3>
+            {Object.entries(scores).map(([subject, score]) => (
+              <p key={subject}><strong>{subject}:</strong> {score}</p>
+            ))}
+          </div>
         )}
       </div>
     </div>

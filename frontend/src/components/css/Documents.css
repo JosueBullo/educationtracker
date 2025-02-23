@@ -446,3 +446,40 @@
         background-color: #219150;
     }
     
+
+    /* Capture by Camera Button */
+.capture-button {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b); /* Vibrant gradient */
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Hover Effect */
+.capture-button:hover {
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    transform: scale(1.05);
+    box-shadow: 0 7px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Click (Active) Effect */
+.capture-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Camera Icon Inside the Button */
+.capture-button::before {
+    content: "📷"; /* Camera emoji, can replace with an icon */
+    font-size: 20px;
+}
