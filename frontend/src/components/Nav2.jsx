@@ -1,29 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaBars, FaBookOpen } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import '../components/css/Nav2.css';
 
 function Nav2() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if the user is logged in
+    const token = localStorage.getItem('auth-token');
+    const user = JSON.parse(localStorage.getItem('user')); // Assuming user details are stored in localStorage
+
+    if (token) {
+      setIsLoggedIn(true);
+      if (user?.role === 'admin') {
+        setIsAdmin(true);
+      }
+    }
+  }, []);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
-    // Clear all stored user data
-    localStorage.clear(); // Clears everything in local storage
-    sessionStorage.clear(); // Clears everything in session storage (if used)
+    // Clear token and user data
+    localStorage.removeItem('auth-token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('pq-answers');
+    localStorage.removeItem('extractedGrades');
+    localStorage.removeItem('examScores');
+
+    // Update state to reflect logout
+    setIsLoggedIn(false);
+    setIsAdmin(false);
 
     // Redirect to login page
     navigate('/login');
-
-    // Reload the page to ensure all session data is cleared
-    window.location.reload();
   };
 
   return (
     <>
-      {/* Top navbar */}
+      {/* Top Navbar */}
       <header className="top-navbar2">
         <div className="navbar2-content">
           <div className="hamburger2" onClick={toggleMenu}>
@@ -35,9 +55,13 @@ function Nav2() {
           </div>
         </div>
 
-        {/* Logout Button on the right */}
+        {/* Show Logout button if logged in, otherwise show Login */}
         <div className="logout-container">
-          <button className="logout-button" onClick={handleLogout}>Logout</button>
+          {isLoggedIn ? (
+            <button className="logout-button" onClick={handleLogout}>Logout</button>
+          ) : (
+            <Link to="/login" className="nav2-link">Login</Link>
+          )}
         </div>
       </header>
 
@@ -45,17 +69,53 @@ function Nav2() {
       <nav className={`sidebar2 ${isOpen ? 'expanded' : 'collapsed'}`}>
         <ul className="nav2-list">
           <li className="nav2-item">
-            <Link to="/dashboard" className="nav2-link">Home</Link>
+            <Link to={isAdmin ? "/admin/dashboard" : "/dashboard"} className="nav2-link">
+              Dashboard
+            </Link>
           </li>
+
+          {!isLoggedIn && (
+            <li className="nav2-item">
+              <Link to="/login" className="nav2-link">Login</Link>
+            </li>
+          )}
+
+          {/* Hide User Profile link if not logged in */}
+          {isLoggedIn && !isAdmin && (
+            <li className="nav2-item">
+              <Link to="/user-profile" className="nav2-link">User Profile</Link>
+            </li>
+          )}
+
           <li className="nav2-item">
-            <Link to="/login" className="nav2-link">Login</Link>
+            <Link to="/home" className="nav2-link">Home</Link>
           </li>
+
           <li className="nav2-item">
-            <Link to="/about" className="nav2-link">About</Link>
+            <Link to="/contact" className="nav2-link">Contact</Link>
           </li>
-          <li className="nav2-item">
-            <Link to="/user-profile" className="nav2-link">User Profile</Link>
-          </li>
+
+          {/* Hide SHS Strands, Courses, and Careers if admin is logged in */}
+          {!isAdmin && (
+            <>
+              <li className="nav2-item">
+                <Link to="/Stem" className="nav2-link">SHS Strands</Link>
+              </li>
+              <li className="nav2-item">
+                <Link to="/courses" className="nav2-link">Courses</Link>
+              </li>
+              <li className="nav2-item">
+                <Link to="/Career" className="nav2-link">Careers</Link>
+              </li>
+            </>
+          )}
+
+          {/* Admin-specific links */}
+          {isAdmin && (
+            <li className="nav2-item">
+              <Link to="/admin/users" className="nav2-link">Manage Users</Link>
+            </li>
+          )}
         </ul>
       </nav>
     </>

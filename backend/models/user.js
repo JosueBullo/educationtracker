@@ -50,7 +50,11 @@ const UserSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
-    }
+    },
+    isVerified: { type: Boolean, default: false },
+    resetPasswordToken: String,
+    resetPasswordExpires: Date, // New field
+
 });
 
 module.exports = mongoose.model('User', UserSchema);

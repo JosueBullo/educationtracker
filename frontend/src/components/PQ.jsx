@@ -1,12 +1,14 @@
 import "../components/css/PQ.css";
 import React, { useState, useEffect } from "react";
 import Nav2 from "./Nav2";
+import Confetti from "react-confetti";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import Confetti from "react-confetti"; // 🎉 Confetti Effect
 
 const questions = [
   {
-    text: "What subject do you consider your strongest?",
+    text: "What subject do you excel in the most?",
     type: "radio",
     name: "strongest-subject",
     options: [
@@ -15,13 +17,13 @@ const questions = [
       "English",
       "Filipino",
       "Social Studies",
-      "TLE (Technical-Vocational)",
+      "Technical Skills",
       "Arts and Music",
-      "PE and Sports",
+      "Physical Education and Sports",
     ],
   },
   {
-    text: "What field are you most interested in for your future career?",
+    text: "Which career field interests you the most?",
     type: "radio",
     name: "career-field",
     options: [
@@ -34,69 +36,77 @@ const questions = [
     ],
   },
   {
-    text: "What are your top three Senior High School strand choices?",
+    text: "What is your ideal career path?",
     type: "radio",
-    name: "shs-strand",
-    options: ["STEM", "ABM", "HUMSS", "TVL", "GAS", "Arts and Design", "Sports"],
+    name: "career-path",
+    options: [
+      "Medical and Health Sciences",
+      "Engineering and Technology",
+      "Business and Management",
+      "Education and Research",
+      "Creative Arts and Design",
+      "Skilled Trades and Technical Work",
+      "Athletics and Sports Training",
+    ],
   },
   {
-    text: "Why are you choosing your preferred SHS strand?",
+    text: "Why are you drawn to this career path?",
     type: "radio",
-    name: "shs-reason",
+    name: "career-reason",
     options: [
-      "It matches my subject strengths.",
-      "It aligns with my future career goals.",
-      "My family or teachers advised me to take it.",
-      "It has better job opportunities in the future.",
+      "It matches my strengths and skills.",
+      "It aligns with my long-term goals.",
+      "My family or mentors influenced my decision.",
+      "It offers good job opportunities in the future.",
       "I am still exploring my options.",
     ],
   },
   {
-    text: "Are you confident that your chosen strand will help you in college or work?",
+    text: "How confident are you in your chosen career path?",
     type: "radio",
-    name: "shs-confidence",
+    name: "career-confidence",
     options: [
-      "Yes, I am sure it’s the right choice.",
-      "Maybe, but I might change my mind later.",
-      "No, I’m unsure about my future plans.",
+      "Very confident",
+      "Somewhat confident",
+      "Unsure, still exploring",
     ],
   },
   {
-    text: "Do you feel well-informed about the different SHS strands?",
+    text: "How well-informed do you feel about your career options?",
     type: "radio",
-    name: "shs-informed",
+    name: "career-knowledge",
     options: [
-      "Yes, I understand them well.",
-      "Somewhat, but I need more information.",
-      "No, I still have many questions.",
+      "I have a clear understanding of my options.",
+      "I have some knowledge, but need more information.",
+      "I am still unsure and need guidance.",
     ],
   },
   {
-    text: "Who or what has the biggest influence on your SHS strand decision?",
+    text: "Who or what has the biggest influence on your career decision?",
     type: "radio",
-    name: "shs-influence",
+    name: "career-influence",
     options: [
       "Parents or family",
       "Friends or classmates",
-      "Teachers or guidance counselors",
+      "Teachers or mentors",
       "Social media or online resources",
       "My personal interests and strengths",
     ],
   },
   {
-    text: "Would you consider changing strands if given the chance?",
+    text: "Would you consider switching career paths if given the opportunity?",
     type: "radio",
-    name: "shs-change",
+    name: "career-switch",
     options: [
-      "Yes, I am still unsure about my choice.",
-      "No, I am confident in my decision.",
+      "Yes, I am still exploring my options.",
+      "No, I am confident in my current choice.",
       "Maybe, if I find a better fit.",
     ],
   },
   {
-    text: "How confident are you in your chosen strand?",
+    text: "How confident are you in achieving success in your chosen career?",
     type: "radio",
-    name: "shs-confidence-level",
+    name: "career-success-confidence",
     options: [
       "1-3 (Not confident)",
       "4-6 (Somewhat confident)",
@@ -104,37 +114,57 @@ const questions = [
     ],
   },
   {
-    text: "What would help you feel more confident in choosing a strand?",
+    text: "What would help you feel more confident in pursuing your career path?",
     type: "radio",
-    name: "shs-confidence-help",
+    name: "career-confidence-help",
     options: [
-      "Career orientation or seminars",
-      "More guidance from teachers and counselors",
+      "Career counseling and guidance",
       "More information about job opportunities",
-      "Personal experience or internships",
+      "Hands-on experience or internships",
+      "Mentorship from professionals",
     ],
   },
 ];
 
-
 const PQ = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState(() => JSON.parse(localStorage.getItem("pq-answers")) || {});
-  const [isFinished, setIsFinished] = useState(false); // ✅ Track completion
-  const [showConfetti, setShowConfetti] = useState(false); // 🎉 Confetti state
-  const navigate = useNavigate();
+  const [answers, setAnswers] = useState({});
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     localStorage.setItem("pq-answers", JSON.stringify(answers));
   }, [answers]);
 
+  const handleAnswerChange = (event) => {
+    setAnswers({
+      ...answers,
+      [questions[currentQuestionIndex].name]: event.target.value,
+    });
+  };
+
   const handleNext = () => {
+    const currentQuestion = questions[currentQuestionIndex];
+
+    // Check if the user has answered the current question
+    if (!answers[currentQuestion.name]) {
+      toast.error("⚠️ Please select an answer before proceeding!", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      setIsFinished(true);
-      setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 3000); // 🎉 Hide confetti after 3 seconds
+      toast.success("🎉 You have completed all the questions! Redirecting...", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+
+      setTimeout(() => {
+        navigate("/exam"); // Redirect to Exam page
+      }, 2000);
     }
   };
 
@@ -144,61 +174,49 @@ const PQ = () => {
     }
   };
 
-  const handleAnswerChange = (event) => {
-    const { name, value } = event.target;
-    setAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [name]: value,
-    }));
-  };
-
-  const isSelected = (name, option) => answers[name] === option;
-
-  const handleBackToDocuments = () => {
-    navigate("/documents");
-  };
-
-  const handleGoToExam = () => {
-    navigate("/exam"); // ✅ Redirects to the exam page
-  };
-
   return (
     <>
       <Nav2 />
-      {showConfetti && <Confetti />} {/* 🎉 Confetti Animation */}
+      <ToastContainer />
 
       <div className="quiz-container">
-        {isFinished ? (
-          <div className="congrats-container">
-            <h1 className="congrats-text">🎉 Congratulations! 🎉</h1>
-            <p>You have completed all the questions.</p>
-            <button className="back-to-docs-btn" onClick={handleBackToDocuments}>
-              Back to Documents
+        <div className="quiz-card">
+          <h1 className="question-header">Senior High Strand Assessment</h1>
+          <p className="question-text">
+            {currentQuestionIndex + 1}. {questions[currentQuestionIndex].text}
+          </p>
+
+          <div className="options">
+            {questions[currentQuestionIndex].options.map((option, index) => (
+              <label
+                key={index}
+                className={`option ${
+                  answers[questions[currentQuestionIndex].name] === option ? "selected" : ""
+                }`}
+              >
+                <input
+                  type="radio"
+                  name={questions[currentQuestionIndex].name}
+                  value={option}
+                  checked={answers[questions[currentQuestionIndex].name] === option}
+                  onChange={handleAnswerChange}
+                  required
+                />{" "}
+                {option}
+              </label>
+            ))}
+          </div>
+
+          <div className="button-container">
+            <button className="back-btn" onClick={handleBack} disabled={currentQuestionIndex === 0}>
+              Back
             </button>
-            <button className="go-to-exam-btn" onClick={handleGoToExam}>
-              Go to Exam 📚
+
+            <button className="next-btn" onClick={handleNext}>
+              {currentQuestionIndex < questions.length - 1 ? "Next" : "Finish"}
             </button>
           </div>
-        ) : (
-          <div className="quiz-card">
-            <h1 className="question-header">Personal Questions</h1>
-
-            <p className="question-text">{questions[currentQuestionIndex].text}</p>
-            <div className="options">
-              {questions[currentQuestionIndex].options.map((option, index) => (
-                <label key={index} className={`option ${isSelected(questions[currentQuestionIndex].name, option) ? "selected" : ""}`}>
-                  <input type="radio" name={questions[currentQuestionIndex].name} value={option} checked={isSelected(questions[currentQuestionIndex].name, option)} onChange={handleAnswerChange} />
-                  {option}
-                </label>
-              ))}
-            </div>
-
-            <div className="button-container">
-              <button className="back-btn" onClick={handleBack} disabled={currentQuestionIndex === 0}>❮❮</button>
-              <button className="next-btn" onClick={handleNext}>{currentQuestionIndex < questions.length - 1 ? "❯❯" : "Finish 🎉"}</button>
-            </div>
-          </div>
-        )}
+        </div>
       </div>
     </>
   );

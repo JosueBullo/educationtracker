@@ -43,8 +43,7 @@ const Dashboard = () => {
     fetchUserProfile();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  
 
   return (
     <>
@@ -109,51 +108,11 @@ const Dashboard = () => {
           View Result
         </button>
 
-         <div className="instructions-container">
-          <h2>Instructions</h2>
-          <div className="instructions-grid">
-            <div className="instruction">
-              <img src={portalImg} alt="Select Portal" />
-              <p>
-                To start predicting your future strand, course, or career, the first step is to select the appropriate portal based on your educational level—whether you want to predict your Senior High School strand or your College course and career.
-              </p>
-            </div>
-
-            <div className="instruction">
-              <img src={uploadImg} alt="Upload Grades" />
-              <p>
-                Once you've selected the right portal, the next step is to upload a clear picture or file of your current grades in any of the accepted formats: PNG, JPG, JPEG, or PDF.
-              </p>
-            </div>
-
-            <div className="instruction">
-              <img src={certificateImg} alt="Upload Certificates" />
-              <p>
-                After uploading your grades, you will need to submit any seminar certificates or other school-related certificates, with a limit of 10 uploads, in the formats of JPEG, JPG, or PNG.
-              </p>
-            </div>
-
-            <div className="instruction">
-              <img src={personalImg} alt="Personal Questions" />
-              <p>
-                Following this, you will be required to answer a series of personal questions designed to provide insights that can influence your decision-making process in choosing the right strand, course, or career.
-              </p>
-            </div>
-
-            <div className="instruction">
-              <img src={examImg} alt="Exam" />
-              <p>
-                Finally, to ensure a comprehensive evaluation, you will take subject-based exams that assess your knowledge and skills, helping to refine and personalize your future predictions.
-              </p>
-            </div>
-          </div>
-
           <button className="Button" onClick={() => window.location.href = '/portal'}>
             Start the Process
           </button>
         </div>
-  
-      </div>
+
       <Footer />
     </>
   );

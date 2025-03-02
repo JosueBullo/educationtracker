@@ -57,7 +57,7 @@ const Portal = () => {
 
   const handleSelection = (type) => {
     localStorage.setItem("gradeLevel", type); // Store selected type in local storage
-    navigate(`/documents/${type}`);
+    navigate(`/UploadGrades/${type}`);
   };
 
   return (

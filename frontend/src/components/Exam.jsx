@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Nav2 from "./Nav2";
 import "../components/css/Exam.css";
 import shsQuiz from "./shsquiz.json";
@@ -10,128 +13,179 @@ const Exam = () => {
   const [quizData, setQuizData] = useState({});
   const [answers, setAnswers] = useState({});
   const [scores, setScores] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [examCompleted, setExamCompleted] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const storedGradeLevel = localStorage.getItem("gradeLevel");
-    if (storedGradeLevel) {
-      const level = storedGradeLevel.trim().toLowerCase();
-      setGradeLevel(storedGradeLevel);
+    const fetchUserData = async () => {
+      try {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+          const parsedUser = JSON.parse(storedUser);
+          setGradeLevel(parsedUser.gradeLevel || "");
 
-      let selectedQuiz = {};
-      switch (level) {
-        case "jhs":
-        case "junior high school":
-          selectedQuiz = shsQuiz;
-          break;
-        case "shs":
-        case "senior high school":
-          selectedQuiz = collegeQuiz;
-          break;
-        case "college":
-          selectedQuiz = careerQuiz;
-          break;
-        default:
-          selectedQuiz = {};
+          let selectedQuiz = {};
+          if (parsedUser.gradeLevel === "Junior High School") {
+            selectedQuiz = shsQuiz;
+          } else if (parsedUser.gradeLevel === "Senior High School") {
+            selectedQuiz = collegeQuiz;
+          } else if (parsedUser.gradeLevel === "College") {
+            selectedQuiz = careerQuiz;
+          }
+          setQuizData(selectedQuiz);
+        }
+      } catch (error) {
+        console.error("Error retrieving user data:", error);
       }
+    };
 
-      setQuizData(selectedQuiz);
-    }
+    fetchUserData();
   }, []);
 
-  const handleAnswerChange = (section, question, selectedOption) => {
+  useEffect(() => {
+    if (!examCompleted) {
+      setTimeLeft(15);
+      const countdown = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev === 1) {
+            handleNext();
+            return 15;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(countdown);
+    }
+  }, [currentQuestionIndex, currentSectionIndex, examCompleted]);
+
+  const sections = Object.keys(quizData);
+  const currentSection = sections[currentSectionIndex];
+  const questions = quizData[currentSection]?.quiz || [];
+  const currentQuestion = questions[currentQuestionIndex];
+
+  const handleAnswerChange = (selectedOption) => {
     setAnswers((prev) => ({
       ...prev,
-      [section]: {
-        ...prev[section],
-        [question]: selectedOption,
+      [currentSection]: {
+        ...prev[currentSection],
+        [currentQuestion.question]: selectedOption,
       },
     }));
   };
 
+  const handleNext = () => {
+    if (!answers[currentSection]?.[currentQuestion.question]) {
+      toast.error("⚠️ Please select an answer before proceeding!", {
+        position: "top-center",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else if (currentSectionIndex < sections.length - 1) {
+      setCurrentSectionIndex(currentSectionIndex + 1);
+      setCurrentQuestionIndex(0);
+    } else {
+      calculateScores();
+      setExamCompleted(true);
+    }
+  };
+
   const calculateScores = () => {
     let newScores = {};
-
-    Object.entries(quizData).forEach(([section, sectionData]) => {
-      if (Array.isArray(sectionData.quiz)) {
-        let correctCount = 0;
-        let totalQuestions = sectionData.quiz.length;
-        let answeredCount = 0;
-
-        sectionData.quiz.forEach((q) => {
-          const selectedAnswer = answers[section]?.[q.question];
-
-          if (selectedAnswer) {
-            answeredCount++; // Track answered questions
-            if (selectedAnswer === q.correctAnswer) {
-              correctCount++;
-            }
-          }
-        });
-
-        // If no questions were answered, force score to 0%
-        let percentage =
-          answeredCount > 0 ? ((correctCount / totalQuestions) * 100).toFixed(2) : "0.00";
-
-        newScores[section] = `${percentage}%`;
+    sections.forEach((section) => {
+      if (Array.isArray(quizData[section]?.quiz)) {
+        const totalQuestions = quizData[section].quiz.length;
+        const correctAnswers = quizData[section].quiz.filter(
+          (q) => answers[section]?.[q.question] === q.answer
+        ).length;
+        const percentage = ((correctAnswers / totalQuestions) * 100).toFixed(2);
+        newScores[section] = `${correctAnswers} / ${totalQuestions} (${percentage}%)`;
       }
     });
 
     setScores(newScores);
-    localStorage.setItem("examScores", JSON.stringify(newScores));
-    setSubmitted(true);
+    localStorage.setItem("examScores", JSON.stringify(newScores)); // Store scores in localStorage
+  };
+
+  const handleBack = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    } else if (currentSectionIndex > 0) {
+      setCurrentSectionIndex(currentSectionIndex - 1);
+      setCurrentQuestionIndex(quizData[sections[currentSectionIndex - 1]].quiz.length - 1);
+    }
   };
 
   return (
     <div>
       <Nav2 />
+      <ToastContainer />
       <div className="exam-container">
         <h2 className="exam-title">Welcome to Your {gradeLevel} Exam</h2>
-        {Object.keys(quizData).length > 0 ? (
-          Object.entries(quizData).map(([section, sectionData], sectionIndex) => (
-            <div key={sectionIndex} className="quiz-section">
-              <h3 className="section-title">{section}</h3>
-              {Array.isArray(sectionData.quiz) ? (
-                sectionData.quiz.map((q, index) => (
-                  <div key={index} className="question-box">
-                    <h4>{index + 1}. {q.question}</h4>
-                    <ul>
-                      {(q.options || q.choices)?.map((option, optIndex) => (
-                        <li key={optIndex} className="option-item">
-                          <input
-                            type="radio"
-                            name={`question-${sectionIndex}-${index}`}
-                            id={`option-${sectionIndex}-${index}-${optIndex}`}
-                            checked={answers[section]?.[q.question] === option}
-                            onChange={() => handleAnswerChange(section, q.question, option)}
-                          />
-                          <label htmlFor={`option-${sectionIndex}-${index}-${optIndex}`}>
-                            {option}
-                          </label>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))
-              ) : (
-                <p>No questions available for this section.</p>
-              )}
+
+        {examCompleted ? (
+          <div className="results-section">
+            <h2>Exam Completed! 🎉</h2>
+            <h3>Your Scores per Category:</h3>
+            <ul>
+              {Object.entries(scores).map(([section, score], index) => (
+                <li key={index}>
+                  <strong>{section}:</strong> {score}
+                </li>
+              ))}
+            </ul>
+            <button className="next-btn" onClick={() => navigate("/results")}>
+              View Results
+            </button>
+          </div>
+        ) : sections.length > 0 ? (
+          <div className="quiz-section">
+            <h3 className="section-title">{currentSection}</h3>
+            <div className="question-box">
+              <h4>
+                {currentQuestionIndex + 1}. {currentQuestion?.question}
+              </h4>
+              <p className="timer">⏳ Time left: {timeLeft}s</p>
+              <ul>
+                {(currentQuestion?.options || currentQuestion?.choices)?.map(
+                  (option, optIndex) => (
+                    <li key={optIndex} className="option-item">
+                      <input
+                        type="radio"
+                        name={`question-${currentSectionIndex}-${currentQuestionIndex}`}
+                        id={`option-${currentSectionIndex}-${currentQuestionIndex}-${optIndex}`}
+                        checked={
+                          answers[currentSection]?.[currentQuestion.question] === option
+                        }
+                        onChange={() => handleAnswerChange(option)}
+                      />
+                      <label htmlFor={`option-${currentSectionIndex}-${currentQuestionIndex}-${optIndex}`}>
+                        {option}
+                      </label>
+                    </li>
+                  )
+                )}
+              </ul>
             </div>
-          ))
+
+            <div className="button-container">
+              <button className="back-btn" onClick={handleBack} disabled={currentSectionIndex === 0 && currentQuestionIndex === 0}>
+                Back
+              </button>
+              <button className="next-btn" onClick={handleNext}>
+                {currentSectionIndex === sections.length - 1 && currentQuestionIndex === questions.length - 1 ? "Finish" : "Next"}
+              </button>
+            </div>
+          </div>
         ) : (
           <p className="no-quiz">No quiz available for your grade level.</p>
-        )}
-        {!submitted && Object.keys(quizData).length > 0 && (
-          <button className="submit-btn" onClick={calculateScores}>Submit Exam</button>
-        )}
-
-        {submitted && (
-          <div className="score-container">
-            <h3>Exam Scores:</h3>
-            {Object.entries(scores).map(([subject, score]) => (
-              <p key={subject}><strong>{subject}:</strong> {score}</p>
-            ))}
-          </div>
         )}
       </div>
     </div>

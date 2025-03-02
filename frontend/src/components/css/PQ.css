@@ -158,3 +158,11 @@
 }
 
 
+.option.selected {
+    background-color: #e0f0ff; /* Light blue background */
+    color: blue;
+    border: 1px solid blue;
+    padding: 5px;
+    border-radius: 4px;
+  }
+  

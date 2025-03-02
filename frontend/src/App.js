@@ -48,7 +48,7 @@
 // export default App;
 
 
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
 
@@ -57,21 +57,44 @@ import LandingPage from "./components/LandingPage";
 import Login from "./components/LoginPage";
 import Register from "./components/RegisterPage";
 import UserProfile from "./components/UserProfile";
-import About from "./components/About";
+import Home from './components/Home';
 import Dashboard from "./components/Dashboard";
 import Portal from "./components/Portal";
-import Documents from "./components/Documents";
+import UploadGrades from "./components/UploadGrades";
+import UploadCertificates from "./components/UploadCertificates";
 import PQ from "./components/PQ";
 import PQ2 from "./components/PQ2";
 import PQ3 from "./components/PQ3";
 import Exam from "./components/Exam";
 import Results from "./components/Results";
+import CareerPaths from './components/Career';
+import Stem from './components/Stem';
+import CollegeCourses from './components/Courses';
+import Contact from './components/Contact';
+import AdminDashboard from './components/admin/Dashboard';
+import ProtectedRoute from './ProtectedRoutes';
+import AdminUsers from './components/admin/ManageUsers';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 
 function App() {
     const [file, setFile] = useState(null);
     const [scores, setScores] = useState({});
     const [quizPrediction, setQuizPrediction] = useState("");
     const [imagePrediction, setImagePrediction] = useState("");
+    const [role, setRole] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const storedRole = localStorage.getItem("userRole");
+        setRole(storedRole);
+        setLoading(false);
+      }, []);
+    
+      if (loading) {
+        return <div>Loading...</div>; // Show a loading message until role is set
+      }
+    
 
     // Handle Quiz Prediction
     const handleQuizSubmit = async () => {
@@ -105,15 +128,28 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/user-profile" element={<UserProfile />} />
-                <Route path="/about" element={<About />} />
+                <Route path="/home" element={<Home />} />
                 <Route path="/portal" element={<Portal />} />
-                <Route path="/documents/:type" element={<Documents />} /> {/* Updated to dynamic route */}
+                <Route path="/UploadGrades/:type" element={<UploadGrades />} /> {/* Updated to dynamic route */}
+                <Route path="/UploadCertificates/:type" element={<UploadCertificates/>} /> {/* Updated to dynamic route */}
                 <Route path="/personal-question-jhs" element={<PQ />} />
                 <Route path="/personal-question-shs" element={<PQ2 />} />
                 <Route path="/personal-question-college" element={<PQ3 />} />
                 <Route path="/exam" element={<Exam />} />
                 <Route path="/results" element={<Results />} />
+                <Route path="/Career" element={<CareerPaths />} />
+                <Route path="/Stem" element={<Stem />} />
+                <Route path="/courses" element={<CollegeCourses />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
 
+                <Route path="/admin/dashboard" element={
+          <ProtectedRoute role={role} allowedRole="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
+                
                 {/* Machine Learning Prediction Page */}
                 <Route
                     path="/predict"
@@ -132,6 +168,18 @@ function App() {
                         </div>
                     }
                 />
+                     {/* Protected Admin Route */}
+          <Route path="/admin/dashboard" element={
+          <ProtectedRoute role={role} allowedRole="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
+
+<Route path="/admin/users" element={
+          <ProtectedRoute role={role} allowedRole="admin">
+            <AdminUsers />
+          </ProtectedRoute>
+        } />
             </Routes>
         </BrowserRouter>
     );

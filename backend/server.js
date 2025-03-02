@@ -35,6 +35,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
+
 console.log("MongoDB URI:", process.env.MONGO_URI);
 
 // Connect to MongoDB

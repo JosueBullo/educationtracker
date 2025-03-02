@@ -1,0 +1,67 @@
+/* ManageUsers.css */
+
+.manage-users-wrapper {
+    display: flex;
+    justify-content: center; 
+  }
+  
+  /* Container for the DataTable */
+  .manage-users-container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    background-color: #ffffff; /* Background color for the container */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border-radius: 8px; /* Rounded corners */
+    margin-top: 95px;
+    margin-bottom: 20px;
+  }
+  
+  /* Title styling */
+  .manage-users-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333333; /* Darker text color for the title */
+  }
+
+/* Style for the table headers */
+.data-table thead th {
+    font-size: 20px; /* Adjust the font size as needed */
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+    background-color: #f2f2f2; /* Light gray background for headers */
+    border-bottom: 2px solid #ddd; /* Subtle border below headers */
+  }
+  
+  /* Style for the table rows */
+  .data-table tbody td {
+    font-size: 16px; /* Adjust the font size for table data */
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Optional: Add hover effect for table rows */
+  .data-table tbody tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  /* Style for action buttons */
+  .action-button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .action-button.delete {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+ 
+  

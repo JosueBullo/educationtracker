@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9; /* Light background for a softer look */
+    color: #333; /* Better readability */
+    margin: 0;
+    padding: 0;
+}
+
+/* Section Title */
+.section-title {
+    text-align: center;
+    font-size: 38px;
+    font-weight: 700;
+    margin-top: 50px;
+    color: #8B0000;
+    letter-spacing: 1px; /* Subtle spacing for elegance */
+}
+
+/* Main Container */
+.stem-container {
+    display: flex;
+    flex-direction: column; /* Ensures a stacked layout */
+    align-items: center;
+    justify-content: center;
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    background: white;
+    border: 3px solid #8B0000; /* Slightly thinner border */
+    border-radius: 12px; /* Smoother rounded corners */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); /* More depth */
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.stem-container:hover {
+    transform: scale(1.02); /* Slight zoom effect */
+}
+
+/* Content Styling */
+.stem-content {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.stem-content h2 {
+    font-size: 34px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+    transition: color 0.3s ease-in-out;
+}
+
+.stem-content p {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #555;
+    max-width: 85%;
+    margin: 0 auto;
+    transition: color 0.3s ease-in-out;
+}
+
+.stem-content h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 25px;
+    color: #444;
+    transition: color 0.3s ease-in-out;
+}
+
+/* List Styling */
+.stem-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.stem-content li {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 10px 0;
+    background: #ffecec; /* Soft background highlight */
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: inline-block;
+    transition: transform 0.2s ease-in-out, background 0.3s ease-in-out;
+}
+
+.stem-content li:hover {
+    background: #ffdad6;
+    transform: translateX(6px);
+}
+
+/* Hover Effects */
+.hover-text:hover {
+    color: #8B0000;
+}
+
+/* Image Styling */
+.stem-image img {
+    width: 110px; /* Slightly bigger */
+    height: auto;
+    transition: transform 0.3s ease-in-out;
+}
+
+.hover-image:hover {
+    transform: scale(1.1);
+}
+
+/* Button Styling */
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.next-button {
+    background-color: #8B0000;
+    color: white;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.next-button:hover {
+    background-color: #600000;
+    transform: scale(1.05);
+}

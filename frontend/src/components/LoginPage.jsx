@@ -6,6 +6,7 @@ import "../components/css/LoginPage.css";
 import { FaAddressCard } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "./Footer";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -19,40 +20,61 @@ const LoginPage = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    try {
-      const response = await axios.post("http://localhost:4000/api/auth/login", formData, {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-  
-      const { token, user } = response.data; // Assuming the response returns a token and user info
-  
-      // Store token and user info in localStorage
-      localStorage.setItem("auth-token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-  
-      console.log("Login successful:", response.data);
-  
-      // Display success toast
-      toast.success("Login successful!", { position: "top-right", autoClose: 3000 });
+  const validate = () => {
+    const { email, password } = formData;
 
-      // Redirect to user profile
-      navigate("/user-profile");
-  
-    } catch (error) {
-      console.error("Login error:", error.response?.data || error.message);
-      
-      // Display error toast
-      toast.error(error.response?.data?.message || "Login failed! Please try again.", {
+    if (!email || !password) {
+      toast.warning("🚨 Oops! You forgot to fill out all the fields.", {
         position: "top-right",
         autoClose: 3000
       });
+      return false;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      toast.warning("📧 Hmm... that doesn't look like a valid email!", {
+        position: "top-right",
+        autoClose: 3000
+      });
+      return false;
+    }
+
+    if (password.length < 6) {
+      toast.warning("🔒 Password must be at least 6 characters!", {
+        position: "top-right",
+        autoClose: 3000
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+  
+    try {
+      const response = await axios.post("http://localhost:4000/api/auth/login", formData);
+      const { token, user } = response.data;
+  
+      localStorage.setItem("auth-token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("userRole", user.role);
+  
+      toast.success("🎉 Login successful! Welcome back!", { autoClose: 2000 });
+  
+      // Redirect immediately
+      if (user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      toast.error("😟 Login failed! Please check your credentials.");
     }
   };
+  
 
   return (
     <>
@@ -93,6 +115,10 @@ const LoginPage = () => {
                   onChange={handleChange}
                 />
               </div>
+                
+              <p className="forgot-password-link">
+                <a href="/forgot-password">Forgot Password?</a>
+              </p> 
 
               <button type="submit" className="login-button">
                 Login
@@ -105,6 +131,8 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+
+      <Footer/>
     </>
   );
 };
