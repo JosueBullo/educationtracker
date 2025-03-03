@@ -61,34 +61,99 @@
 #     return {"extracted_data": formatted_output}
 
 
+
+
+
+
+
+# import re
+# from ocr.preprocess_grades import extract_text
+
+# def is_subject_name(text):
+#     """
+#     Determines if a given text is likely to be a subject name.
+#     Filters out unwanted keywords, numbers, and long phrases.
+#     """
+#     text_lower = text.lower()
+#     forbidden_keywords = [
+#         "remarks", "passed", "total", "average", "final", "grade", "score",
+#         "learning areas", "quarter", "final grade", "remarks", "adviser", "section",
+#         "student", "name", "school year", "subject", "teacher", "units"
+#     ]
+    
+#     if any(word in text_lower for word in forbidden_keywords):
+#         return False
+    
+#     # Ignore lines containing digits (likely to be grades)
+#     if re.search(r'\d', text):
+#         return False
+    
+#     # Allow longer subject names (up to 7 words)
+#     if len(text.split()) > 7:
+#         return False
+    
+#     return True
+
+# def extract_subjects_and_grades(image_path, use_easyocr=True):
+#     """
+#     Extracts subjects and their corresponding final grades from the given image.
+#     Uses OCR text extraction and processes text line by line.
+#     """
+#     text_data = extract_text(image_path, use_easyocr)
+    
+#     if not text_data:
+#         return {"error": "No text detected in the grade sheet."}
+    
+#     subjects_grades = {}
+#     temp_subject = None
+
+#     print("\n🔍 Extracted OCR Text for Grades:", text_data)
+
+#     for text in text_data:
+#         text = text.strip()
+        
+#         # Check if text is purely numeric (grade)
+#         if re.match(r'^\d{1,3}(\.\d+)?$', text):
+#             if temp_subject:
+#                 subjects_grades[temp_subject] = float(text)
+        
+#         # Check if text qualifies as a subject name
+#         elif text and is_subject_name(text):
+#             subject = re.sub(r'^[I|i]', '', text)  # Remove leading 'I' or 'i'
+#             subject = re.sub(r'\d.*', '', subject)  # Remove numbers at the end
+#             temp_subject = subject.strip()
+    
+#     formatted_output = [{"subject": subject, "final_grade": grade} for subject, grade in subjects_grades.items()]
+    
+#     return {"extracted_data": formatted_output}
+
+
 import re
 from ocr.preprocess_grades import extract_text
 
 def is_subject_name(text):
     """
     Determines if a given text is likely to be a subject name.
-    Filters out unwanted keywords, numbers, and long phrases.
     """
     text_lower = text.lower()
-    forbidden_keywords = ["remarks", "passed", "total", "average", "final", "grade", "score"]
+    forbidden_keywords = [
+        "remarks", "passed", "total", "average", "final", "grade", "score",
+        "learning areas", "quarter", "adviser", "section",
+        "student", "name", "school year", "subject", "teacher", "units"
+    ]
     
     if any(word in text_lower for word in forbidden_keywords):
         return False
-    
-    # Ignore lines containing digits (likely to be grades)
-    if re.search(r'\d', text):
+    if re.search(r'\d', text):  # Ignore lines containing digits (grades)
         return False
-    
-    # Limit subject name length to avoid extra text
-    if len(text.split()) > 4:
+    if len(text.split()) > 7:  # Limit subject names to 7 words max
         return False
     
     return True
 
 def extract_subjects_and_grades(image_path, use_easyocr=True):
     """
-    Extracts subjects and their corresponding final grades from the given image.
-    Uses OCR text extraction and processes text line by line.
+    Extracts subjects and corresponding final grades from the image.
     """
     text_data = extract_text(image_path, use_easyocr)
     
@@ -97,23 +162,17 @@ def extract_subjects_and_grades(image_path, use_easyocr=True):
     
     subjects_grades = {}
     temp_subject = None
-
-    print("\n🔍 Extracted OCR Text for Grades:", text_data)
-
+    
     for text in text_data:
         text = text.strip()
         
-        # Check if text is purely numeric (grade)
-        if re.match(r'^\d{1,3}(\.\d+)?$', text):
+        if re.match(r'^\d{1,3}(\.\d+)?$', text):  # If it's a grade
             if temp_subject:
                 subjects_grades[temp_subject] = float(text)
-        
-        # Check if text qualifies as a subject name
-        elif text and is_subject_name(text):
+        elif text and is_subject_name(text):  # If it's a subject name
             subject = re.sub(r'^[I|i]', '', text)  # Remove leading 'I' or 'i'
             subject = re.sub(r'\d.*', '', subject)  # Remove numbers at the end
             temp_subject = subject.strip()
     
     formatted_output = [{"subject": subject, "final_grade": grade} for subject, grade in subjects_grades.items()]
-    
     return {"extracted_data": formatted_output}

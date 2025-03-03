@@ -15,44 +15,49 @@ const Exam = () => {
   const [scores, setScores] = useState({});
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [timeLeft, setTimeLeft] = useState(15);
   const [examCompleted, setExamCompleted] = useState(false);
+  const [timeUp, setTimeUp] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchGradeLevel = async () => {
       try {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-          const parsedUser = JSON.parse(storedUser);
-          setGradeLevel(parsedUser.gradeLevel || "");
-
+        const storedGradeLevel = localStorage.getItem("gradeLevel");
+        if (storedGradeLevel) {
+          setGradeLevel(storedGradeLevel);
+  
           let selectedQuiz = {};
-          if (parsedUser.gradeLevel === "Junior High School") {
+          if (storedGradeLevel === "jhs") {
             selectedQuiz = shsQuiz;
-          } else if (parsedUser.gradeLevel === "Senior High School") {
+          } else if (storedGradeLevel === "shs") {
             selectedQuiz = collegeQuiz;
-          } else if (parsedUser.gradeLevel === "College") {
+          } else if (storedGradeLevel === "college") {
             selectedQuiz = careerQuiz;
           }
           setQuizData(selectedQuiz);
         }
       } catch (error) {
-        console.error("Error retrieving user data:", error);
+        console.error("Error fetching grade level:", error);
       }
     };
-
-    fetchUserData();
+  
+    fetchGradeLevel();
   }, []);
-
+  
   useEffect(() => {
     if (!examCompleted) {
       setTimeLeft(15);
+      setTimeUp(false); 
       const countdown = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev === 1) {
-            handleNext();
-            return 15;
+            setTimeUp(true);
+            toast.warning("⏳ Time is up! Click 'Next' to continue.", {
+              position: "top-center",
+              autoClose: 3000,
+            });
+            return 0;
           }
           return prev - 1;
         });
@@ -68,6 +73,8 @@ const Exam = () => {
   const currentQuestion = questions[currentQuestionIndex];
 
   const handleAnswerChange = (selectedOption) => {
+    if (timeUp) return; 
+
     setAnswers((prev) => ({
       ...prev,
       [currentSection]: {
@@ -78,7 +85,7 @@ const Exam = () => {
   };
 
   const handleNext = () => {
-    if (!answers[currentSection]?.[currentQuestion.question]) {
+    if (!answers[currentSection]?.[currentQuestion.question] && !timeUp) {
       toast.error("⚠️ Please select an answer before proceeding!", {
         position: "top-center",
         autoClose: 3000,
@@ -111,7 +118,7 @@ const Exam = () => {
     });
 
     setScores(newScores);
-    localStorage.setItem("examScores", JSON.stringify(newScores)); // Store scores in localStorage
+    localStorage.setItem("examScores", JSON.stringify(newScores));
   };
 
   const handleBack = () => {
@@ -153,10 +160,11 @@ const Exam = () => {
                 {currentQuestionIndex + 1}. {currentQuestion?.question}
               </h4>
               <p className="timer">⏳ Time left: {timeLeft}s</p>
+              {timeUp && <p className="time-up-message">⏳ Time is up! Click "Next" to continue.</p>}
               <ul>
                 {(currentQuestion?.options || currentQuestion?.choices)?.map(
                   (option, optIndex) => (
-                    <li key={optIndex} className="option-item">
+                    <li key={optIndex} className={`option-item ${timeUp ? "disabled" : ""}`}>
                       <input
                         type="radio"
                         name={`question-${currentSectionIndex}-${currentQuestionIndex}`}
@@ -165,6 +173,7 @@ const Exam = () => {
                           answers[currentSection]?.[currentQuestion.question] === option
                         }
                         onChange={() => handleAnswerChange(option)}
+                        disabled={timeUp} 
                       />
                       <label htmlFor={`option-${currentSectionIndex}-${currentQuestionIndex}-${optIndex}`}>
                         {option}
@@ -176,9 +185,9 @@ const Exam = () => {
             </div>
 
             <div className="button-container">
-              <button className="back-btn" onClick={handleBack} disabled={currentSectionIndex === 0 && currentQuestionIndex === 0}>
+              {/* <button className="back-btn" onClick={handleBack} disabled={currentSectionIndex === 0 && currentQuestionIndex === 0}>
                 Back
-              </button>
+              </button> */}
               <button className="next-btn" onClick={handleNext}>
                 {currentSectionIndex === sections.length - 1 && currentQuestionIndex === questions.length - 1 ? "Finish" : "Next"}
               </button>
