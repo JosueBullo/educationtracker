@@ -1,177 +1,177 @@
 /* userPage.css */
 .user-container {
-    min-height: 100vh;
-    background-color: #7b1111;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
+  min-height: 100vh;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 80%;
+  flex-wrap: wrap;
+}
+
+.user-card {
+
+  border-radius: 8px;
+  width: 50%;
+  padding: 20px;
+  margin-top: 40px;
+  margin-right: 20px;
+  margin-left: 100px;
+  color: maroon; /* Updated text color */
+}
+
+.user-heading {
+  font-size: 40px;
+  font-weight: 600;
+  color: maroon; /* Changed to maroon */
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.user-link {
+  font-size: 14px;
+  color: maroon; /* Changed to maroon */
+  margin-bottom: 20px;
+  text-align: left;
+  margin-top: 30px;
+}
+
+.user-link a {
+  color: maroon;
+  text-decoration: underline;
+}
+
+.form-group {
+  margin-bottom: 16px;
+  margin-top: 30px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: maroon;
+}
+
+.form-input {
+  width: 75%;
+  padding: 12px;
+  border: 1px solid maroon; /* Adjusted to maroon */
+  border-radius: 4px;
+  background-color: white;
+  color: maroon;
+}
+
+.user-button {
+  width: 30%;
+  background-color: maroon; /* Changed button to maroon */
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 30px;
+}
+
+.user-button:hover {
+  background-color: #ddd;
+  color: maroon;
+}
+
+/* Image upload container */
+.image-upload-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 100px;
+  margin-top: 100px;
+}
+
+.image-upload {
+  display: flex;
+  flex-direction: column;
+}
+
+.image-preview-container {
+  width: 100%;
+  height: 250px;
+  border: 1px solid maroon; /* Changed border to maroon */
+  border-radius: 4px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.image-placeholder {
+  color: maroon; /* Changed to maroon */
+  text-align: center;
+  font-size: 16px;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
   .user-content {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    width: 80%; /* Adjust container width */
-    flex-wrap: wrap; /* Allow content to wrap on smaller screens */
+      flex-direction: column;
+      width: 90%;
   }
-  
+
   .user-card {
-    background-color: #7b1111;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    width: 50%; /* Decrease width of form */
-    padding: 20px;
-    margin-top: 40px;
-    margin-right: 20px; 
-    margin-left: 100px;   /* Adjusted margin-right to make space closer */
-  }
-  
-  .user-heading {
-    font-size: 40px;
-    font-weight: 600;
-    color: white;
-    margin-bottom: 8px;
-  }
-  
-  .user-link {
-    font-size: 14px;
-    color: white;
-    margin-bottom: 20px;
-    text-align: left;
-    margin-top: 30px;
-  }
-  
-  .user-link a {
-    color: white;
-    text-decoration: underline;
-  }
-  
-  .form-group {
-    margin-bottom: 16px;
-    margin-top: 30px;
-  }
-  
-  .form-group label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 10px;
-    color: white;
-  }
-  
-  .form-input {
-    width: 75%;
-    padding: 12px;
-    border: 1px solid white;
-    border-radius: 4px;
-  }
-  
-  .user-button {
-    width: 30%;
-    background-color: white;
-    color: #7b1111;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 30px;
-  }
-  
-  .user-button:hover {
-    background-color: #ddd;
-  }
-  
-  /* Image upload container */
-  .image-upload-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 100px;
-    margin-top: 100px;
-  }
-  
-  .image-upload {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .image-preview-container {
-    width: 100%;
-    height: 250px; /* Adjusted height */
-    border: 1px solid white;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .image-preview {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 4px;
-  }
-  
-  .image-placeholder {
-    color: white;
-    text-align: center;
-    font-size: 16px;
-  }
-  
-  /* Media Queries for responsiveness */
-  
-  /* For tablets and smaller screens */
-  @media (max-width: 768px) {
-    .user-content {
-      flex-direction: column; /* Stack content vertically */
-      width: 90%; /* Make form take more space */
-    }
-  
-    .user-card {
-      width: 80%; /* Increase form width for smaller screens */
+      width: 80%;
       margin-left: 0;
       margin-right: 0;
-    }
-  
-    .image-upload-container {
+  }
+
+  .image-upload-container {
       margin-right: 0;
       margin-top: 20px;
-    }
-  
-    .image-preview-container {
-      height: 200px; /* Reduce height of preview on small screens */
-    }
-  
-    .user-button {
-      width: 50%; /* Adjust button width */
-    }
-  
-    .user-heading {
-      font-size: 32px; /* Adjust font size for mobile */
-    }
   }
-  
-  /* For mobile screens */
-  @media (max-width: 480px) {
-    .user-heading {
-      font-size: 28px; /* Adjust heading font size */
-    }
-  
-    .form-input {
-      width: 100%; /* Make input fields take full width */
-    }
-  
-    .user-button {
-      width: 70%; /* Adjust button width */
-    }
-  
-    .user-link {
-      font-size: 12px; /* Make link font smaller */
-    }
-  
-    .image-preview-container {
-      height: 180px; /* Further reduce height of preview */
-    }
+
+  .image-preview-container {
+      height: 200px;
   }
-  
+
+  .user-button {
+      width: 50%;
+  }
+
+  .user-heading {
+      font-size: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-heading {
+      font-size: 28px;
+  }
+
+  .form-input {
+      width: 100%;
+  }
+
+  .user-button {
+      width: 70%;
+  }
+
+  .user-link {
+      font-size: 12px;
+  }
+
+  .image-preview-container {
+      height: 180px;
+  }
+}

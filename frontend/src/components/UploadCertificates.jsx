@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer } from "recharts";
 import Nav2 from "./Nav2";
 import Footer from "./Footer";
-import "../components/css/Documents.css";
+import "../components/css/Uploadcert.css";
 
 const UploadCertificates = () => {
   const [certificates, setCertificates] = useState({
@@ -134,13 +134,17 @@ const UploadCertificates = () => {
     <>
       <Nav2 />
       <div className="container">
+       
+        <label className="custom-file-upload">
         <h2>Upload Your Certificates (Max 10 Files)</h2>
-        <input type="file" accept="image/*,application/pdf" multiple onChange={handleFileChange} />
+  Choose File
+  <input type="file" accept="image/*,application/pdf" multiple onChange={handleFileChange} />
+</label>
 
         {/* File Previews */}
         <div className="preview-container">
           {certificates.previews.map((preview, index) => (
-            <div key={index} className="image-wrapper">
+            <div key={index} className="image-wrapper1">
               <img src={preview} alt={`Certificate Preview ${index + 1}`} className="preview-image" />
               {certificates.processed && <p className="success-message">✅ Successfully Processed</p>}
               {certificates.warnings?.[index] && (
@@ -148,6 +152,7 @@ const UploadCertificates = () => {
                   ⚠️ {certificates.warnings[index]?.warning || certificates.warnings[index]?.error}
                 </p>
               )}
+               {processing && <div className="scanning-overlay"></div>} {/* Scanner effect */}
             </div>
           ))}
         </div>
@@ -192,7 +197,7 @@ const UploadCertificates = () => {
           </button>
         )}
       </div>
-      <Footer />
+
     </>
   );
 };

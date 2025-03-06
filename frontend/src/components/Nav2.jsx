@@ -32,6 +32,10 @@ function Nav2() {
     localStorage.removeItem('pq-answers');
     localStorage.removeItem('extractedGrades');
     localStorage.removeItem('examScores');
+    localStorage.removeItem('gradeLevel');
+    localStorage.removeItem('extractedKeywords');
+    localStorage.removeItem('extractedCertificates');
+    localStorage.removeItem('certprediction');
 
     // Update state to reflect logout
     setIsLoggedIn(false);

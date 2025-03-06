@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import '../components/css/UserProfile.css';
 import Navbar from "./Navbar";
-import { toast, ToastContainer } from 'react-toastify';  // Import toast and ToastContainer
-import 'react-toastify/dist/ReactToastify.css';  // Import the styles
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserProfile = () => {
   const [image, setImage] = useState(null);
@@ -15,15 +15,12 @@ const UserProfile = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [profilePictureUrl, setProfilePictureUrl] = useState('path/to/default-avatar.png'); // Default profile picture
-  const [newUsername, setNewUsername] = useState('');
-  const [newEmail, setNewEmail] = useState('');
+  const [profilePictureUrl, setProfilePictureUrl] = useState('path/to/default-avatar.png');
   const [newProfilePicture, setNewProfilePicture] = useState(null);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       const token = localStorage.getItem("auth-token");
-      console.log("Token retrieved from localStorage:", token); // Debugging line
 
       if (!token) {
         console.error("No token found");
@@ -32,9 +29,8 @@ const UserProfile = () => {
 
       try {
         const response = await axios.post('http://localhost:4000/api/auth/user', { token });
-        console.log("User Data:", response.data);  // Debugging line
         setUser(response.data.user);
-        setProfilePictureUrl(response.data.user.profilePicture?.url || 'path/to/default-avatar.png'); // Default if no image
+        setProfilePictureUrl(response.data.user.profilePicture?.url || 'path/to/default-avatar.png');
       } catch (err) {
         console.error("Error fetching user:", err.response?.data || err);
         setError('Failed to fetch user data');
@@ -51,32 +47,32 @@ const UserProfile = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result); // Preview image
-        setNewProfilePicture(file); // Update new profile picture to be sent
+        setImage(reader.result);
+        setNewProfilePicture(file);
       };
-      reader.readAsDataURL(file); // Convert file to base64
+      reader.readAsDataURL(file);
     }
   };
-  
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.id]: e.target.value });
   };
 
-  const handleUsernameChange = (e) => setNewUsername(e.target.value);
-  const handleEmailChange = (e) => setNewEmail(e.target.value);
+  const handleGradeLevelChange = (e) => {
+    setUser({ ...user, gradeLevel: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const token = localStorage.getItem("auth-token");
     if (!token) {
       console.error("No token found");
       return;
     }
-  
-    toast.info("Updating profile..."); // Show loading toast
-  
+
+    toast.info("Updating profile...");
+
     const formData = new FormData();
     formData.append('name', user.name);
     formData.append('email', user.email);
@@ -84,7 +80,7 @@ const UserProfile = () => {
     if (newProfilePicture) {
       formData.append('profilePicture', newProfilePicture);
     }
-  
+
     try {
       const response = await axios.put(
         `http://localhost:4000/api/auth/update-profile/${user._id}`,
@@ -96,8 +92,7 @@ const UserProfile = () => {
           }
         }
       );
-  
-      console.log("Profile updated successfully:", response.data);
+
       setUser(response.data.user);
       setProfilePictureUrl(`${response.data.user.profilePicture?.url}?t=${Date.now()}`);
       toast.success('Profile updated successfully!');
@@ -106,11 +101,7 @@ const UserProfile = () => {
       toast.error('Error updating profile');
     }
   };
-  
-  
-  
 
-  if (loading) return <div><Navbar /><p>Loading...</p></div>;
   if (error || !user) return <div><Navbar /><div className="no-user"><p>{error || 'No user information available.'}</p></div></div>;
 
   return (
@@ -119,10 +110,6 @@ const UserProfile = () => {
       <div className="user-container">
         <div className="user-content">
           <div className="user-card">
-            <div className="header">
-              {/* Optional header if you need */}
-            </div>
-
             <h1 className="user-heading">USER PROFILE</h1>
 
             <form onSubmit={handleSubmit}>
@@ -164,14 +151,17 @@ const UserProfile = () => {
 
               <div className="form-group">
                 <label htmlFor="gradeLevel">CURRENT YEAR / GRADE LEVEL</label>
-                <input
-                  type="text"
+                <select
                   id="gradeLevel"
-                  placeholder="Grade 12"
                   className="form-input"
                   value={user.gradeLevel}
-                  onChange={handleChange}
-                />
+                  onChange={handleGradeLevelChange}
+                >
+                  <option value="">Select Grade Level</option>
+                  <option value="Junior High School">Junior High School</option>
+                  <option value="Senior High School">Senior High School</option>
+                  <option value="College">College</option>
+                </select>
               </div>
 
               <button type="submit" className="user-button">
@@ -180,7 +170,6 @@ const UserProfile = () => {
             </form>
           </div>
 
-          {/* Image upload section outside user card */}
           <div className="image-upload-container">
             <div className="form-group image-upload">
               <label htmlFor="profile-image">Profile Picture</label>
@@ -201,12 +190,10 @@ const UserProfile = () => {
             </div>
           </div>
 
-          {/* Optional error message */}
           {error && <div className="error-message">{error}</div>}
         </div>
       </div>
 
-      {/* Add ToastContainer here to display the toasts */}
       <ToastContainer />
     </>
   );

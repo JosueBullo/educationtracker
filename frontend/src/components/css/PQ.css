@@ -1,30 +1,34 @@
+/* General Quiz Container */
 .quiz-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 40px; /* More space around */
-    background-color: #ffffff; /* White background */
+    justify-content: flex-start; /* Adjusted to move content downward */
+    padding: 60px 20px; /* More space at the top */
+    background-color: #ffffff;
     min-height: 100vh;
     color: black;
 }
 
+/* Quiz Card */
 .quiz-card {
-    background: #ffe0e0; /* Softer pinkish-white */
-    padding: 45px; /* Increased padding */
-    border-radius: 18px; /* More rounded edges */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow */
-    width: 100%; /* Covers more space */
-    max-width: 750px; /* Wider card */
+    background: #ffe0e0;
+    padding: 50px; /* More space */
+    border-radius: 18px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 750px;
     text-align: center;
     transition: transform 0.3s ease-in-out;
     color: black;
+    margin-top: 50px; /* Moves the display downward */
 }
 
 .quiz-card:hover {
-    transform: scale(1.05); /* Bigger hover effect */
+    transform: scale(1.05);
 }
 
+/* Question Header */
 .question-header {
     font-weight: bold;
     font-size: 26px;
@@ -32,24 +36,27 @@
     color: #333;
 }
 
+/* Question Text */
 .question-text {
     font-size: 18px;
     margin-bottom: 20px;
     font-weight: 500;
 }
 
+/* Options */
 .options {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-    margin-top: 10px;
+    margin-top: 20px; /* Added more spacing */
 }
 
+/* Individual Option */
 .option {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px;
+    padding: 14px;
     background-color: #ff3333;
     border-radius: 8px;
     color: white;
@@ -64,16 +71,26 @@
     transform: scale(1.05);
 }
 
+/* Hide Radio and Checkbox Inputs */
 .option input[type="radio"],
 .option input[type="checkbox"] {
     display: none;
+}
+
+/* Selected Option */
+.option.selected {
+    background-color: #e0f0ff;
+    color: blue;
+    border: 1px solid blue;
+    padding: 5px;
+    border-radius: 4px;
 }
 
 /* Button Container */
 .button-container {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 30px; /* Increased margin */
 }
 
 /* Back Button */
@@ -121,6 +138,20 @@
     transform: scale(1.05);
 }
 
+/* Congrats Section */
+.congrats-container {
+    text-align: center;
+    padding: 30px;
+    margin-top: 40px; /* Moves downward */
+}
+
+.congrats-text {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #28a745;
+    margin-bottom: 10px;
+}
+
 /* Responsive Design */
 @media (max-width: 500px) {
     .options {
@@ -128,41 +159,25 @@
     }
 }
 
-.option {
-    display: block;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .option:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .option.selected {
-    background-color: #007bff;
+
+.proceed-btn {
+    background: linear-gradient(45deg, #28a745, #218838);
     color: white;
-  }
-  
-.congrats-container {
-  text-align: center;
-  padding: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.5);
+    transition: 0.3s ease-in-out;
 }
 
-.congrats-text {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #28a745;
-  margin-bottom: 10px;
+.proceed-btn:hover {
+    box-shadow: 0 0 15px rgba(40, 167, 69, 0.8);
+    transform: scale(1.05);
 }
 
-
-.option.selected {
-    background-color: #e0f0ff; /* Light blue background */
-    color: blue;
-    border: 1px solid blue;
-    padding: 5px;
-    border-radius: 4px;
-  }
-  
+.proceed-btn:active {
+    transform: scale(0.95);
+}

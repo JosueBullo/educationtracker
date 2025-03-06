@@ -39,13 +39,37 @@ def extract_relevant_keywords(image_path, use_easyocr=True):
     
     # Define keyword patterns (pre-normalized to lowercase)
     strand_keywords = {
-        "STEM": [kw.lower() for kw in ["Mathematics", "education", "Physics", "Engineering", "Biology", "Chemistry", "Robotics", "Programming", "Science Fair", "Research"]],
-        "ABM": [kw.lower() for kw in ["Business", "Marketing", "Entrepreneurship", "Finance", "Accounting", "Management", "Economics", "Commerce"]],
-        "HUMSS": [kw.lower() for kw in ["Social Sciences", "Debate", "Journalism", "Public Speaking", "Writing", "History", "Politics", "Literature", "Psychology"]],
-        "TVL": [kw.lower() for kw in ["Technical", "Vocational", "Culinary", "Welding", "Automotive", "Electronics", "Hospitality", "Agriculture", "Tourism"]],
-        "arts & design": [kw.lower() for kw in ["Painting", "Music", "Dance", "Theater", "Multimedia", "Photography", "Animation", "Film", "Graphic Design", "Creative Arts"]],
-        "sports": [kw.lower() for kw in ["Athletics", "Basketball", "Football", "Volleyball", "Taekwondo", "Swimming", "Chess", "Sports Science", "Coaching", "Physical Education"]]
-    }
+    "STEM": [kw.lower() for kw in [
+        "Mathematics", "Physics", "Engineering", "Biology", "Chemistry", "Robotics", "Programming", 
+        "Science Fair", "Research", "Technology", "Innovation", "Computer Science", "Data Science", 
+        "Artificial Intelligence", "Machine Learning", "Environmental Science", "Astronomy", "Medical Science",
+        "Nanotechnology", "Electronics", "Statistics", "Coding", "Biotechnology", "Quantum Computing"
+    ]],
+    "ABM": [kw.lower() for kw in [
+        "Business", "Marketing", "Entrepreneurship", "Finance", "Accounting", "Management", 
+        "Economics", "Commerce", "Sales", "Advertising", "E-commerce", "Investment", "Stock Market", 
+        "Leadership", "Corporate Strategy", "Supply Chain", "Business Ethics", "Public Relations", "Business Analytics"
+    ]],
+    "HUMSS": [kw.lower() for kw in [
+        "Social Sciences", "Debate", "Journalism", "Public Speaking", "Writing", "History", 
+        "Politics", "Literature", "Psychology", "Philosophy", "Communication", "Human Rights", 
+        "International Relations", "Community Development", "Legal Studies", "Sociology", "Cultural Studies", 
+        "Linguistics", "Creative Writing", "Anthropology", "Political Science"
+    ]],
+    "TVL": [kw.lower() for kw in [
+        "Technical", "Vocational", "Culinary", "Welding", "Automotive", "Electronics", "Hospitality", 
+        "Agriculture", "Tourism", "Food Processing", "Baking", "Electrical Installation", "Masonry", 
+        "Plumbing", "Carpentry", "Tailoring", "Housekeeping", "Barista Training", "Hotel Management", 
+        "Cosmetology", "Cooking", "Pastry Arts"
+    ]],
+    "GAS": [kw.lower() for kw in [
+        "Interdisciplinary", "General Studies", "Multidisciplinary", "Versatile Learning", 
+        "Flexible Curriculum", "Exploratory", "Critical Thinking", "Problem-Solving", "Leadership", 
+        "Creative Innovation", "Public Speaking", "Research Skills", "Decision Making", "Career Exploration", 
+        "Adaptability", "Project-Based Learning", "Ethics and Society", "Professional Development"
+    ]]
+}
+
     
     # Step 3: Process each text block from OCR output
     for text in text_data:

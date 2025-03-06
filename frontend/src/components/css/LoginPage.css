@@ -1,50 +1,51 @@
 /* LoginPage.css */
 .login-container {
   min-height: 100vh;
-  background-color: #7b1111;
+  background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: -61px;
 }
 
 .login-wrapper {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 800px; /* Adjust width as needed */
+  width: 850px; /* Slightly increased width */
 }
 
 .login-card {
-  background-color: #7b1111;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  width: 400px;
-  padding: 24px;
-  margin-right: 20px; 
-  margin-left: 100px;/* Adds space between login card and the icon */
+  width: 420px; /* Slightly larger */
+  padding: 28px; /* More padding */
+  margin-right: 10px; /* Moved slightly left */
+  margin-left: 80px; /* Reduced left margin */
 }
 
 .header .title {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
   color: white;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .login-heading {
-  font-size: 40px;
+  font-size: 42px;
   font-weight: 600;
-  color: white;
-  margin-bottom: 8px;
+  color: maroon;
+  margin-bottom: 12px;
+  
 }
 
 .register-link {
   font-size: 14px;
-  color: white;
-  margin-bottom: 20px;
+  color:maroon;
+  margin-bottom: 30px;
   text-align: left;
   margin-top: 30px;
+  gap: 10px ;
 }
 
 .register-link a {
@@ -53,56 +54,63 @@
 }
 
 .form-group {
-  margin-bottom: 16px;
-  margin-top: 30px;
+  margin-bottom: 20px;
+  margin-top: 32px;
 }
 
 .form-group label {
   display: block;
-  font-size: 14px;
-  margin-bottom: 20px;
-  color: white;
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: maroon;
 }
 
 .form-input {
-  width: 80%;
-  padding: 8px;
+  width: 85%; /* Slightly wider */
+  padding: 12px;
   border: 1px solid white;
-  border-radius: 4px;
+  border-radius: 6px;
+  background-color: maroon; /* Set background to maroon */
+  color: white; /* Text remains visible */
+  font-size: 16px;
+}
+
+.form-input::placeholder {
+  color: rgba(255, 255, 255, 0.7); /* Light white placeholder */
 }
 
 .login-button {
-  width: 50%;
-  background-color: white;
-  color: #7b1111;
-  padding: 10px;
+  width: 55%;
+  background-color: maroon;
+  color: white;
+  padding: 12px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
-  margin-top: 30px;
+  font-size: 18px;
+  margin-top: 32px;
+  font-weight: bold;
 }
 
 .login-button:hover {
-  background-color: white;
+  background-color: darkred;
 }
 
 .icon-container {
-  margin-top: 24px;
+  margin-top: 28px;
   display: flex;
   justify-content: center;
 }
-
 
 /* Address Icon Styling */
 .address-icon-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 50px;
+  margin-left: 30px; /* Moved slightly left */
 }
 
 .address-icon {
-  font-size: 200px; /* Adjust the size of the icon */
-  color: white;
+  font-size: 220px;
+  color: maroon;
 }

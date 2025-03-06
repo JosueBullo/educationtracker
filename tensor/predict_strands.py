@@ -66,6 +66,10 @@ def predict_strands(extracted_data, default_grade=50):
     predictions = {}
     for strand, average in strand_averages.items():
         percentage = (average / total_avg_sum) * 100 if total_avg_sum > 0 else 0
+
+        # Cap the maximum percentage to 25%
+        percentage = min(percentage, 25)
+
         predictions[strand] = {
             "strand_average": round(average, 2),
             "percentage": round(percentage, 2)

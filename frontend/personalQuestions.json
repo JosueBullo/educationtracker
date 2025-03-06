@@ -1,148 +1,149 @@
 {
   "Junior High School": [
-    {
-      "text": "Which of these activities do you enjoy the most?",
-      "type": "radio",
-      "name": "preferred-activity",
-      "options": [
-        "Solving math problems and analyzing data",
-        "Conducting science experiments and research",
-        "Writing essays, stories, or public speaking",
-        "Managing money, business plans, and entrepreneurship",
-        "Creating art, music, or performances",
-        "Working with technology, coding, or hands-on projects",
-        "Playing sports and engaging in physical activities",
-        "Helping others, teaching, or discussing social issues"
-      ]
-    },
-    {
-      "text": "Which school subject do you perform best in?",
-      "type": "radio",
-      "name": "best-subject",
-      "options": [
-        "Mathematics",
-        "Science",
-        "English or Literature",
-        "Business and Economics",
-        "Technology and Computer Science",
-        "Arts, Music, or Design",
-        "Physical Education and Sports",
-        "Social Studies or Philosophy"
-      ]
-    },
-    {
-      "text": "What type of career do you see yourself in the future?",
-      "type": "radio",
-      "name": "career-goal",
-      "options": [
-        "Engineer, Scientist, or IT professional",
-        "Doctor, Nurse, or Health professional",
-        "Business owner, Manager, or Accountant",
-        "Teacher, Psychologist, or Lawyer",
-        "Artist, Designer, or Musician",
-        "Athlete, Coach, or Sports Analyst",
-        "Technician, Electrician, or Skilled worker",
-        "Still unsure, exploring options"
-      ]
-    },
-    {
-      "text": "If given a project, what role do you usually take?",
-      "type": "radio",
-      "name": "project-role",
-      "options": [
-        "Leader or strategist who organizes and makes decisions",
-        "Researcher who gathers and analyzes data",
-        "Creative designer who makes visuals, videos, or presentations",
-        "Speaker or presenter who explains and engages with an audience",
-        "Hands-on worker who builds or fixes things",
-        "Problem solver who finds logical solutions",
-        "Team player who supports and motivates others"
-      ]
-    },
-    {
-      "text": "How do you prefer to solve problems?",
-      "type": "radio",
-      "name": "problem-solving",
-      "options": [
-        "Using logic, numbers, and analysis",
-        "Experimenting and testing different solutions",
-        "Thinking creatively and coming up with unique ideas",
-        "Discussing and debating different viewpoints",
-        "Using hands-on skills and practical knowledge",
-        "Seeking advice from mentors, books, or online sources"
-      ]
-    },
-    {
-      "text": "If you had to choose a project, which would you enjoy the most?",
-      "type": "radio",
-      "name": "preferred-project",
-      "options": [
-        "Building a robot or developing an app",
-        "Writing and directing a play or film",
-        "Starting a small business or planning a financial strategy",
-        "Researching social issues and writing an analysis",
-        "Creating an artwork, music piece, or digital design",
-        "Training and preparing for a sports competition",
-        "Working on mechanical, electrical, or technical repairs"
-      ]
-    },
-    {
-      "text": "Which of these skills do you think is your strongest?",
-      "type": "radio",
-      "name": "strongest-skill",
-      "options": [
-        "Mathematical and analytical thinking",
-        "Scientific research and problem-solving",
-        "Business planning and leadership",
-        "Public speaking and communication",
-        "Creativity and artistic expression",
-        "Technical and hands-on skills",
-        "Sportsmanship and physical ability",
-        "Understanding people and social interactions"
-      ]
-    },
-    {
-      "text": "Which of these school activities do you enjoy the most?",
-      "type": "radio",
-      "name": "school-activity",
-      "options": [
-        "Math or Science Club",
-        "Entrepreneurship or Business Club",
-        "Debate Team or Writing Club",
-        "Art, Music, or Theater Club",
-        "Technology or Robotics Club",
-        "Sports Team or Physical Training",
-        "Community Service or Outreach Programs"
-      ]
-    },
-    {
-      "text": "What motivates you the most when choosing a career?",
-      "type": "radio",
-      "name": "career-motivation",
-      "options": [
-        "Earning a high salary",
-        "Doing something I love and enjoy",
-        "Helping others and making an impact",
-        "Having job security and stability",
-        "Being my own boss and having independence",
-        "Working on creative and innovative projects",
-        "Being recognized for my talents and achievements"
-      ]
-    },
-    {
-      "text": "How confident are you in your career choice?",
-      "type": "radio",
-      "name": "career-confidence",
-      "options": [
-        "Very confident – I already know my path",
-        "Somewhat confident – I have an idea but need more information",
-        "Unsure – I am still exploring my options",
-        "Not confident – I have no idea what I want to do yet"
-      ]
-    }
-  ]
-,
-
+    
+    [
+      {
+        "text": "Which of these activities do you enjoy the most?",
+        "type": "radio",
+        "name": "preferred-activity",
+        "options": [
+          "Solving math problems and analyzing data",
+          "Conducting science experiments and research",
+          "Writing essays, stories, or public speaking",
+          "Managing money, business plans, and entrepreneurship",
+          "Creating art, music, or performances",
+          "Working with technology, coding, or hands-on projects",
+          "Playing sports and engaging in physical activities",
+          "Helping others, teaching, or discussing social issues"
+        ]
+      },
+      {
+        "text": "Which school subject do you perform best in?",
+        "type": "radio",
+        "name": "best-subject",
+        "options": [
+          "Mathematics",
+          "Science",
+          "English or Literature",
+          "Business and Economics",
+          "Technology and Computer Science",
+          "Arts, Music, or Design",
+          "Physical Education and Sports",
+          "Social Studies or Philosophy"
+        ]
+      },
+      {
+        "text": "What type of career do you see yourself in the future?",
+        "type": "radio",
+        "name": "career-goal",
+        "options": [
+          "Engineer, Scientist, or IT professional",
+          "Doctor, Nurse, or Health professional",
+          "Business owner, Manager, or Accountant",
+          "Teacher, Psychologist, or Lawyer",
+          "Artist, Designer, or Musician",
+          "Athlete, Coach, or Sports Analyst",
+          "Technician, Electrician, or Skilled worker",
+          "Still unsure, exploring options"
+        ]
+      },
+      {
+        "text": "If given a project, what role do you usually take?",
+        "type": "radio",
+        "name": "project-role",
+        "options": [
+          "Leader or strategist who organizes and makes decisions",
+          "Researcher who gathers and analyzes data",
+          "Creative designer who makes visuals, videos, or presentations",
+          "Speaker or presenter who explains and engages with an audience",
+          "Hands-on worker who builds or fixes things",
+          "Problem solver who finds logical solutions",
+          "Team player who supports and motivates others"
+        ]
+      },
+      {
+        "text": "How do you prefer to solve problems?",
+        "type": "radio",
+        "name": "problem-solving",
+        "options": [
+          "Using logic, numbers, and analysis",
+          "Experimenting and testing different solutions",
+          "Thinking creatively and coming up with unique ideas",
+          "Discussing and debating different viewpoints",
+          "Using hands-on skills and practical knowledge",
+          "Seeking advice from mentors, books, or online sources"
+        ]
+      },
+      {
+        "text": "If you had to choose a project, which would you enjoy the most?",
+        "type": "radio",
+        "name": "preferred-project",
+        "options": [
+          "Building a robot or developing an app",
+          "Writing and directing a play or film",
+          "Starting a small business or planning a financial strategy",
+          "Researching social issues and writing an analysis",
+          "Creating an artwork, music piece, or digital design",
+          "Training and preparing for a sports competition",
+          "Working on mechanical, electrical, or technical repairs"
+        ]
+      },
+      {
+        "text": "Which of these skills do you think is your strongest?",
+        "type": "radio",
+        "name": "strongest-skill",
+        "options": [
+          "Mathematical and analytical thinking",
+          "Scientific research and problem-solving",
+          "Business planning and leadership",
+          "Public speaking and communication",
+          "Creativity and artistic expression",
+          "Technical and hands-on skills",
+          "Sportsmanship and physical ability",
+          "Understanding people and social interactions"
+        ]
+      },
+      {
+        "text": "Which of these school activities do you enjoy the most?",
+        "type": "radio",
+        "name": "school-activity",
+        "options": [
+          "Math or Science Club",
+          "Entrepreneurship or Business Club",
+          "Debate Team or Writing Club",
+          "Art, Music, or Theater Club",
+          "Technology or Robotics Club",
+          "Sports Team or Physical Training",
+          "Community Service or Outreach Programs"
+        ]
+      },
+      {
+        "text": "What motivates you the most when choosing a career?",
+        "type": "radio",
+        "name": "career-motivation",
+        "options": [
+          "Earning a high salary",
+          "Doing something I love and enjoy",
+          "Helping others and making an impact",
+          "Having job security and stability",
+          "Being my own boss and having independence",
+          "Working on creative and innovative projects",
+          "Being recognized for my talents and achievements"
+        ]
+      },
+      {
+        "text": "How confident are you in your career choice?",
+        "type": "radio",
+        "name": "career-confidence",
+        "options": [
+          "Very confident – I already know my path",
+          "Somewhat confident – I have an idea but need more information",
+          "Unsure – I am still exploring my options",
+          "Not confident – I have no idea what I want to do yet"
+        ]
+      }
+    ]
+  ],
   "Senior High School": [
     {
       "text": "What is your dream college course choice?",

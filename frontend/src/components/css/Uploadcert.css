@@ -1,0 +1,176 @@
+/* Container Styles */
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* File Upload Button */
+.custom-file-upload {
+    display: inline-block;
+    background: #b11234;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.custom-file-upload input {
+    display: none;
+}
+
+/* Preview Container */
+.preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* Individual Image Preview */
+.preview-item {
+    position: relative;
+    width: 120px; 
+    height: 90px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.image-wrapper1 {
+    position: relative;
+    width: 50%;
+    height: 50%;
+}
+
+/* Preview Image */
+.preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.preview-image:hover {
+    transform: scale(1.05);
+}
+
+/* Scanning Effect */
+.scanning-overlay {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 255, 0, 0.9);
+    box-shadow: 0 0 10px 5px rgba(0, 255, 0, 0.7);
+    animation: scanEffect 1.8s linear infinite;
+}
+
+/* Scanning Animation */
+@keyframes scanEffect {
+    0% {
+        top: 0;
+    }
+    100% {
+        top: 100%;
+    }
+}
+
+/* Upload Button */
+.upload-button {
+    background: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.upload-button:hover {
+    background: #218838;
+}
+
+/* Proceed Button */
+.proceed-button {
+    background: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    font-size: 16px;
+    transition: 0.3s;
+    margin-top: 15px;
+}
+
+.proceed-button:hover {
+    background: #0056b3;
+}
+
+/* Modal Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background: white;
+    padding: 0;
+    border-radius: 10px;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.zoomed-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Close Button */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff4d4d;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+}
+
+.close-button:hover {
+    background: #cc0000;
+}

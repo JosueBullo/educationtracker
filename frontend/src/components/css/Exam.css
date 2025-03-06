@@ -9,14 +9,14 @@
     text-align: center;
     font-family: 'Poppins', sans-serif;
     
-    position: absolute;  /* FIX: Prevents it from being pushed down */
-    top: 80px; /* Adjust according to navbar height */
+    position: absolute;
+    top: 160px; /* Moved further down */
     left: 50%;
     transform: translateX(-50%);
     
-    transition: margin-left 0.3s ease; /* Smooth transition for sidebar */
-    overflow-y: auto; /* Prevents overflow */
-    max-height: calc(100vh - 100px); /* Ensures it doesn't exceed viewport */
+    transition: margin-left 0.3s ease;
+    overflow-y: auto;
+    max-height: calc(100vh - 180px); /* Adjusted max-height */
 }
 
 /* Title */
@@ -99,11 +99,11 @@
 
 /* Sidebar Handling */
 .sidebar2.expanded ~ .exam-container {
-    margin-left: 260px; /* Adjust based on your sidebar width */
+    margin-left: 260px;
 }
 
 .sidebar2.collapsed ~ .exam-container {
-    margin-left: 90px; /* Adjust based on collapsed sidebar width */
+    margin-left: 90px;
 }
 
 /* Responsive Design */
@@ -111,8 +111,8 @@
     .exam-container {
         width: 95%;
         padding: 20px;
-        max-height: calc(100vh - 120px); /* Ensures it fits in smaller screens */
-        top: 90px; /* Adjust for smaller navbar */
+        max-height: calc(100vh - 200px); /* Adjusted for smaller screens */
+        top: 180px; /* Moved further down */
     }
     .exam-title {
         font-size: 26px;
@@ -126,8 +126,112 @@
     .option-item label {
         font-size: 16px;
     }
-    /* Ensure exam content takes full width when sidebar is collapsed */
     .sidebar2.collapsed ~ .exam-container {
         margin-left: 0;
     }
+}
+
+/* Exam Container */
+.exam-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Exam Title */
+.exam-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Results Section */
+.results-section {
+    padding: 20px;
+    border-radius: 10px;
+    background: #f8f9fa;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.results-section h2 {
+    font-size: 22px;
+    color: #28a745;
+    margin-bottom: 10px;
+}
+
+.results-section h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Scores List */
+.results-section ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.results-section li {
+    font-size: 16px;
+    padding: 8px;
+    background: #e9ecef;
+    margin: 5px 0;
+    border-radius: 6px;
+}
+
+/* Buttons */
+button {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    margin: 10px;
+}
+
+/* Next Button */
+.next-btn {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+}
+
+.next-btn:hover {
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.7);
+    transform: scale(1.05);
+}
+
+/* Submit Button */
+.submit-btn {
+    background: linear-gradient(45deg, #28a745, #218838);
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.5);
+}
+
+.submit-btn:hover {
+    box-shadow: 0 0 15px rgba(40, 167, 69, 0.8);
+    transform: scale(1.05);
+}
+
+/* Reload Button */
+.reload-btn {
+    background: linear-gradient(45deg, #ffc107, #e0a800);
+    box-shadow: 0 4px 10px rgba(255, 193, 7, 0.5);
+}
+
+.reload-btn:hover {
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.8);
+    transform: scale(1.05);
+}
+
+/* Active effect for all buttons */
+button:active {
+    transform: scale(0.95);
 }

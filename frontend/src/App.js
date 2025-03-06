@@ -63,8 +63,8 @@ import Portal from "./components/Portal";
 import UploadGrades from "./components/UploadGrades";
 import UploadCertificates from "./components/UploadCertificates";
 import PQ from "./components/PQ";
-import PQ2 from "./components/PQ2";
-import PQ3 from "./components/PQ3";
+// import PQ2 from "./components/PQ2";
+// import PQ3 from "./components/PQ3";
 import Exam from "./components/Exam";
 import Results from "./components/Results";
 import CareerPaths from './components/Career';
@@ -76,6 +76,7 @@ import ProtectedRoute from './ProtectedRoutes';
 import AdminUsers from './components/admin/ManageUsers';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
+import Overallgraphjhs from './components/Overallgraphjhs';
 
 function App() {
     const [file, setFile] = useState(null);
@@ -133,8 +134,8 @@ function App() {
                 <Route path="/UploadGrades/:type" element={<UploadGrades />} /> {/* Updated to dynamic route */}
                 <Route path="/UploadCertificates/:type" element={<UploadCertificates/>} /> {/* Updated to dynamic route */}
                 <Route path="/personal-question-jhs" element={<PQ />} />
-                <Route path="/personal-question-shs" element={<PQ2 />} />
-                <Route path="/personal-question-college" element={<PQ3 />} />
+                <Route path="/personal-question-shs" element={<PQ />} />
+                <Route path="/personal-question-college" element={<PQ />} />
                 <Route path="/exam" element={<Exam />} />
                 <Route path="/results" element={<Results />} />
                 <Route path="/Career" element={<CareerPaths />} />
@@ -143,6 +144,7 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
+                <Route path="/graph" element={<Overallgraphjhs />} />
 
                 <Route path="/admin/dashboard" element={
           <ProtectedRoute role={role} allowedRole="admin">
