@@ -50,7 +50,7 @@ const Portal = () => {
     
     else if (portalType === "career") {
       newGradeLevel = "college";
-      navigate("/UploadGrades/college");
+      navigate("/CourseSelection/college");
     }
 
     // Save the selected grade level to localStorage
@@ -103,7 +103,8 @@ const Portal = () => {
       
       {/* Toast Notification Container */}
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
-
+<div></div>
+<div style={{ height: "150px" }}></div>
       <Footer />
     </>
   );

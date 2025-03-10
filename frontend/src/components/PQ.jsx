@@ -85,53 +85,69 @@ const PQ = () => {
     }
   };
 
- // Submit answers for prediction
-// Submit answers for prediction
-const handleSubmit = async () => {
-  if (!Object.keys(answers).length) {
-    toast.error("⚠️ No answers found! Please complete the questionnaire.", { position: "top-center" });
-    return;
-  }
-
-  toast.info("📤 Sending answers for prediction...", { position: "top-center", autoClose: 2000 });
-
-  try {
-    const response = await fetch("http://127.0.0.1:5001/predict", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ gradeLevel, answers }),
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      setPredictionData(data?.prediction_scores || []);
-      setPredictedStrand(data?.predicted_strand);
-      setStrandScoresList(data?.strand_scores_list || []);
-      
-      // Save prediction data in localStorage after each update
-      localStorage.setItem("pqprediction_jhs", JSON.stringify({
-        predictedStrand: data?.predicted_strand,
-        predictionScores: data?.prediction_scores || [],
-        strandScoresList: data?.strand_scores_list || []
-      }));
-
-      toast.success(`🎉 Predicted strand: ${data.predicted_strand}`, { position: "top-center", autoClose: 3000 });
-      setShowProceedButton(true);
-    } else {
-      toast.error("⚠️ " + (data.error || "Prediction failed."), { position: "top-center" });
+  // Submit answers for prediction
+  const handleSubmit = async () => {
+    if (!Object.keys(answers).length) {
+      toast.error("⚠️ No answers found! Please complete the questionnaire.", { position: "top-center" });
+      return;
     }
-  } catch (error) {
-    toast.error("⚠️ Server error! Check connection.", { position: "top-center" });
-  }
-};
+  
+    toast.info("📤 Sending answers for prediction...", { position: "top-center", autoClose: 2000 });
+  
+    // Determine the endpoint based on grade level
+    let endpoint;
+    if (gradeLevel === "shs") {
+      endpoint = "http://127.0.0.1:5001/predict_college";  // For SHS
+    } else if (gradeLevel === "jhs") {
+      endpoint = "http://127.0.0.1:5001/predict";  // For JHS
+    } else {
+      toast.error("⚠️ Invalid grade level!", { position: "top-center" });
+      return;
+    }
+  
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gradeLevel, answers }), // Send grade level with answers
+      });
+  
+      const data = await response.json();
+      if (response.ok) {
+        setPredictionData(data?.prediction_scores || []);
+        setPredictedStrand(data?.predicted_strand);
+        setStrandScoresList(data?.strand_scores_list || []);
+        
+        // Fetch gradeLevel from localStorage
+const gradeLevel = localStorage.getItem("gradeLevel");
 
+// Determine the localStorage key based on gradeLevel
+const predictionKey = gradeLevel === "shs" ? "shspqprediction" : "pqprediction";
+
+// Save prediction data in localStorage after each update
+localStorage.setItem(predictionKey, JSON.stringify({
+  predictedStrand: data?.predicted_strand,
+  predictionScores: data?.prediction_scores || [],
+  strandScoresList: data?.strand_scores_list || []
+}));
+        toast.success(`🎉 Predicted strand: ${data.predicted_strand}`, { position: "top-center", autoClose: 3000 });
+        setShowProceedButton(true);
+      } else {
+        toast.error("⚠️ " + (data.error || "Prediction failed."), { position: "top-center" });
+      }
+    } catch (error) {
+      toast.error("⚠️ Server error! Check connection.", { position: "top-center" });
+    }
+  };
+  
+  
   return (
     <>
       <Nav2 />
       <ToastContainer />
       <div className="quiz-container">
         <div className="quiz-card">
-          <h1 className="question-header">Senior High Strand Assessment</h1>
+          <h1 className="question-header">{gradeLevel === "shs" ? "Senior High Strand Assessment" : "Junior High Strand Assessment"}</h1>
           {questions.length > 0 && currentQuestion ? (
             <>
               <p className="question-text">

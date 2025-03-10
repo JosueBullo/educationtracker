@@ -1,170 +1,186 @@
 /* General Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Top nav2bar2 */
-  .top-navbar2 {
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    height: 60px;
-    position: fixed;
-    width: 100%;
-    z-index: 10;
-    background-color: white; /* No background */
-  }
-  
-  .navbar2-content {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .hamburger2 {
-    cursor: pointer;
-    color: maroon;
-    margin-top: 60px;
-    margin-left: 20px;
-  }
-  
-  .navbar2-logo {
-    margin-top: 60px;
-    display: flex;
-    align-items: center;
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: maroon;
-    margin-left: 30px;
-  }
-  
-  .navbar2-icon {
-    margin-right: 10px;
-    font-size: 2rem;
-    color:maroon;
-  }
-  
-  /* sidebar2 */
-  .sidebar2 {
-    display: flex;  
-    flex-direction: column;
-    height: 100vh;
-    position: fixed;
-    top: 60px;
-    left: 0;
-    width: 180px;
-    transition: transform 0.3s ease;
-    transform: translateX(0);
-    z-index: 5; /* Keep it above content */
-    background-color: white;
-  }
-  
-  .sidebar2.collapsed {
-    transform: translateX(-250px); /* Hide sidebar2 when collapsed */
-  }
-  
-  .nav2-list {
-    list-style-type: none;
-    margin: 20px;
-    padding: 0;
-    margin-top: 60px;
-    margin-left: 20px;
-  }
-  
-  .nav2-item {
-    margin-bottom: 15px;
-    margin-left: 10px;
-    margin-top: 10px;
-  }
-  
-  .nav2-link {
-    color:maroon;
-    text-decoration: none;
-    font-size: 1.2rem;
-    transition: color 0.3s;
-  }
-  
-  .nav2-link:hover {
-    color: #07070729; /* Subtle hover effect */
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  /* Container for the logout button */
+/* Top Navbar */
+.top-navbar2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  height: 100px;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  background-color: maroon; /* Maroon background */
+  color: white; /* White text */
+}
+
+/* Navbar Content */
+.navbar2-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Hamburger Menu */
+.hamburger2 {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 24px;
+  width: 30px;
+  background: none;
+  border: none;
+  padding: 0;
+  outline: none;
+}
+
+/* Hamburger Lines */
+.hamburger2 div {
+  width: 100%;
+  height: 4px;
+  background-color: white; /* White bars */
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hamburger Animation (When Clicked) */
+.hamburger2.open div:nth-child(1) {
+  transform: translateY(10px) rotate(45deg);
+}
+
+.hamburger2.open div:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger2.open div:nth-child(3) {
+  transform: translateY(-10px) rotate(-45deg);
+}
+
+/* Logo */
+.navbar2-logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white; /* White text */
+  margin-left: 30px;
+}
+
+/* Navbar Icons */
+.navbar2-icon {
+  font-size: 2rem;
+  color: white; /* White icons */
+}
+
+/* Sidebar */
+.sidebar2 {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  top: 100px; /* Adjusted to match navbar height */
+  left: 0;
+  width: 200px;
+  transition: transform 0.3s ease;
+  transform: translateX(-250px); /* Initially hidden */
+  z-index: 5;
+  background-color: white;
+  padding-top: 20px;
+}
+
+/* When Sidebar is Open */
+.sidebar2.expanded {
+  transform: translateX(0);
+}
+
+/* Sidebar Navigation */
+.nav2-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 40px;
+}
+
+.nav2-item {
+  margin-bottom: 15px;
+  padding: 10px 20px;
+}
+
+.nav2-link {
+  color: maroon;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav2-link:hover {
+  color: #660000;
+}
+
+/* Logout Button */
 .logout-container {
   margin-left: auto;
   display: flex;
-  align-items: center; 
-  margin-top: 50px;
+  align-items: center;
+  margin-top: 10px;
 }
 
-/* Enhanced Logout button styles */
 .logout-button {
   padding: 10px 20px;
-  background-color: maroon; /* Soft orange color to complement the navbar */
-  color: white;
-  border: none;
-  border-radius: 8px; /* Rounded corners for a more modern look */
+  background-color: white;
+  color: maroon;
+  border: 2px solid maroon;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
 }
 
 .logout-button:hover {
-  background-color: #e07b53; /* Slightly darker shade on hover */
-  transform: translateY(-2px); /* Button lifts on hover */
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+  background-color: maroon;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-.logout-button:focus {
-  outline: none; /* Remove outline when focused */
-}
-
-.logout-button:active {
-  transform: translateY(1px); /* Button presses down when clicked */
-}
-
-  
-  /* Media Queries for Responsiveness */
-  
-  /* For smaller screens (Tablets and below) */
-  @media (max-width: 768px) {
-    .navbar2-logo {
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar2-logo {
       margin-left: 10px;
-    }
-  
-    .hamburger2 {
-      margin-left: 10px;
-    }
-  
-    .sidebar2 {
-      width: 200px; /* Smaller sidebar2 for mobile */
-    }
-  
-    .sidebar2.collapsed {
-      transform: translateX(-200px); /* Hide sidebar2 */
-    }
-  
-    .nav2-list {
-      margin-top: 0;
-    }
   }
-  
-  /* For very small screens (Mobile phones) */
-  @media (max-width: 480px) {
-    .top-navbar2 {
-      padding: 0 10px; /* Adjust padding for mobile */
-    }
-  
-    .sidebar2 {
-      width: 180px; /* Even smaller sidebar2 for mobile */
-    }
-  
-    .navbar2-logo {
+
+  .hamburger2 {
+      margin-left: 10px;
+  }
+
+  .sidebar2 {
+      width: 180px;
+  }
+
+  .sidebar2.expanded {
+      transform: translateX(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .top-navbar2 {
+      padding: 0 10px;
+  }
+
+  .sidebar2 {
+      width: 160px;
+  }
+
+  .navbar2-logo {
       font-size: 1.5rem;
-    }
   }
-  
+}

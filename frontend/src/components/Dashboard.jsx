@@ -112,7 +112,7 @@ const Dashboard = () => {
             Start the Process
           </button>
         </div>
-
+        <div style={{ height: "570px" }}></div>
       <Footer />
     </>
   );

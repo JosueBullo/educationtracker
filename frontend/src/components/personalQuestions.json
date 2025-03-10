@@ -8,11 +8,13 @@
         "Solving math problems and analyzing data",
         "Conducting science experiments and research",
         "Writing essays, stories, or public speaking",
-        "Managing money, business plans, and entrepreneurship",
-        "Creating art, music, or performances",
+        "Managing business, marketing, or finances",
+        "Creating art, music, films, or designs",
         "Working with technology, coding, or hands-on projects",
         "Playing sports and engaging in physical activities",
-        "Helping others, teaching, or discussing social issues"
+        "Helping others, teaching, or discussing social issues",
+        "Cooking, baking, or preparing food",
+        "Working with plants, animals, or agricultural activities"
       ]
     },
     {
@@ -25,9 +27,11 @@
         "English or Literature",
         "Business and Economics",
         "Technology and Computer Science",
-        "Arts, Music, or Design",
+        "Arts, Music, or Media Studies",
         "Physical Education and Sports",
-        "Social Studies or Philosophy"
+        "Social Studies or Philosophy",
+        "Home Economics or Culinary Arts",
+        "Agriculture or Fisheries"
       ]
     },
     {
@@ -35,13 +39,16 @@
       "type": "radio",
       "name": "career-goal",
       "options": [
-        "Engineer, Scientist, or IT professional",
-        "Doctor, Nurse, or Health professional",
-        "Business owner, Manager, or Accountant",
+        "Engineer, Scientist, or IT Professional",
+        "Doctor, Nurse, or Health Professional",
+        "Business Owner, Manager, or Accountant",
         "Teacher, Psychologist, or Lawyer",
-        "Artist, Designer, or Musician",
+        "Artist, Designer, Filmmaker, or Musician",
         "Athlete, Coach, or Sports Analyst",
-        "Technician, Electrician, or Skilled worker",
+        "Technician, Electrician, or Skilled Worker",
+        "Chef, Baker, or Culinary Expert",
+        "Farmer, Fisherman, or Agricultural Worker",
+        "Media Professional (Journalist, Broadcaster, or Content Creator)",
         "Still unsure, exploring options"
       ]
     },
@@ -54,9 +61,10 @@
         "Researcher who gathers and analyzes data",
         "Creative designer who makes visuals, videos, or presentations",
         "Speaker or presenter who explains and engages with an audience",
-        "Hands-on worker who builds or fixes things",
+        "Hands-on worker who builds, fixes, or assembles things",
         "Problem solver who finds logical solutions",
-        "Team player who supports and motivates others"
+        "Team player who supports and motivates others",
+        "Innovator who comes up with new ideas and strategies"
       ]
     },
     {
@@ -69,7 +77,9 @@
         "Thinking creatively and coming up with unique ideas",
         "Discussing and debating different viewpoints",
         "Using hands-on skills and practical knowledge",
-        "Seeking advice from mentors, books, or online sources"
+        "Seeking advice from mentors, books, or online sources",
+        "Trying different artistic or design-based approaches",
+        "Testing ideas in a business or entrepreneurial way"
       ]
     },
     {
@@ -77,13 +87,15 @@
       "type": "radio",
       "name": "preferred-project",
       "options": [
-        "Building a robot or developing an app",
-        "Writing and directing a play or film",
-        "Starting a small business or planning a financial strategy",
-        "Researching social issues and writing an analysis",
-        "Creating an artwork, music piece, or digital design",
+        "Building a robot, coding an app, or designing a tech solution",
+        "Writing and directing a play, film, or story",
+        "Planning and starting a small business or marketing campaign",
+        "Researching and analyzing social issues or psychology",
+        "Creating an artwork, digital design, or music composition",
         "Training and preparing for a sports competition",
-        "Working on mechanical, electrical, or technical repairs"
+        "Cooking a new recipe or preparing a full-course meal",
+        "Growing plants, raising animals, or working on an agricultural project",
+        "Installing, fixing, or designing a technical or industrial system"
       ]
     },
     {
@@ -98,7 +110,9 @@
         "Creativity and artistic expression",
         "Technical and hands-on skills",
         "Sportsmanship and physical ability",
-        "Understanding people and social interactions"
+        "Understanding people and social interactions",
+        "Cooking, baking, or food preparation",
+        "Agricultural or environmental management"
       ]
     },
     {
@@ -109,10 +123,12 @@
         "Math or Science Club",
         "Entrepreneurship or Business Club",
         "Debate Team or Writing Club",
-        "Art, Music, or Theater Club",
+        "Art, Music, Media, or Theater Club",
         "Technology or Robotics Club",
         "Sports Team or Physical Training",
-        "Community Service or Outreach Programs"
+        "Culinary Club or Home Economics Activities",
+        "Agriculture, Gardening, or Environmental Club",
+        "Community Service or Social Outreach Programs"
       ]
     },
     {
@@ -126,7 +142,9 @@
         "Having job security and stability",
         "Being my own boss and having independence",
         "Working on creative and innovative projects",
-        "Being recognized for my talents and achievements"
+        "Being recognized for my talents and achievements",
+        "Building or designing something useful for society",
+        "Contributing to environmental or agricultural sustainability"
       ]
     },
     {
@@ -143,19 +161,82 @@
   ]
 ,
 
+
+
   "Senior High School": [
     {
-      "text": "What is your dream college course choice?",
-      "type": "radio",
-      "name": "college-course-choice",
+      "text": "Which subjects do you get the highest grades in?",
+      "type": "checkbox",
+      "name": "high-grades-subjects",
       "options": [
-        "Engineering/Technology", "Business/Management", "Medicine/Health Sciences",
-        "Education", "Social Sciences/Humanities", "IT/Computer Science",
-        "Arts, Media, and Design", "Law/Political Science", "Other"
+        "Mathematics (Algebra, Calculus, Statistics)",
+        "Science (Biology, Chemistry, Physics)",
+        "Information Technology (Programming, Computer Science)",
+        "Business & Finance (Accounting, Economics, Marketing)",
+        "Arts & Humanities (Literature, Communication, Creative Writing)",
+        "Social Sciences (Psychology, Political Science, History)",
+        "Engineering & Technical subjects (Drafting, Robotics, Applied Sciences)",
+        "Health & Medical subjects (Anatomy, Health Science, Nutrition)"
       ]
     },
     {
-      "text": "Do you want to take a college course related to your SHS strand?",
+      "text": "Which subjects do you enjoy learning the most?",
+      "type": "checkbox",
+      "name": "favorite-subjects",
+      "options": [
+        "Mathematics (Algebra, Calculus, Statistics)",
+        "Science (Biology, Chemistry, Physics)",
+        "Information Technology (Programming, Computer Science)",
+        "Business & Finance (Accounting, Economics, Marketing)",
+        "Arts & Humanities (Literature, Communication, Creative Writing)",
+        "Social Sciences (Psychology, Political Science, History)",
+        "Engineering & Technical subjects (Drafting, Robotics, Applied Sciences)",
+        "Health & Medical subjects (Anatomy, Health Science, Nutrition)"
+      ]
+    },
+    {
+      "text": "What type of activities do you enjoy the most?",
+      "type": "checkbox",
+      "name": "favorite-activities",
+      "options": [
+        "Solving math and logic problems",
+        "Experimenting in a science lab",
+        "Coding, programming, or working with computers",
+        "Managing money, business, or investments",
+        "Writing, storytelling, or public speaking",
+        "Designing, drawing, or creating things",
+        "Analyzing data and statistics",
+        "Helping people through advice, teaching, or healthcare"
+      ]
+    },
+    {
+      "text": "Which careers interest you the most?",
+      "type": "checkbox",
+      "name": "career-interests",
+      "options": [
+        "Engineering (Civil, Mechanical, Electrical, etc.)",
+        "Medicine & Healthcare (Doctor, Nurse, Pharmacist, Medical Technologist)",
+        "Business & Management (Entrepreneur, Accountant, Marketing)",
+        "IT & Technology (Software Developer, Data Scientist, Cybersecurity)",
+        "Law & Politics (Lawyer, Politician, Public Administrator)",
+        "Arts & Media (Journalist, Filmmaker, Designer, Musician)",
+        "Social Sciences (Psychologist, Teacher, Human Resource Specialist)",
+        "Science & Research (Biologist, Chemist, Environmental Scientist)"
+      ]
+    },
+    {
+      "text": "Why do you want to take a college course?",
+      "type": "radio",
+      "name": "college-motivation",
+      "options": [
+        "To follow my passion and interests",
+        "To have better job opportunities in the future",
+        "Because my parents/guardians expect me to",
+        "To earn a high salary in the future"
+      ]
+    },
+    {
+      "text": "Do you plan to take a college course related to your SHS strand?",
       "type": "radio",
       "name": "shs-course-relation",
       "options": [
@@ -165,93 +246,62 @@
       ]
     },
     {
-      "text": "Why did you decide to continue or shift from your SHS strand?",
+      "text": "If you want to shift, why?",
       "type": "radio",
       "name": "shs-course-decision",
       "options": [
-        "I enjoy my SHS strand and want to pursue it further.",
         "I discovered new interests outside my strand.",
         "My SHS strand does not match my career goals.",
-        "My parents/guardians influenced my decision.",
-        "Job demand and salary influenced my choice."
+        "Job demand and salary influenced my choice.",
+        "My parents/guardians influenced my decision."
       ]
     },
     {
-      "text": "How will you decide on your college course?",
-      "type": "radio",
-      "name": "college-course-decision",
-      "options": [
-        "Based on my personal interests and passion",
-        "High demand in the job market",
-        "Family influence",
-        "Academic strength in related subjects",
-        "Potential salary and financial stability"
-      ]
-    },
-    {
-      "text": "Do you feel pressured to take a specific course?",
-      "type": "radio",
-      "name": "college-course-pressure",
-      "options": [
-        "Yes, by my parents/family.",
-        "Yes, by society or job demand.",
-        "No, I am choosing freely."
-      ]
-    },
-    {
-      "text": "How important is job availability in your decision?",
-     "type": "radio",
-      "name": "job-availability-importance",
-      "options": [
-        "Very important",
-        "Somewhat important",
-        "Not important, passion matters more"
-      ]
-    },
-    {
-      "text": "What is your biggest concern in choosing a course?",
-      "type": "radio",
+      "text": "What is your biggest concern in choosing a college course?",
+      "type": "checkbox",
       "name": "college-course-concern",
       "options": [
         "Difficulty of the course",
         "Tuition fees and financial constraints",
         "Future job opportunities",
-        "Workload and stress level"
+        "Family pressure to choose a specific course",
+        "Uncertainty about my own interests and skills"
       ]
     },
     {
-      "text": "Have you considered taking a gap year?",
+      "text": "Have you thought about taking a break before college (gap year)?",
       "type": "radio",
       "name": "gap-year-consideration",
       "options": [
         "Yes, to explore options or work first.",
-        "No, I want to proceed immediately.",
-        "Maybe, depending on circumstances."
+        "No, I want to go to college immediately.",
+        "Maybe, depending on my situation."
       ]
     },
     {
-      "text": "How confident are you in your chosen course?",
+      "text": "How confident are you in your chosen college course?",
       "type": "radio",
       "name": "college-confidence-level",
       "options": [
-        "1-3 (Not confident)",
-        "4-6 (Somewhat confident)",
-        "7-10 (Very confident)"
+        "1-3 (Not confident, still unsure)",
+        "4-6 (Somewhat confident, but open to changes)",
+        "7-10 (Very confident, I know what I want)"
       ]
     },
     {
       "text": "What support would help you decide better?",
-      "type": "radio",
+      "type": "checkbox",
       "name": "college-decision-support",
       "options": [
         "Career counseling and guidance",
         "More exposure to professionals in the field",
-        "Internship or shadowing opportunities",
+        "Internship or hands-on experience",
         "Financial aid or scholarship options"
       ]
     }
-
   ],
+
+
   "College": [
     {
       "text": "What career path are you currently considering?",

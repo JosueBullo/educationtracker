@@ -26,46 +26,50 @@ const Exam = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-          const parsedUser = JSON.parse(storedUser);
-          setGradeLevel(parsedUser.gradeLevel || "");
+        const storedGradeLevel = localStorage.getItem("gradeLevel"); // Fetch gradeLevel directly
+        if (storedGradeLevel) {
+          setGradeLevel(storedGradeLevel);
 
           let selectedQuiz = {};
-          if (parsedUser.gradeLevel === "Junior High School") {
-            selectedQuiz = shsQuiz;
-          } else if (parsedUser.gradeLevel === "Senior High School") {
-            selectedQuiz = collegeQuiz;
-          } else if (parsedUser.gradeLevel === "College") {
-            selectedQuiz = careerQuiz;
+          if (storedGradeLevel === "jhs") {
+            selectedQuiz = shsQuiz;  // Ensure `shsQuiz` is defined
+          } else if (storedGradeLevel === "shs") {
+            selectedQuiz = collegeQuiz;  // Ensure `collegeQuiz` is defined
+          } else if (storedGradeLevel === "college") {
+            selectedQuiz = careerQuiz;  // Ensure `careerQuiz` is defined
           }
+
           setQuizData(selectedQuiz);
         }
       } catch (error) {
         console.error("Error retrieving user data:", error);
       }
     };
-
     fetchUserData();
   }, []);
 
   useEffect(() => {
-    if (!examCompleted) {
-      setTimeLeft(15);
-      const countdown = setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev === 1) {
-            handleNext();
-            return 15;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-
-      return () => clearInterval(countdown);
+    if (!examCompleted && currentQuestion) {
+      // Auto-answer: Select the first available option
+      const firstOption = currentQuestion.options?.[0] || currentQuestion.choices?.[0];
+  
+      if (firstOption) {
+        setAnswers((prev) => ({
+          ...prev,
+          [currentSection]: {
+            ...prev[currentSection],
+            [currentQuestion.question]: firstOption,
+          },
+        }));
+  
+        // Auto-proceed to the next question after a short delay
+        setTimeout(() => {
+          handleNext();
+        }, 500); // 0.5-second delay to simulate user interaction
+      }
     }
   }, [currentQuestionIndex, currentSectionIndex, examCompleted]);
-
+  
   const handleAnswerChange = (selectedOption) => {
     setAnswers((prev) => ({
       ...prev,
@@ -114,11 +118,24 @@ const Exam = () => {
 
   const handleSubmit = async () => {
     const storedScores = JSON.parse(localStorage.getItem("examScores"));
+    const gradeLevel = localStorage.getItem("gradeLevel");
   
     if (storedScores) {
       try {
+        let endpoint = "";
+  
+        // Determine the endpoint based on gradeLevel
+        if (gradeLevel === "jhs") {
+          endpoint = "http://localhost:5001/predict_exam_jhs";
+        } else if (gradeLevel === "shs") {
+          endpoint = "http://localhost:5001/prediction_exam_shs";
+        } else {
+          toast.error("⚠️ Invalid grade level!", { position: "top-center", autoClose: 3000 });
+          return;
+        }
+  
         // Send the scores to the backend
-        const response = await fetch("http://localhost:5001/predict_exam_jhs", {
+        const response = await fetch(endpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -130,8 +147,13 @@ const Exam = () => {
   
         if (response.ok) {
           // Store the prediction result in localStorage
-          localStorage.setItem("prediction_exam_jhs", JSON.stringify(result.strand_percentages));
-          setPrediction(result.strand_percentages); // Store the strand percentages
+          if (gradeLevel === "jhs") {
+            localStorage.setItem("prediction_exam_jhs", JSON.stringify(result.strand_percentages));
+            setPrediction(result.strand_percentages); // Store the strand percentages
+          } else if (gradeLevel === "shs") {
+            localStorage.setItem("prediction_exam_shs", JSON.stringify(result.course_percentages));
+            setPrediction(result.course_percentages); // Store the course percentages
+          }
         } else {
           toast.error("⚠️ Error in prediction!", { position: "top-center", autoClose: 3000 });
         }
@@ -142,8 +164,6 @@ const Exam = () => {
       toast.error("⚠️ No exam scores found!", { position: "top-center", autoClose: 3000 });
     }
   };
-  
-
 
   const reloadGraphHandler = async () => {
     setReloadGraph((prev) => !prev); // Toggle the reloadGraph state to force re-render
@@ -153,11 +173,24 @@ const Exam = () => {
   
     // Fetch the stored scores from localStorage
     const storedScores = JSON.parse(localStorage.getItem("examScores"));
+    const gradeLevel = localStorage.getItem("gradeLevel");
   
     if (storedScores) {
       try {
+        let endpoint = "";
+  
+        // Determine the endpoint based on gradeLevel
+        if (gradeLevel === "jhs") {
+          endpoint = "http://localhost:5001/predict_exam_jhs";
+        } else if (gradeLevel === "shs") {
+          endpoint = "http://localhost:5001/prediction_exam_shs";
+        } else {
+          toast.error("⚠️ Invalid grade level!", { position: "top-center", autoClose: 3000 });
+          return;
+        }
+  
         // Send the stored scores to the backend for re-prediction
-        const response = await fetch("http://localhost:5001/predict_exam_jhs", {
+        const response = await fetch(endpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -169,9 +202,14 @@ const Exam = () => {
   
         if (response.ok) {
           // Store the updated prediction result in localStorage
-          localStorage.setItem("prediction_exam_jhs", JSON.stringify(result.strand_percentages));
-          setPrediction(result.strand_percentages); // Store the updated strand percentages in the state
-          console.log("Updated prediction:", result.strand_percentages); // Optional: Log result to the console
+          if (gradeLevel === "jhs") {
+            localStorage.setItem("prediction_exam_jhs", JSON.stringify(result.strand_percentages));
+            setPrediction(result.strand_percentages); // Store the updated strand percentages
+          } else if (gradeLevel === "shs") {
+            localStorage.setItem("prediction_exam_shs", JSON.stringify(result.course_percentages));
+            setPrediction(result.course_percentages); // Store the updated course percentages
+          }
+          console.log("Updated prediction:", result); // Optional: Log result to the console
         } else {
           toast.error("⚠️ Error in prediction!", { position: "top-center", autoClose: 3000 });
         }
@@ -183,7 +221,6 @@ const Exam = () => {
       toast.error("⚠️ No exam scores found in localStorage!", { position: "top-center", autoClose: 3000 });
     }
   };
-  
 
   
   const handleBack = () => {

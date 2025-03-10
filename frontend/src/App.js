@@ -77,6 +77,8 @@ import AdminUsers from './components/admin/ManageUsers';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import Overallgraphjhs from './components/Overallgraphjhs';
+import Overallgraphshs from './components/Overallgraphshs';
+import CourseSelection from './components/CourseSelection';
 
 function App() {
     const [file, setFile] = useState(null);
@@ -145,6 +147,9 @@ function App() {
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password/:token" element={<ResetPassword />} />
                 <Route path="/graph" element={<Overallgraphjhs />} />
+                <Route path="/graphshs" element={<Overallgraphshs />} />
+                <Route path="/CourseSelection/:type" element={<CourseSelection />} />
+
 
                 <Route path="/admin/dashboard" element={
           <ProtectedRoute role={role} allowedRole="admin">

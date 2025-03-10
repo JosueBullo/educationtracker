@@ -21,7 +21,7 @@ h2 {
 }
 
 .preview-item {
-    width: 350px !important; 
+    width: 500px !important; 
     height: 350px !important;
 }
 
@@ -40,38 +40,24 @@ h2 {
     transform: scale(1.1);
 }
 
-/* --- SCANNING EFFECT --- */
-.scanning-overlay {
+/* Scanning Effect */
+.scanning-overlay1 {
     position: absolute;
-    top: 0;
     left: 0;
     width: 100%;
-    height: 8px;
+    height: 4px;
     background: rgba(0, 255, 0, 0.9);
-    box-shadow: 0 0 150px 20px rgba(0, 255, 0, 0.8);
-    animation: scanEffect 2s linear infinite;
-    z-index: 2;
-    border-radius: 50px;
-    transition: box-shadow 0.3s ease-in-out;
-}
-
-/* Increase shadow on hover */
-.scanning-overlay:hover {
-    box-shadow: 0 0 200px 40px rgba(0, 255, 0, 1); /* Stronger glow effect */
+    box-shadow: 0 0 10px 5px rgba(0, 255, 0, 0.7);
+    animation: scanEffect 1.8s linear infinite;
 }
 
 /* Scanning Animation */
 @keyframes scanEffect {
     0% {
         top: 0;
-        box-shadow: 0 0 150px 20px rgba(0, 255, 0, 0.8);
-    }
-    50% {
-        box-shadow: 0 0 180px 30px rgba(0, 255, 0, 0.9);
     }
     100% {
         top: 100%;
-        box-shadow: 0 0 150px 20px rgba(0, 255, 0, 0.8);
     }
 }
 
@@ -104,10 +90,10 @@ h2 {
 }
 
 .zoomed-image {
-    width: 100%;
-    height: 100%;
+    width: 300%;
+    height: 300%;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 100px;
 }
 
 .close-button {
@@ -166,7 +152,7 @@ h2 {
 
 
 .upload-key {
-    background: #007bff;
+    background: maroon;
     color: white;
     padding: 10px 15px;
     border-radius: 5px;
@@ -175,11 +161,11 @@ h2 {
 }
 
 .upload-key:hover {
-    background: #0056b3;
+    background: #cf6172;
 }
 
 .process-key {
-    background: #28a745;
+    background: maroon;
 }
 
 .process-key:hover {
@@ -276,9 +262,17 @@ input[type="file"] {
     text-align: center;
 }
 
-h2 {
-    font-size: 24px;
+
+
+/* Light Maroon Container */
+.container {
+    background-color: #f5e6e6; /* Light Maroon */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-    margin-top: 80px; /* Adjust this value as needed */
-    margin-bottom: 20px;
+    margin: 20px auto;
+    max-width: 800px;
 }
+
+

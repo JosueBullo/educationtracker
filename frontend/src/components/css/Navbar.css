@@ -3,10 +3,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif; /* Stylish and modern font */
 }
 
 /* Top Navbar */
-.top-navbar {
+.top-navbar2 {
   display: flex;
   align-items: center;
   padding: 0 20px;
@@ -14,57 +15,71 @@
   position: fixed;
   width: 100%;
   z-index: 10;
-  background-color: transparent; /* No background */
+  background-color: red;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2); /* 3D Effect */
 }
 
-.navbar-content {
+.navbar2-content {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
-.hamburger {
+.hamburger2 {
   cursor: pointer;
   color: white;
+  font-size: 1.5rem;
+  transition: transform 0.3s;
   margin-top: 60px;
   margin-left: 20px;
 }
 
-.navbar-logo {
-  margin-top: 60px;
+.hamburger2:hover {
+  transform: scale(1.2);
+}
+
+.navbar2-logo {
   display: flex;
   align-items: center;
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: bold;
   color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: color 0.3s ease, transform 0.3s ease;
+  margin-top: 60px;
   margin-left: 30px;
 }
 
-.navbar-icon {
+.navbar2-logo:hover {
+  color: #e07b53;
+  transform: translateY(-2px);
+}
+
+.navbar2-icon {
   margin-right: 10px;
   font-size: 2rem;
   color: white;
 }
 
 /* Sidebar */
-.sidebar {
+.sidebar2 {
   display: flex;
   flex-direction: column;
   height: 100vh;
   position: fixed;
   top: 60px;
   left: 0;
-  width: 250px;
+  width: 180px;
+  background: linear-gradient(to right, #ffffff, #d9d9d9);
+  box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
-  transform: translateX(0);
-  z-index: 5; /* Keep it above content */
 }
 
-.sidebar.collapsed {
-  transform: translateX(-250px); /* Hide sidebar when collapsed */
+.sidebar2.collapsed {
+  transform: translateX(-250px);
 }
 
-.nav-list {
+.nav2-list {
   list-style-type: none;
   margin: 20px;
   padding: 0;
@@ -72,101 +87,85 @@
   margin-left: 20px;
 }
 
-.nav-item {
+.nav2-item {
   margin-bottom: 15px;
   margin-left: 10px;
   margin-top: 10px;
 }
 
-.nav-link {
+.nav2-link {
   color: white;
   text-decoration: none;
-  font-size: 1.2rem;
-  transition: color 0.3s;
-}
-
-.nav-link:hover {
-  color: #f4a261; /* Subtle hover effect */
-}
-
-/* Ensure navbar-content is a flex container */
-.navbar-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-/* Container for the logout button */
-.logout-container {
-  margin-left: auto; /* This will push the logout button to the right */
-}
-
-/* Enhanced Logout button styles */
-.logout-button {
+  font-size: 1.3rem;
   padding: 10px 20px;
-  background-color: maroon; /* Soft orange color to complement the navbar */
-  color: white;
+  display: block;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+}
+
+.nav2-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(10px);
+}
+
+/* Logout Button */
+.logout-container {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.logout-button {
+  padding: 12px 20px;
+  background: white;
+  color: black;
   border: none;
-  border-radius: 8px; /* Rounded corners for a more modern look */
-  cursor: pointer;
+  border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .logout-button:hover {
-  background-color: #e07b53; /* Slightly darker shade on hover */
-  transform: translateY(-2px); /* Button lifts on hover */
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
-}
-
-.logout-button:focus {
-  outline: none; /* Remove outline when focused */
+  background: #e07b53;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .logout-button:active {
-  transform: translateY(1px); /* Button presses down when clicked */
+  transform: scale(0.98);
 }
 
-/* Media Queries for Responsiveness */
-
-/* For smaller screens (Tablets and below) */
+/* Media Queries */
 @media (max-width: 768px) {
-  .navbar-logo {
-    margin-left: 10px;
+  .navbar2-logo {
+      margin-left: 10px;
   }
-
-  .hamburger {
-    margin-left: 10px;
+  .hamburger2 {
+      margin-left: 10px;
   }
-
-  .sidebar {
-    width: 200px; /* Smaller sidebar for mobile */
+  .sidebar2 {
+      width: 200px;
   }
-
-  .sidebar.collapsed {
-    transform: translateX(-200px); /* Hide sidebar */
+  .sidebar2.collapsed {
+      transform: translateX(-200px);
   }
-
-  .nav-list {
-    margin-top: 0;
+  .nav2-list {
+      margin-top: 0;
   }
 }
 
-/* For very small screens (Mobile phones) */
 @media (max-width: 480px) {
-  .top-navbar {
-    padding: 0 10px; /* Adjust padding for mobile */
+  .top-navbar2 {
+      padding: 0 10px;
   }
-
-  .sidebar {
-    width: 180px; /* Even smaller sidebar for mobile */
+  .sidebar2 {
+      width: 180px;
   }
-
-  .navbar-logo {
-    font-size: 1.5rem;
+  .navbar2-logo {
+      font-size: 1.5rem;
   }
 }

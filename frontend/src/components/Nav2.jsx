@@ -51,7 +51,7 @@ function Nav2() {
       <header className="top-navbar2">
         <div className="navbar2-content">
           <div className="hamburger2" onClick={toggleMenu}>
-            <FaBars size={24} />
+            <FaBars size={40} />
           </div>
           <div className="navbar2-logo">
             <FaBookOpen className="navbar2-icon" />

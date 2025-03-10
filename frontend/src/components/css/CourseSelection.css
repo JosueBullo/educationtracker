@@ -1,0 +1,101 @@
+.course-selection-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #f5e6e6; /* Light Maroon */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  .course-selection-container h2 {
+    color: #732222; /* Dark Maroon */
+    margin-bottom: 20px;
+  }
+  
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+  
+  .custom-dropdown {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #732222;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #333;
+  }
+  
+  .submit-btn {
+    padding: 12px 20px;
+    background-color: #732222;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .submit-btn:hover {
+    background-color: #591818;
+  }
+  
+  /* Loading Spinner */
+  .loading-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #d1a6a6;
+    border-top: 5px solid #732222;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .loading-container p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #732222;
+  }
+  
+  /* Predicted Careers */
+  .predicted-careers {
+    margin-top: 20px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .predicted-careers h3 {
+    color: #732222;
+  }
+  
+  .predicted-careers ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .predicted-careers li {
+    background: #f9f1f1;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    color: #333;
+  }
+  

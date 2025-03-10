@@ -95,6 +95,7 @@ const ManageUsers = () => {
         <ToastContainer />
       </div>
       </div>
+      <div style={{ height: "170px" }}></div>
       <Footer />
     </>
   );

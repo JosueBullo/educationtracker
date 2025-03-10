@@ -1,37 +1,64 @@
 from collections import defaultdict
 
-# Define keyword-strand mapping
-STRAND_KEYWORDS = {
-    "STEM": ["mathematics", "science", "engineering", "technology", "physics", "biology", "chemistry"],
-    "HUMSS": ["history", "politics", "literature", "philosophy", "social", "culture"],
-    "ABM": ["business", "finance", "marketing", "entrepreneurship", "management"],
-    "TVL": ["vocational", "culinary", "agriculture", "hospitality", "tourism"],
-    "Arts & Design": ["art", "design", "multimedia", "film", "music", "performing"],
-    "Sports": ["athletics", "sports", "fitness", "physical", "coaching"]
+# Define keyword-track mapping for JHS
+TRACK_KEYWORDS = {
+    "STEM": [
+        "mathematics", "science", "engineering", "technology", "physics", "biology", "chemistry", 
+        "robotics", "programming", "science fair", "research", "innovation", "computer science", 
+        "data science", "artificial intelligence", "machine learning", "environmental science", 
+        "astronomy", "medical science", "nanotechnology", "electronics", "statistics", "coding", 
+        "biotechnology", "quantum computing"
+    ],
+    "HUMSS": [
+        "history", "politics", "literature", "philosophy", "social", "culture", "social sciences", 
+        "debate", "journalism", "public speaking", "writing", "psychology", "communication", 
+        "human rights", "international relations", "community development", "legal studies", 
+        "sociology", "cultural studies", "linguistics", "creative writing", "anthropology", 
+        "political science"
+    ],
+    "ABM": [
+        "business", "finance", "marketing", "entrepreneurship", "management", "economics", 
+        "commerce", "sales", "advertising", "e-commerce", "investment", "stock market", 
+        "leadership", "corporate strategy", "supply chain", "business ethics", "public relations", 
+        "business analytics"
+    ],
+    "TVL": [
+        "vocational", "culinary", "agriculture", "hospitality", "tourism", "technical", "welding", 
+        "automotive", "electronics", "food processing", "baking", "electrical installation", 
+        "masonry", "plumbing", "carpentry", "tailoring", "housekeeping", "barista training", 
+        "hotel management", "cosmetology", "cooking", "pastry arts"
+    ],
+    "GAS": [
+        "interdisciplinary", "general studies", "multidisciplinary", "versatile learning", 
+        "flexible curriculum", "exploratory", "critical thinking", "problem-solving", "leadership", 
+        "creative innovation", "public speaking", "research skills", "decision making", 
+        "career exploration", "adaptability", "project-based learning", "ethics and society", 
+        "professional development"
+    ]
 }
 
-def predict_shs_strand_cert(extracted_keywords):
+def predict_jhs_track_cert(extracted_keywords):
     """
-    Predicts the SHS strand based on extracted keywords from certificates.
+    Predicts the JHS track based on extracted keywords from certificates.
     
     Args:
         extracted_keywords (list): List of keywords from the certificates.
     
     Returns:
-        dict: A dictionary with strand scores.
+        dict: A dictionary with track scores.
     """
-    strand_scores = defaultdict(int)
+    track_scores = defaultdict(int)
     
-    # Count occurrences of keywords in each strand
+    # Count occurrences of keywords in each track
     for keyword in extracted_keywords:
-        for strand, keywords in STRAND_KEYWORDS.items():
+        for track, keywords in TRACK_KEYWORDS.items():
             if keyword.lower() in keywords:
-                strand_scores[strand] += 1
+                track_scores[track] += 1
 
     # Normalize scores to percentage
-    total_score = sum(strand_scores.values())
+    total_score = sum(track_scores.values())
     if total_score > 0:
-        for strand in strand_scores:
-            strand_scores[strand] = (strand_scores[strand] / total_score) * 100
+        for track in track_scores:
+            track_scores[track] = (track_scores[track] / total_score) * 100
 
-    return strand_scores
+    return track_scores

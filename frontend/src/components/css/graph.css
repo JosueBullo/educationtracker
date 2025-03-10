@@ -2,148 +2,112 @@
 .graph-container {
   font-family: 'Poppins', sans-serif;
   text-align: center;
-  padding: 100px 20px;
+  padding: 80px 20px;
   background-color: #f7f7f7;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  gap: 30px;
 }
 
-/* Chart Styling - Modern 3D Effect */
+/* Chart Wrapper - Modern Professional Look */
 .chart-wrapper {
-  width: 90%;
-  max-width: 900px;
-  margin: 50px auto;
+  flex: 1;
+  min-width: 600px; /* Increased width for all charts */
+  max-width: 900px; /* Increased max-width */
+  margin: 20px;
   background: #ffffff;
-  padding: 50px;
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  transform: perspective(800px) rotateX(10deg);
+  padding: 40px; /* Increased padding */
+  border-radius: 15px; /* Rounded corners */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Deeper shadow */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.chart-wrapper:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
 }
 
 .chart-wrapper canvas {
   width: 100% !important;
-  height: 400px;
-  border-radius: 8px;
+  height: 450px; /* Increased height for all charts */
+  border-radius: 12px; /* Rounded corners for canvas */
 }
 
-/* Redesigned Bar Graph */
-.chartjs-render-monitor {
-  transform: perspective(800px) rotateX(10deg);
+/* Graph Layout - Aligns graphs in a row */
+.graphs-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px; /* Increased gap */
+  width: 100%;
+  max-width: 1400px; /* Wider container */
 }
 
-/* Customize Bar Design */
+/* Large Chart for Overall Prediction */
+.large-chart {
+  min-width: 900px; /* Even larger width for the main chart */
+  max-width: 1200px; /* Even larger max-width */
+  height: 550px; /* Taller height */
+}
+
+/* Bar Graph Styling */
 .chart-bar {
-  background: linear-gradient(135deg, #ff7eb3, #ff758c);
-  border-radius: 10px;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #6a11cb, #2575fc); /* Modern gradient */
+  border-radius: 12px; /* Rounded bars */
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 .chart-bar:hover {
-  transform: scale(1.1);
-  transition: 0.3s ease-in-out;
+  transform: scale(1.05); /* Slight scale on hover */
+  opacity: 0.9; /* Slight fade on hover */
 }
 
-/* Modal Styling */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  padding: 25px;
-  border-radius: 12px;
-  width: 60%;
-  max-width: 600px;
-  color: white;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  position: relative;
-}
-
-/* Moving Text Animation */
-.modal-text {
-  font-size: 1.2rem;
-  line-height: 1.6;
-  white-space: nowrap;
-  display: inline-block;
-  position: absolute;
-  width: 100%;
-  animation: moveText 8s linear infinite;
-}
-
-@keyframes moveText {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
-
-/* Close Button */
-.close-modal {
-  color: white;
-  float: right;
-  font-size: 30px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close-modal:hover {
-  color: #ffcccb;
-}
-
-/* Show Modal */
-.show-modal {
-  display: flex !important;
-}
-
-/* Responsive */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-  .modal-content {
-    width: 90%;
-    padding: 20px;
+  .graphs-container {
+    flex-direction: column;
+    align-items: center;
   }
 
-  .modal-text {
-    font-size: 1rem;
+  .chart-wrapper {
+    width: 100%; /* Full width on smaller screens */
+    min-width: unset; /* Reset min-width */
+    max-width: 100%; /* Full width */
+    padding: 20px; /* Reduced padding */
+  }
+
+  .large-chart {
+    min-width: 100%; /* Full width for large chart */
+    max-width: 100%; /* Full width */
+    height: 450px; /* Adjusted height */
   }
 }
-
 
 /* Back Button */
 .back-btn {
-  display: block;
-  width: fit-content;
-  margin: 20px auto;
-  padding: 12px 20px;
-  font-size: 16px;
+  display: inline-block;
+  margin: 30px auto; /* Increased margin */
+  padding: 15px 25px; /* Larger padding */
+  font-size: 18px; /* Larger font size */
   font-weight: bold;
   color: white;
   background: linear-gradient(45deg, #ff4b2b, #ff416c);
   border: none;
-  border-radius: 8px;
+  border-radius: 12px; /* Rounded corners */
   cursor: pointer;
   transition: 0.3s ease-in-out;
-  box-shadow: 0 4px 10px rgba(255, 65, 108, 0.4);
+  box-shadow: 0 6px 15px rgba(255, 65, 108, 0.4); /* Deeper shadow */
 }
 
 .back-btn:hover {
-  box-shadow: 0 0 15px rgba(255, 65, 108, 0.7);
-  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 65, 108, 0.7); /* Enhanced shadow on hover */
+  transform: scale(1.05); /* Slight scale on hover */
 }
 
 .back-btn:active {
-  transform: scale(0.95);
+  transform: scale(0.95); /* Slight scale on click */
 }
