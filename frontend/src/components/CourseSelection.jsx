@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Select from "react-select"; // Importing react-select for searchable dropdown
+import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./Navbar";
@@ -30,17 +30,20 @@ const courses = [
   "BS Fisheries", "BS Agricultural Engineering", "BS Agribusiness"
 ];
 
-// Convert courses to react-select format
 const courseOptions = courses.map(course => ({ value: course, label: course }));
 
 const CourseSelection = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [predictedCareers, setPredictedCareers] = useState([]);
+  const [savedCareers, setSavedCareers] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     console.log("Course Selection Page Loaded");
-    document.title = "Course Selection - Career Prediction"; // Set page title
+    document.title = "Course Selection - Career Prediction";
+
+    const savedCareersData = JSON.parse(localStorage.getItem("careers_with_scores")) || [];
+    setSavedCareers(savedCareersData);
   }, []);
 
   const handleSubmit = async () => {
@@ -49,7 +52,7 @@ const CourseSelection = () => {
       return;
     }
 
-    setLoading(true); // Start loading animation
+    setLoading(true);
     setPredictedCareers([]);
 
     try {
@@ -58,10 +61,23 @@ const CourseSelection = () => {
           course: selectedCourse.value,
         });
 
+        const newCareers = response.data.careers.map(career => ({ career, score: 25 }));
+        
+        // Prevent duplicates
+        const updatedCareers = [...savedCareers];
+        newCareers.forEach(newCareer => {
+          if (!savedCareers.some(c => c.career === newCareer.career)) {
+            updatedCareers.push(newCareer);
+          }
+        });
+
+        setSavedCareers(updatedCareers);
+        localStorage.setItem("careers_with_scores", JSON.stringify(updatedCareers));
+
         setPredictedCareers(response.data.careers);
         toast.success("Career prediction successful!");
         setLoading(false);
-      }, 5000); // Simulate AI-like prediction delay
+      }, 5000);
     } catch (error) {
       console.error("Error predicting careers:", error);
       toast.error("Failed to predict careers.");
@@ -102,6 +118,17 @@ const CourseSelection = () => {
             <ul>
               {predictedCareers.map((career, index) => (
                 <li key={index}>{career}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {savedCareers.length > 0 && (
+          <div className="saved-careers">
+            <h3>Saved Careers:</h3>
+            <ul>
+              {savedCareers.map((career, index) => (
+                <li key={index}>{career.career} - {career.score}%</li>
               ))}
             </ul>
           </div>

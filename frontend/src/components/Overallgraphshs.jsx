@@ -19,7 +19,7 @@ const OverallResult = () => {
       "From Grades": ["predictions"],
       "From Certificate": ["certprediction"],
       "From Personal Questionnaire": ["shspqprediction"],
-      "From Exam Results": ["prediction_exam_shs"]
+      "From Exam Results": ["prediction_exam_shs"],
     };
 
     const allStrands = {};

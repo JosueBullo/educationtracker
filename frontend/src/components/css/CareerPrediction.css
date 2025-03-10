@@ -1,0 +1,43 @@
+.container {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .file-upload-section {
+    margin: 20px 0;
+  }
+  
+  input[type="file"] {
+    display: block;
+    margin: 10px auto;
+  }
+  
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  .predict-button {
+    background-color: #008CBA;
+  }
+  
+  .predict-button:hover {
+    background-color: #007BB5;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 14px;
+  }
+  

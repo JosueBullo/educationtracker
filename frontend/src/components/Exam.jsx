@@ -255,9 +255,20 @@ const Exam = () => {
                 </li>
               ))}
             </ul>
-            <button className="next-btn" onClick={() => navigate("/graph")}>
-              View Results (Graph)
-            </button>
+           <button
+  className="next-btn"
+  onClick={() => {
+    const gradeLevel = localStorage.getItem("gradeLevel");
+    if (gradeLevel === "jhs") {
+      window.location.href = "/graph";
+    } else if (gradeLevel === "shs") {
+      window.location.href = "/graphshs";
+    }
+  }}
+>
+  View Results (Graph)
+</button>
+
 
             {/* Display the prediction graph in the same section */}
             {prediction && <ResultsGraph prediction={prediction} reload={reloadGraph} />}

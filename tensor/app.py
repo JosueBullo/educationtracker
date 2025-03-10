@@ -26,6 +26,8 @@ import numpy as np
 # for prediction exam jhs
 
 import re
+from ocr.infer_colledge import extract_relevant_keywords
+import os
 
 
 
@@ -423,7 +425,6 @@ def predict_shs_strand(answers):
         "prediction_scores": strand_scores_list
     }
 
-
 @app.route('/predict_college', methods=['POST'])
 def prediction_college():
     """
@@ -441,11 +442,15 @@ def prediction_college():
     except Exception as e:
         return jsonify({"error": f"Error in prediction: {str(e)}"}), 500
 
+    # Format the response to match frontend expectations
+    response = {
+        "predicted_strand": predicted_course,  # Rename to match frontend
+        "prediction_scores": [{"strand": course, "score": score} for course, score in course_scores.items()],  # Rename and format
+        "strand_scores_list": [{"strand": course, "score": score} for course, score in course_scores.items()]  # Add this field
+    }
+
     # Return the prediction result as JSON
-    return jsonify({
-        "predicted_course": predicted_course,
-        "prediction_scores": course_scores
-    })
+    return jsonify(response)
 
 # Define all 60 courses
 SPECIFIC_COURSES = {
@@ -482,10 +487,10 @@ SPECIFIC_COURSES = {
 }
 
 def predict_college_course(answers):
-    # Initialize course scores (all courses start with a base score of 5)
-    course_scores = {course: 5 for course in SPECIFIC_COURSES}
+    print("Received Answers:", answers)  # Debug input
 
-    MAX_SCORE = 25  # Maximum possible score for a course
+    # Initialize course scores (start at 0 instead of 5)
+    course_scores = {course: 0 for course in SPECIFIC_COURSES}
 
     # Mapping subjects to relevant courses
     subject_to_courses = {
@@ -507,21 +512,21 @@ def predict_college_course(answers):
                              "BS Radiologic Technology", "BS Physical Therapy", "BS Midwifery", "BS Nutrition and Dietetics"]
     }
 
-    # Helper function to update course scores
-    def update_scores(mapping, answer, weight=5):
+    # Helper function to update course scores with different weights
+    def update_scores(mapping, answer, weight):
         if answer in mapping:
             for course in mapping[answer]:
                 if course in course_scores:
                     course_scores[course] += weight
 
-    # Process answers
+    # 📌 Process answers
     for subject in answers.get("high-grades-subjects", []):
-        update_scores(subject_to_courses, subject, 10)  # Increased weight
+        update_scores(subject_to_courses, subject, 12)  # Higher weight for strong subjects
 
     for subject in answers.get("favorite-subjects", []):
-        update_scores(subject_to_courses, subject, 5)
+        update_scores(subject_to_courses, subject, 6)  # Medium weight
 
-    # Career Interests
+    # 📌 Career Interests
     career_to_courses = {
         "Engineering": ["BS Civil Engineering", "BS Mechanical Engineering", "BS Electrical Engineering",
                         "BS Industrial Engineering", "BS Aerospace Engineering"],
@@ -540,9 +545,9 @@ def predict_college_course(answers):
     }
 
     for career in answers.get("career-interests", []):
-        update_scores(career_to_courses, career, 15)  # Increased weight
+        update_scores(career_to_courses, career, 15)  # Strongest weight for career interests
 
-    # College Motivation
+    # 📌 College Motivation
     motivation_to_courses = {
         "To follow my passion and interests": ["BA Communication", "BA Creative Writing", "BS Culinary Arts"],
         "To have better job opportunities": ["BS Civil Engineering", "BS Business Administration", "BS Information Technology"],
@@ -550,14 +555,14 @@ def predict_college_course(answers):
         "To earn a high salary": ["BS Computer Science", "BS Nursing", "BS Business Administration"]
     }
 
-    update_scores(motivation_to_courses, answers.get("college-motivation"), 7)
+    update_scores(motivation_to_courses, answers.get("college-motivation"), 8)  # Medium weight
 
-    # SHS Strand Relation
+    # 📌 SHS Strand Relation
     if answers.get("shs-course-relation") == "Yes, I want to continue in the same field.":
         for course in course_scores:
-            course_scores[course] += 5
+            course_scores[course] += 5  # Small bonus
 
-    # College Course Concerns
+    # 📌 College Course Concerns
     concern_to_courses = {
         "Difficulty of the course": ["BS Business Administration", "BS Accountancy"],
         "Tuition fees and financial constraints": ["BS Public Administration", "BS Agribusiness"],
@@ -567,30 +572,27 @@ def predict_college_course(answers):
     }
 
     for concern in answers.get("college-course-concern", []):
-        update_scores(concern_to_courses, concern, 5)
+        update_scores(concern_to_courses, concern, 4)  # Lower weight
 
-    # Ensure all courses have a minimum score of 5
-    for course in course_scores:
-        if course_scores[course] < 5:
-            course_scores[course] = 5
+    # 🔹 Normalize Scores Without Making All 25
+    max_score = max(course_scores.values(), default=1)  # Avoid division by zero
 
-    # Normalize scores so that the highest score is 25
-    max_score = max(course_scores.values())
-    if max_score > 0:
+    if max_score > 20:  # Only normalize if max score is too high
         for course in course_scores:
-            course_scores[course] = round((course_scores[course] / max_score) * MAX_SCORE, 2)
+            course_scores[course] = round((course_scores[course] / max_score) * 25, 2)
 
-    # Get the course with the highest score
+    # 🔥 Get the best course
     predicted_course = max(course_scores, key=course_scores.get)
 
-    # Create a list of courses with their normalized scores
-    course_scores_list = [{"course": key, "score": value} for key, value in course_scores.items()]
+    # 🔹 Create a list of courses with their scores
+    course_scores_list = [{"course": key, "score": value} for key, value in sorted(course_scores.items(), key=lambda x: x[1], reverse=True)]
 
-    # Print final result to terminal
+    # ✅ Debugging: Print final scores
     print(f"Predicted College Course: {predicted_course}")
     print(f"Course Scores List: {course_scores_list}")
 
-    return predicted_course, course_scores_list
+    return predicted_course, course_scores
+
 
 
 # PREDICTION EXAM JHS
@@ -1165,6 +1167,27 @@ def predict_career():
     careers = CAREER_PREDICTIONS.get(course, ["Career data unavailable"])
 
     return jsonify({"careers": careers})
+  
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+@app.route('/college-grade', methods=['POST'])
+def college_grade():
+    """
+    Handles image upload and extracts subjects & grades for college students.
+    """
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part in request"}), 400
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+
+    file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    file.save(file_path)
+
+    extracted_data = extract_subjects_and_grades(file_path)
+
+    return jsonify(extracted_data)
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001, host="0.0.0.0")
