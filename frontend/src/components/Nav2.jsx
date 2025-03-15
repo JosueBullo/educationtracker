@@ -25,17 +25,9 @@ function Nav2() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
-    // Clear token and user data
-    localStorage.removeItem('auth-token');
-    localStorage.removeItem('user');
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('pq-answers');
-    localStorage.removeItem('extractedGrades');
-    localStorage.removeItem('examScores');
-    localStorage.removeItem('gradeLevel');
-    localStorage.removeItem('extractedKeywords');
-    localStorage.removeItem('extractedCertificates');
-    localStorage.removeItem('certprediction');
+    localStorage.clear();
+
+
 
     // Update state to reflect logout
     setIsLoggedIn(false);

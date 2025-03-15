@@ -107,39 +107,40 @@ router.get("/:userId", async (req, res) => {
 // Get Exam Scores for a Specific User
 router.get("/exam-scores", async (req, res) => {
   try {
-    const predictions = await Prediction.find({}, "examScores");
+    // Fetch all exam scores without filtering by userId
+    const allExamScores = await ExamScoreModel.find();
 
-    if (!predictions.length) {
+    if (!allExamScores.length) {
       return res.status(404).json({ success: false, message: "No exam scores found." });
     }
 
-    const totalScores = {
-      "Mathematics Section": 0,
-      "Scientific Ability": 0,
-      "Verbal Ability": 0,
-      "Mechanical and Technical Ability": 0,
-      "Entrepreneurial Skills": 0,
-    };
+    // Aggregate exam scores
+    const categoryScores = {};
 
-    predictions.forEach((pred) => {
-      if (pred.examScores) {
-        Object.keys(totalScores).forEach((key) => {
-          const scoreString = pred.examScores[key]; // Example: "7 / 20 (35.00%)"
-          if (scoreString) {
-            const match = scoreString.match(/\((\d+\.\d+)%\)/);
-            const percentage = match ? parseFloat(match[1]) : 0; // Extract percentage
-            totalScores[key] += percentage;
-          }
-        });
-      }
+    allExamScores.forEach((exam) => {
+      Object.entries(exam.scores || {}).forEach(([category, score]) => {
+        if (!categoryScores[category]) {
+          categoryScores[category] = { total: 0, count: 0 };
+        }
+        categoryScores[category].total += score;
+        categoryScores[category].count += 1;
+      });
     });
 
-    res.status(200).json({ success: true, totalExamScores: totalScores });
+    const sortedCategories = Object.entries(categoryScores)
+      .map(([category, { total, count }]) => ({
+        category,
+        averageScore: total / count,
+      }))
+      .sort((a, b) => b.averageScore - a.averageScore);
+
+    res.status(200).json({ success: true, data: sortedCategories });
   } catch (error) {
-    console.error("Error fetching total exam scores:", error);
+    console.error("Error fetching exam scores:", error);
     res.status(500).json({ success: false, message: "Server error", error });
   }
 });
+
 
 
 // ✅ THEN define the user-specific exam scores route

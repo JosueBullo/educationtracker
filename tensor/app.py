@@ -12,6 +12,10 @@ from ocr.utils import detect_document_type
 from prediction_pq import predict_shs_strand  # Import the function from prediction_pq.py
 from ocr.predict_grades_shs import predict_grades_shs_tocollege
 from predict_cert_shs import predict_college_course_cert
+from werkzeug.utils import secure_filename
+from ocr.infer_colledge import extract_text_from_certificate
+
+
 
 
 
@@ -26,9 +30,9 @@ import numpy as np
 # for prediction exam jhs
 
 import re
-from ocr.infer_colledge import extract_relevant_keywords
-import os
 
+import os
+import random
 
 
 # Import the prediction function from a separate module
@@ -295,30 +299,30 @@ def predict_college_cert():
     return jsonify({"college_course_prediction": prediction_result})
 
 
-def predict_shs_strand(answers):
-    """
-    Predicts the Senior High School (SHS) strand based on the student's answers.
-    """
-    strand_scores = {
-        "STEM": 0, "ABM": 0, "HUMSS": 0,
-        "Arts and Design": 0, "TVL": 0, "Sports": 0
-    }
+# def predict_shs_strand(answers):
+#     """
+#     Predicts the Senior High School (SHS) strand based on the student's answers.
+#     """
+#     strand_scores = {
+#         "STEM": 0, "ABM": 0, "HUMSS": 0,
+#         "Arts and Design": 0, "TVL": 0, "Sports": 0
+#     }
 
-    subject_to_strand = {
-        "Mathematics": "STEM", "Science": "STEM",
-        "English": "HUMSS", "Filipino": "HUMSS", "Social Studies": "HUMSS",
-        "Technology and Livelihood Education (TLE)": "TVL",
-        "Arts and Music": "Arts and Design",
-        "Physical Education and Sports": "Sports"
-    }
+#     subject_to_strand = {
+#         "Mathematics": "STEM", "Science": "STEM",
+#         "English": "HUMSS", "Filipino": "HUMSS", "Social Studies": "HUMSS",
+#         "Technology and Livelihood Education (TLE)": "TVL",
+#         "Arts and Music": "Arts and Design",
+#         "Physical Education and Sports": "Sports"
+#     }
 
-    if answers.get("strongest-subject") in subject_to_strand:
-        strand_scores[subject_to_strand[answers["strongest-subject"]]] += 3
+#     if answers.get("strongest-subject") in subject_to_strand:
+#         strand_scores[subject_to_strand[answers["strongest-subject"]]] += 3
 
-    predicted_strand = max(strand_scores, key=strand_scores.get)
-    strand_scores_list = [{"strand": key, "score": value} for key, value in strand_scores.items()]
+#     predicted_strand = max(strand_scores, key=strand_scores.get)
+#     strand_scores_list = [{"strand": key, "score": value} for key, value in strand_scores.items()]
 
-    return predicted_strand, strand_scores_list
+#     return predicted_strand, strand_scores_list
 
 
 
@@ -415,7 +419,7 @@ def predict_shs_strand(answers):
     max_possible = max(strand_scores.values())
     if max_possible > 0:
         for strand in strand_scores:
-            strand_scores[strand] = round((strand_scores[strand] / max_possible) * 25, 2)
+            strand_scores[strand] = round((strand_scores[strand] / max_possible), 2)
 
     predicted_strand = max(strand_scores, key=strand_scores.get)
     strand_scores_list = [{"strand": key, "score": value} for key, value in strand_scores.items()]
@@ -425,196 +429,239 @@ def predict_shs_strand(answers):
         "prediction_scores": strand_scores_list
     }
 
-@app.route('/predict_college', methods=['POST'])
-def prediction_college():
-    """
-    Predicts the ideal college course based on answers to college-related questions.
-    """
-    data = request.get_json()
-
-    # Ensure data is received
-    if not data:
-        return jsonify({"error": "Invalid request, no data received"}), 400
-
-    # Make the prediction using the function from prediction_college.py
-    try:
-        predicted_course, course_scores = predict_college_course(data["answers"])
-    except Exception as e:
-        return jsonify({"error": f"Error in prediction: {str(e)}"}), 500
-
-    # Format the response to match frontend expectations
-    response = {
-        "predicted_strand": predicted_course,  # Rename to match frontend
-        "prediction_scores": [{"strand": course, "score": score} for course, score in course_scores.items()],  # Rename and format
-        "strand_scores_list": [{"strand": course, "score": score} for course, score in course_scores.items()]  # Add this field
-    }
-
-    # Return the prediction result as JSON
-    return jsonify(response)
 
 # Define all 60 courses
-SPECIFIC_COURSES = {
-    "BS Civil Engineering": [], "BS Mechanical Engineering": [], "BS Electrical Engineering": [],
-    "BS Electronics Engineering": [], "BS Industrial Engineering": [], "BS Aerospace Engineering": [],
-    
-    "BS Nursing": [], "BS Medical Technology": [], "BS Pharmacy": [], "BS Radiologic Technology": [],
-    "BS Physical Therapy": [], "Doctor of Medicine": [], "BS Midwifery": [], "BS Nutrition and Dietetics": [],
-    
-    "BS Computer Science": [], "BS Information Technology": [], "BS Software Engineering": [],
-    "BS Data Science": [], "BS Game Development": [], "BS Cybersecurity": [], "BS Artificial Intelligence": [],
-    
-    "BS Business Administration": [], "BS Accountancy": [], "BS Marketing Management": [],
-    "BS Financial Management": [], "BS Economics": [], "BS Entrepreneurship": [], "BS Human Resource Management": [],
-    
-    "BA Political Science": [], "BA Psychology": [], "BA Sociology": [], "BA Literature": [],
-    "BA Philosophy": [], "BA Communication": [], "BA Creative Writing": [],
-    
-    "Bachelor of Laws (LLB)": [], "BS Criminology": [], "BS Legal Management": [],
-    "BS Public Administration": [], "BA International Relations": [], "BA Political Science (Pre-Law)": [],
-    
-    "BS Elementary Education": [], "BS Secondary Education Major in Mathematics": [],
-    "BS Secondary Education Major in Science": [], "BS Special Education": [],
-    "BS Physical Education": [], "BS Early Childhood Education": [],
-    
-    "BS Biology": [], "BS Chemistry": [], "BS Physics": [], "BS Environmental Science": [],
-    "BS Applied Mathematics": [], "BS Statistics": [], "BS Biochemistry": [],
-    
-    "BS Hotel & Restaurant Management": [], "BS Tourism Management": [], "BS Culinary Arts": [],
-    "BS Travel Management": [], "BS Hospitality Management": [], "BS Cruise Line Operations": [],
-    
-    "BS Agriculture": [], "BS Forestry": [], "BS Environmental Management": [],
-    "BS Fisheries": [], "BS Agricultural Engineering": [], "BS Agribusiness": []
+SPECIFIC_COURSES = [
+    "BS Civil Engineering", "BS Mechanical Engineering", "BS Electrical Engineering",
+    "BS Electronics Engineering", "BS Industrial Engineering", "BS Aerospace Engineering",
+    "BS Nursing", "BS Medical Technology", "BS Pharmacy", "BS Radiologic Technology",
+    "BS Physical Therapy", "Doctor of Medicine", "BS Midwifery", "BS Nutrition and Dietetics",
+    "BS Computer Science", "BS Information Technology", "BS Software Engineering",
+    "BS Data Science", "BS Game Development", "BS Cybersecurity", "BS Artificial Intelligence",
+    "BS Business Administration", "BS Accountancy", "BS Marketing Management",
+    "BS Financial Management", "BS Economics", "BS Entrepreneurship", "BS Human Resource Management",
+    "BA Political Science", "BA Psychology", "BA Sociology", "BA Literature",
+    "BA Philosophy", "BA Communication", "BA Creative Writing", "Bachelor of Laws (LLB)",
+    "BS Criminology", "BS Legal Management", "BS Public Administration", "BA International Relations",
+    "BA Political Science (Pre-Law)", "BS Elementary Education", "BS Secondary Education Major in Mathematics",
+    "BS Secondary Education Major in Science", "BS Special Education", "BS Physical Education",
+    "BS Early Childhood Education", "BS Biology", "BS Chemistry", "BS Physics",
+    "BS Environmental Science", "BS Applied Mathematics", "BS Statistics", "BS Biochemistry",
+    "BS Hotel & Restaurant Management", "BS Tourism Management", "BS Culinary Arts",
+    "BS Travel Management", "BS Hospitality Management", "BS Cruise Line Operations",
+    "BS Agriculture", "BS Forestry", "BS Environmental Management", "BS Fisheries",
+    "BS Agricultural Engineering", "BS Agribusiness"
+]
+
+ANSWER_TO_COURSES = {
+    # High grades subjects
+    "Mathematics (Algebra, Calculus, Statistics)": [
+        "BS Civil Engineering", "BS Mechanical Engineering", "BS Electrical Engineering", 
+        "BS Applied Mathematics", "BS Statistics", "BS Industrial Engineering"
+    ],
+    "Science (Biology, Chemistry, Physics)": [
+        "BS Biology", "BS Chemistry", "BS Physics", "BS Environmental Science", "BS Biochemistry"
+    ],
+    "Information Technology (Programming, Computer Science)": [
+        "BS Computer Science", "BS Information Technology", "BS Software Engineering", 
+        "BS Data Science", "BS Cybersecurity", "BS Artificial Intelligence"
+    ],
+    "Business & Finance (Accounting, Economics, Marketing)": [
+        "BS Business Administration", "BS Accountancy", "BS Marketing Management", 
+        "BS Financial Management", "BS Economics", "BS Entrepreneurship"
+    ],
+    "Arts & Humanities (Literature, Communication, Creative Writing)": [
+        "BA Literature", "BA Communication", "BA Creative Writing", "BA Philosophy"
+    ],
+    "Social Sciences (Psychology, Political Science, History, Sociology)": [
+        "BA Psychology", "BA Sociology", "BA Political Science", "BS Public Administration", "BA International Relations"
+    ],
+    "Engineering & Technical subjects (Drafting, Robotics, Applied Sciences)": [
+        "BS Civil Engineering", "BS Mechanical Engineering", "BS Electrical Engineering", 
+        "BS Industrial Engineering", "BS Electronics Engineering", "BS Aerospace Engineering"
+    ],
+    "Health & Medical subjects (Anatomy, Health Science, Nutrition)": [
+        "BS Nursing", "BS Medical Technology", "BS Pharmacy", "BS Nutrition and Dietetics", 
+        "BS Physical Therapy", "BS Radiologic Technology"
+    ],
+    "Hospitality & Tourism (Hotel Management, Travel)": [
+        "BS Hotel & Restaurant Management", "BS Tourism Management", "BS Culinary Arts", 
+        "BS Travel Management", "BS Hospitality Management", "BS Cruise Line Operations"
+    ],
+    "Education & Teaching": [
+        "BS Elementary Education", "BS Secondary Education Major in Mathematics", 
+        "BS Secondary Education Major in Science", "BS Special Education", "BS Physical Education"
+    ],
+    "Agriculture & Environmental Studies": [
+        "BS Agriculture", "BS Forestry", "BS Environmental Management", "BS Fisheries", "BS Agricultural Engineering"
+    ],
+
+    # Favorite activities
+    "Solving math and logic problems": [
+        "BS Civil Engineering", "BS Applied Mathematics", "BS Statistics", "BS Data Science"
+    ],
+    "Experimenting in a science lab": [
+        "BS Biology", "BS Chemistry", "BS Physics", "BS Biochemistry", "BS Environmental Science"
+    ],
+    "Coding, programming, or working with computers": [
+        "BS Computer Science", "BS Information Technology", "BS Software Engineering", 
+        "BS Cybersecurity", "BS Artificial Intelligence"
+    ],
+    "Managing money, business, or investments": [
+        "BS Business Administration", "BS Accountancy", "BS Financial Management", "BS Economics"
+    ],
+    "Writing, storytelling, or public speaking": [
+        "BA Communication", "BA Creative Writing", "BA Literature"
+    ],
+    "Designing, drawing, or creating things": [
+        "BS Architecture", "BA Communication", "BS Industrial Design"
+    ],
+    "Analyzing data and statistics": [
+        "BS Data Science", "BS Statistics", "BS Applied Mathematics", "BS Business Analytics"
+    ],
+    "Helping people through advice, teaching, or healthcare": [
+        "BS Nursing", "BA Psychology", "BS Education", "BS Physical Therapy"
+    ],
+    "Exploring new places and interacting with different cultures": [
+        "BS Tourism Management", "BS Travel Management", "BS Hospitality Management"
+    ],
+
+    # Career interests
+    "Engineering (Civil, Mechanical, Electrical, etc.)": [
+        "BS Civil Engineering", "BS Mechanical Engineering", "BS Electrical Engineering", "BS Aerospace Engineering"
+    ],
+    "Medicine & Healthcare (Doctor, Nurse, Pharmacist, Medical Technologist)": [
+        "BS Nursing", "BS Medical Technology", "Doctor of Medicine", "BS Pharmacy", "BS Physical Therapy"
+    ],
+    "Business & Management (Entrepreneur, Accountant, Marketing)": [
+        "BS Business Administration", "BS Accountancy", "BS Marketing Management", "BS Economics", "BS Entrepreneurship"
+    ],
+    "IT & Technology (Software Developer, Data Scientist, Cybersecurity)": [
+        "BS Computer Science", "BS Information Technology", "BS Software Engineering", "BS Cybersecurity", "BS Artificial Intelligence"
+    ],
+    "Law & Politics (Lawyer, Politician, Public Administrator)": [
+        "Bachelor of Laws (LLB)", "BA Political Science", "BS Public Administration", "BA International Relations"
+    ],
+    "Arts & Media (Journalist, Filmmaker, Designer, Musician)": [
+        "BA Communication", "BA Creative Writing", "BA Literature", "BS Industrial Design"
+    ],
+    "Social Sciences (Psychologist, Teacher, Human Resource Specialist)": [
+        "BA Psychology", "BA Sociology", "BS Education", "BS Human Resource Management"
+    ],
+    "Science & Research (Biologist, Chemist, Environmental Scientist)": [
+        "BS Biology", "BS Chemistry", "BS Environmental Science", "BS Fisheries"
+    ],
+    "Hospitality & Tourism (Hotel Manager, Travel Agent, Event Planner)": [
+        "BS Hotel & Restaurant Management", "BS Tourism Management", "BS Travel Management"
+    ],
+    "Agriculture & Environmental Studies (Farmer, Ecologist, Environmental Planner)": [
+        "BS Agriculture", "BS Forestry", "BS Environmental Management", "BS Agricultural Engineering"
+    ],
+
+    # College motivation
+    "To follow my passion and interests": [
+        "BA Communication", "BA Creative Writing", "BS Culinary Arts", "BS Industrial Design"
+    ],
+    "To have better job opportunities in the future": [
+        "BS Computer Science", "BS Nursing", "BS Business Administration", "BS Civil Engineering"
+    ],
+    "Because my parents/guardians expect me to": [
+        "Bachelor of Laws (LLB)", "BS Accountancy", "BS Medicine", "BS Engineering"
+    ],  
+    "To earn a high salary in the future": [
+        "BS Computer Science", "BS Nursing", "BS Business Administration", "BS Civil Engineering", "BS Financial Management"
+    ],
+
+    # College course concerns
+    "Difficulty of the course": [
+        "BS Computer Science", "BS Accountancy", "BS Engineering"
+    ],
+    "Tuition fees and financial constraints": [
+        "BS Public Administration", "BS Agribusiness", "BS Education"
+    ],
+    "Future job opportunities": [
+        "BS Nursing", "BS Information Technology", "BS Civil Engineering", "BS Business Administration"
+    ],
+    "Family pressure to choose a specific course": [
+        "BS Accountancy", "Bachelor of Laws (LLB)", "BS Medicine"
+    ],
+    "Uncertainty about my own interests and skills": [
+        "BA Psychology", "BA Sociology", "BS General Studies"
+    ]
 }
 
 def predict_college_course(answers):
-    print("Received Answers:", answers)  # Debug input
-
-    # Initialize course scores (start at 0 instead of 5)
+    """Predicts the ideal college course based on user answers."""
+    # Initialize course scores
     course_scores = {course: 0 for course in SPECIFIC_COURSES}
 
-    # Mapping subjects to relevant courses
-    subject_to_courses = {
-        "Mathematics": ["BS Civil Engineering", "BS Mechanical Engineering", "BS Electrical Engineering",
-                        "BS Electronics Engineering", "BS Industrial Engineering", "BS Applied Mathematics",
-                        "BS Statistics"],
-        "Science": ["BS Biology", "BS Chemistry", "BS Physics", "BS Environmental Science", "BS Biochemistry",
-                    "Doctor of Medicine", "BS Nursing", "BS Pharmacy", "BS Medical Technology"],
-        "Information Technology": ["BS Computer Science", "BS Information Technology", "BS Software Engineering",
-                                   "BS Data Science", "BS Game Development", "BS Cybersecurity", "BS Artificial Intelligence"],
-        "Business & Finance": ["BS Business Administration", "BS Accountancy", "BS Marketing Management",
-                               "BS Financial Management", "BS Economics", "BS Entrepreneurship",
-                               "BS Human Resource Management"],
-        "Arts & Humanities": ["BA Literature", "BA Communication", "BA Creative Writing", "BA Philosophy"],
-        "Social Sciences": ["BA Psychology", "BA Sociology", "BA Political Science", "BS Public Administration"],
-        "Engineering & Technical": ["BS Civil Engineering", "BS Mechanical Engineering", "BS Aerospace Engineering",
-                                    "BS Industrial Engineering", "BS Electrical Engineering"],
-        "Health & Medical": ["BS Nursing", "BS Medical Technology", "Doctor of Medicine", "BS Pharmacy",
-                             "BS Radiologic Technology", "BS Physical Therapy", "BS Midwifery", "BS Nutrition and Dietetics"]
-    }
-
-    # Helper function to update course scores with different weights
-    def update_scores(mapping, answer, weight):
-        if answer in mapping:
-            for course in mapping[answer]:
+    # Helper function to update scores
+    def update_scores(answer, weight):
+        if answer in ANSWER_TO_COURSES:
+            for course in ANSWER_TO_COURSES[answer]:
                 if course in course_scores:
                     course_scores[course] += weight
 
-    # 📌 Process answers
-    for subject in answers.get("high-grades-subjects", []):
-        update_scores(subject_to_courses, subject, 12)  # Higher weight for strong subjects
+    # Process answers
+    for answer in answers.get("high-grades-subjects", []):
+        update_scores(answer, 3)  # Higher weight for high grades
 
-    for subject in answers.get("favorite-subjects", []):
-        update_scores(subject_to_courses, subject, 6)  # Medium weight
+    for answer in answers.get("favorite-subjects", []):
+        update_scores(answer, 2)  # Medium weight for favorite subjects
 
-    # 📌 Career Interests
-    career_to_courses = {
-        "Engineering": ["BS Civil Engineering", "BS Mechanical Engineering", "BS Electrical Engineering",
-                        "BS Industrial Engineering", "BS Aerospace Engineering"],
-        "Medicine & Healthcare": ["BS Nursing", "BS Medical Technology", "Doctor of Medicine", "BS Pharmacy",
-                                  "BS Radiologic Technology", "BS Physical Therapy", "BS Midwifery"],
-        "Business & Management": ["BS Business Administration", "BS Accountancy", "BS Marketing Management",
-                                  "BS Financial Management", "BS Economics", "BS Entrepreneurship",
-                                  "BS Human Resource Management"],
-        "IT & Technology": ["BS Computer Science", "BS Information Technology", "BS Software Engineering",
-                            "BS Data Science", "BS Game Development", "BS Cybersecurity", "BS Artificial Intelligence"],
-        "Law & Politics": ["Bachelor of Laws (LLB)", "BA Political Science", "BS Legal Management",
-                           "BS Public Administration", "BA International Relations", "BA Political Science (Pre-Law)"],
-        "Arts & Media": ["BA Communication", "BA Creative Writing", "BS Culinary Arts"],
-        "Social Sciences": ["BA Psychology", "BA Sociology", "BS Criminology"],
-        "Science & Research": ["BS Biology", "BS Chemistry", "BS Physics", "BS Environmental Science", "BS Biochemistry"]
-    }
+    for answer in answers.get("favorite-activities", []):
+        update_scores(answer, 2)  # Medium weight for favorite activities
 
-    for career in answers.get("career-interests", []):
-        update_scores(career_to_courses, career, 15)  # Strongest weight for career interests
+    for answer in answers.get("career-interests", []):
+        update_scores(answer, 4)  # Highest weight for career interests
 
-    # 📌 College Motivation
-    motivation_to_courses = {
-        "To follow my passion and interests": ["BA Communication", "BA Creative Writing", "BS Culinary Arts"],
-        "To have better job opportunities": ["BS Civil Engineering", "BS Business Administration", "BS Information Technology"],
-        "Because my parents expect me to": ["Bachelor of Laws (LLB)", "BS Accountancy"],
-        "To earn a high salary": ["BS Computer Science", "BS Nursing", "BS Business Administration"]
-    }
+    motivation = answers.get("college-motivation")
+    if motivation:
+        update_scores(motivation, 3)  # Medium weight for motivation
 
-    update_scores(motivation_to_courses, answers.get("college-motivation"), 8)  # Medium weight
-
-    # 📌 SHS Strand Relation
     if answers.get("shs-course-relation") == "Yes, I want to continue in the same field.":
         for course in course_scores:
-            course_scores[course] += 5  # Small bonus
-
-    # 📌 College Course Concerns
-    concern_to_courses = {
-        "Difficulty of the course": ["BS Business Administration", "BS Accountancy"],
-        "Tuition fees and financial constraints": ["BS Public Administration", "BS Agribusiness"],
-        "Future job opportunities": ["BS Nursing", "BS Information Technology", "BS Civil Engineering"],
-        "Family pressure": ["BS Accountancy", "Bachelor of Laws (LLB)"],
-        "Uncertainty about my interests": ["BA Psychology", "BA Sociology"]
-    }
+            course_scores[course] += 1  # Small bonus for continuity
 
     for concern in answers.get("college-course-concern", []):
-        update_scores(concern_to_courses, concern, 4)  # Lower weight
+        update_scores(concern, 1)  # Minimal weight for concerns
 
-    # 🔹 Normalize Scores Without Making All 25
-    max_score = max(course_scores.values(), default=1)  # Avoid division by zero
+    # Normalize scores to a range of 0–25
+    max_score = max(course_scores.values(), default=1)
+    for course in course_scores:
+        course_scores[course] = round((course_scores[course] / max_score) * 25, 2)
 
-    if max_score > 20:  # Only normalize if max score is too high
-        for course in course_scores:
-            course_scores[course] = round((course_scores[course] / max_score) * 25, 2)
-
-    # 🔥 Get the best course
+    # Get the top predicted course
     predicted_course = max(course_scores, key=course_scores.get)
 
-    # 🔹 Create a list of courses with their scores
-    course_scores_list = [{"course": key, "score": value} for key, value in sorted(course_scores.items(), key=lambda x: x[1], reverse=True)]
+    # Format scores for frontend
+    prediction_scores = [{"strand": course, "score": score} for course, score in course_scores.items()]
+    strand_scores_list = [{"strand": course, "score": score} for course, score in course_scores.items()]
 
-    # ✅ Debugging: Print final scores
-    print(f"Predicted College Course: {predicted_course}")
-    print(f"Course Scores List: {course_scores_list}")
+    return predicted_course, prediction_scores, strand_scores_list
 
-    return predicted_course, course_scores
+@app.route('/predict_college', methods=['POST'])
+def prediction_college():
+    """API endpoint for predicting college courses."""
+    data = request.get_json()
 
+    if not data or "answers" not in data:
+        return jsonify({"error": "Invalid request, no data received"}), 400
 
-
-# PREDICTION EXAM JHS
-# Load your trained prediction model (example)
-
-# Function to extract numeric score from the string
-
-def extract_numeric_score(score_string):
-    """Extract numeric score from a string. If the string cannot be converted to a number, return 0."""
     try:
-        match = re.match(r"(\d+(\.\d+)?)", score_string.strip())  # Allow decimal values
-        if match:
-            extracted_value = float(match.group(1))  # Convert to float
-            print(f"Extracted numeric score from '{score_string}': {extracted_value}")  # Debug log
-            return extracted_value
-        else:
-            print(f"Failed to extract numeric score from '{score_string}'")  # Debug log
-            return 0
-    except ValueError as e:
-        print(f"ValueError: {e} while extracting from '{score_string}'")  # Debug log
-        return 0
+        predicted_course, prediction_scores, strand_scores_list = predict_college_course(data["answers"])
+    except Exception as e:
+        return jsonify({"error": f"Error in prediction: {str(e)}"}), 500
 
+    # Format response to match frontend expectations
+    response = {
+        "predicted_strand": predicted_course,
+        "prediction_scores": prediction_scores,
+        "strand_scores_list": strand_scores_list
+    }
+    return jsonify(response)
+  
+  
 @app.route('/predict_exam_jhs', methods=['POST'])
 def predict_exam_jhs():
     """Predict strand based on extracted scores from the frontend."""
@@ -827,336 +874,179 @@ def prediction_exam_shs():
 # Expanded career predictions mapped to 60+ courses
 CAREER_PREDICTIONS = {
     "BS Civil Engineering": [
-    "Structural Engineer", "Project Manager", "Construction Engineer",
-    "Geotechnical Engineer", "Transportation Engineer", "Urban Planner",
-    "Water Resources Engineer", "Environmental Engineer"
-  ],
-  "BS Mechanical Engineering": [
-    "Mechanical Engineer", "Manufacturing Engineer", "Automotive Engineer",
-    "HVAC Engineer", "Robotics Engineer", "Aerospace Engineer",
-    "Energy Systems Engineer", "Product Design Engineer"
-  ],
-  "BS Electrical Engineering": [
-    "Electrical Engineer", "Power Systems Engineer", "Electronics Technician",
-    "Control Systems Engineer", "Telecommunications Engineer", "Renewable Energy Engineer",
-    "Embedded Systems Developer", "Instrumentation Engineer"
-  ],
-  "BS Electronics Engineering": [
-    "Electronics Engineer", "Embedded Systems Developer", "Robotics Engineer",
-    "Telecommunications Engineer", "Hardware Engineer", "IoT Specialist",
-    "Signal Processing Engineer", "Consumer Electronics Designer"
-  ],
-  "BS Industrial Engineering": [
-    "Process Engineer", "Quality Control Specialist", "Operations Manager",
-    "Supply Chain Analyst", "Logistics Manager", "Production Planner",
-    "Ergonomics Consultant", "Manufacturing Systems Engineer"
-  ],
-  "BS Aerospace Engineering": [
-    "Aerospace Engineer", "Flight Test Engineer", "Aviation Consultant",
-    "Aircraft Designer", "Satellite Engineer", "Spacecraft Systems Engineer",
-    "Aerodynamics Specialist", "Propulsion Engineer"
-  ],
-  "BS Nursing": [
-    "Registered Nurse", "Health Administrator", "Clinical Researcher",
-    "Nurse Educator", "Pediatric Nurse", "Critical Care Nurse",
-    "Public Health Nurse", "Nurse Practitioner"
-  ],
-  "BS Medical Technology": [
-    "Medical Technologist", "Laboratory Technician", "Clinical Analyst",
-    "Pathology Specialist", "Blood Bank Technologist", "Microbiology Technologist",
-    "Molecular Diagnostics Specialist", "Research Scientist"
-  ],
-  "BS Pharmacy": [
-    "Pharmacist", "Clinical Researcher", "Regulatory Affairs Specialist",
-    "Pharmaceutical Sales Representative", "Drug Safety Officer",
-    "Hospital Pharmacist", "Clinical Pharmacist", "Pharmacy Manager"
-  ],
-  "BS Radiologic Technology": [
-    "Radiologic Technologist", "MRI Technician", "Diagnostic Imaging Specialist",
-    "Radiation Therapist", "Nuclear Medicine Technologist", "Ultrasound Technician",
-    "CT Scan Technologist", "Medical Imaging Consultant"
-  ],
-  "BS Physical Therapy": [
-    "Physical Therapist", "Rehabilitation Specialist", "Sports Therapist",
-    "Orthopedic Therapist", "Pediatric Therapist", "Geriatric Therapist",
-    "Neurological Therapist", "Occupational Health Specialist"
-  ],
-  "Doctor of Medicine": [
-    "Medical Doctor", "Surgeon", "General Practitioner",
-    "Pediatrician", "Cardiologist", "Dermatologist",
-    "Psychiatrist", "Oncologist"
-  ],
-  "BS Midwifery": [
-    "Midwife", "Maternal Health Specialist", "Birth Consultant",
-    "Lactation Consultant", "Women's Health Nurse", "Community Health Worker",
-    "Reproductive Health Educator", "Prenatal Care Specialist"
-  ],
-  "BS Nutrition and Dietetics": [
-    "Nutritionist", "Dietitian", "Health Consultant",
-    "Clinical Dietitian", "Sports Nutritionist", "Public Health Nutritionist",
-    "Food Service Manager", "Wellness Coach"
-  ],
-  "BS Computer Science": [
-    "Software Developer", "Data Scientist", "Cybersecurity Analyst",
-    "Machine Learning Engineer", "AI Specialist", "Cloud Architect",
-    "DevOps Engineer", "Blockchain Developer"
-  ],
-  "BS Information Technology": [
-    "IT Specialist", "System Administrator", "Cloud Engineer",
-    "Network Engineer", "Database Administrator", "IT Project Manager",
-    "Cybersecurity Analyst", "IT Consultant"
-  ],
-  "BS Software Engineering": [
-    "Software Engineer", "Full Stack Developer", "QA Engineer",
-    "Mobile App Developer", "Game Developer", "Embedded Systems Engineer",
-    "UI/UX Designer", "Technical Lead"
-  ],
-  "BS Data Science": [
-    "Data Scientist", "Machine Learning Engineer", "Business Intelligence Analyst",
-    "Data Engineer", "Data Analyst", "Big Data Specialist",
-    "AI Researcher", "Predictive Modeler"
-  ],
-  "BS Game Development": [
-    "Game Developer", "Game Designer", "Graphics Programmer",
-    "Gameplay Programmer", "VR/AR Developer", "Game Producer",
-    "Level Designer", "Game Tester"
-  ],
-  "BS Cybersecurity": [
-    "Cybersecurity Analyst", "Penetration Tester", "Security Engineer",
-    "Information Security Manager", "Ethical Hacker", "Security Architect",
-    "Incident Responder", "Cryptographer"
-  ],
-  "BS Artificial Intelligence": [
-    "AI Engineer", "Machine Learning Specialist", "AI Researcher",
-    "Natural Language Processing Engineer", "Computer Vision Engineer",
-    "Robotics Engineer", "AI Consultant", "Data Scientist"
-  ],
-  "BS Business Administration": [
-    "Business Consultant", "Operations Manager", "Entrepreneur",
-    "Marketing Manager", "Financial Analyst", "Human Resources Manager",
-    "Project Manager", "Supply Chain Manager"
-  ],
-  "BS Accountancy": [
-    "Accountant", "Auditor", "Tax Consultant",
-    "Financial Analyst", "Forensic Accountant", "Management Accountant",
-    "Budget Analyst", "Chief Financial Officer (CFO)"
-  ],
-  "BS Marketing Management": [
-    "Marketing Specialist", "Brand Manager", "Market Research Analyst",
-    "Digital Marketing Manager", "Advertising Executive", "Public Relations Specialist",
-    "Social Media Manager", "Content Strategist"
-  ],
-  "BS Financial Management": [
-    "Financial Analyst", "Investment Banker", "Risk Manager",
-    "Wealth Manager", "Portfolio Manager", "Corporate Treasurer",
-    "Credit Analyst", "Financial Planner"
-  ],
-  "BS Economics": [
-    "Economist", "Policy Analyst", "Financial Consultant",
-    "Data Analyst", "Market Research Analyst", "Economic Researcher",
-    "Investment Analyst", "International Trade Specialist"
-  ],
-  "BS Entrepreneurship": [
-    "Startup Founder", "Business Consultant", "Venture Capitalist",
-    "Innovation Manager", "Small Business Owner", "Product Manager",
-    "Business Development Manager", "Social Entrepreneur"
-  ],
-  "BS Human Resource Management": [
-    "HR Manager", "Recruitment Specialist", "Training Coordinator",
-    "Compensation and Benefits Manager", "Employee Relations Specialist",
-    "Talent Acquisition Specialist", "Organizational Development Consultant",
-    "HR Business Partner"
-  ],
-  "BA Political Science": [
-    "Policy Analyst", "Government Officer", "Diplomat",
-    "Political Consultant", "Legislative Assistant", "Public Affairs Specialist",
-    "International Relations Specialist", "Political Campaign Manager"
-  ],
-  "BA Psychology": [
-    "Psychologist", "Counselor", "Human Resource Specialist",
-    "Clinical Psychologist", "School Psychologist", "Industrial-Organizational Psychologist",
-    "Behavioral Therapist", "Mental Health Advocate"
-  ],
-  "BA Sociology": [
-    "Sociologist", "Community Development Officer", "Research Analyst",
-    "Social Worker", "Urban Planner", "Policy Analyst",
-    "Demographer", "Criminologist"
-  ],
-  "BA Literature": [
-    "Writer", "Editor", "Literary Critic",
-    "Content Creator", "Journalist", "Copywriter",
-    "Publishing Specialist", "Academic Researcher"
-  ],
-  "BA Philosophy": [
-    "Philosopher", "Ethics Consultant", "Professor",
-    "Policy Analyst", "Legal Consultant", "Public Intellectual",
-    "Ethics Officer", "Think Tank Researcher"
-  ],
-  "BA Communication": [
-    "Journalist", "Public Relations Specialist", "Media Producer",
-    "Broadcast Journalist", "Content Strategist", "Social Media Manager",
-    "Corporate Communications Specialist", "Event Planner"
-  ],
-  "BA Creative Writing": [
-    "Author", "Screenwriter", "Content Creator",
-    "Copywriter", "Editor", "Literary Agent",
-    "Publishing Consultant", "Storyteller"
-  ],
-  "Bachelor of Laws (LLB)": [
-    "Lawyer", "Judge", "Legal Consultant",
-    "Corporate Lawyer", "Criminal Defense Attorney", "Public Prosecutor",
-    "Legal Advisor", "Human Rights Advocate"
-  ],
-  "BS Criminology": [
-    "Criminologist", "Police Officer", "Forensic Analyst",
-    "Crime Scene Investigator", "Probation Officer", "Private Investigator",
-    "Security Consultant", "Juvenile Justice Specialist"
-  ],
-  "BS Legal Management": [
-    "Legal Consultant", "Corporate Lawyer", "Paralegal",
-    "Compliance Officer", "Legal Operations Manager", "Contract Administrator",
-    "Legal Analyst", "Court Administrator"
-  ],
-  "BS Public Administration": [
-    "Government Administrator", "Public Policy Analyst", "City Planner",
-    "Nonprofit Manager", "Public Affairs Consultant", "Urban Development Specialist",
-    "Policy Advisor", "Community Development Officer"
-  ],
-  "BA International Relations": [
-    "Diplomat", "Foreign Affairs Specialist", "International Trade Consultant",
-    "Policy Analyst", "Global Development Specialist", "International NGO Worker",
-    "Cultural Affairs Officer", "Intelligence Analyst"
-  ],
-  "BA Political Science (Pre-Law)": [
-    "Legislative Analyst", "Political Consultant", "Attorney",
-    "Legal Researcher", "Policy Advisor", "Public Defender",
-    "Corporate Counsel", "Human Rights Lawyer"
-  ],
-  "BS Elementary Education": [
-    "Elementary Teacher", "Curriculum Developer", "Education Consultant",
-    "School Administrator", "Special Education Teacher", "Literacy Coach",
-    "Educational Therapist", "Child Development Specialist"
-  ],
-  "BS Secondary Education Major in Mathematics": [
-    "Math Teacher", "Education Researcher", "School Administrator",
-    "Curriculum Specialist", "Tutor", "Educational Consultant",
-    "Instructional Designer", "Test Prep Instructor"
-  ],
-  "BS Secondary Education Major in Science": [
-    "Science Teacher", "STEM Coordinator", "Lab Instructor",
-    "Curriculum Developer", "Educational Consultant", "Science Communicator",
-    "Environmental Educator", "Science Writer"
-  ],
-  "BS Special Education": [
-    "Special Education Teacher", "Behavioral Therapist", "Child Development Specialist",
-    "Inclusion Specialist", "Educational Psychologist", "Speech-Language Pathologist",
-    "Occupational Therapist", "Autism Specialist"
-  ],
-  "BS Physical Education": [
-    "PE Teacher", "Fitness Trainer", "Sports Coach",
-    "Athletic Director", "Recreation Coordinator", "Health Educator",
-    "Sports Psychologist", "Personal Trainer"
-  ],
-  "BS Early Childhood Education": [
-    "Kindergarten Teacher", "Childcare Director", "Educational Therapist",
-    "Preschool Teacher", "Child Development Specialist", "Early Intervention Specialist",
-    "Curriculum Developer", "Parent Educator"
-  ],
-  "BS Biology": [
-    "Biologist", "Biomedical Researcher", "Environmental Scientist",
-    "Microbiologist", "Geneticist", "Wildlife Biologist",
-    "Marine Biologist", "Conservation Scientist"
-  ],
-  "BS Chemistry": [
-    "Chemist", "Pharmaceutical Scientist", "Materials Researcher",
-    "Analytical Chemist", "Forensic Scientist", "Environmental Chemist",
-    "Food Scientist", "Quality Control Chemist"
-  ],
-  "BS Physics": [
-    "Physicist", "Research Scientist", "Medical Physicist",
-    "Astrophysicist", "Nuclear Physicist", "Data Scientist",
-    "Optics Engineer", "Acoustics Engineer"
-  ],
-  "BS Environmental Science": [
-    "Environmental Consultant", "Sustainability Officer", "Ecologist",
-    "Climate Change Analyst", "Environmental Policy Analyst", "Conservation Scientist",
-    "Waste Management Specialist", "Renewable Energy Consultant"
-  ],
-  "BS Applied Mathematics": [
-    "Mathematician", "Operations Research Analyst", "Cryptographer",
-    "Data Scientist", "Financial Analyst", "Actuary",
-    "Quantitative Analyst", "Statistical Consultant"
-  ],
-  "BS Statistics": [
-    "Statistician", "Data Analyst", "Market Researcher",
-    "Biostatistician", "Econometrician", "Quality Control Analyst",
-    "Risk Analyst", "Sports Statistician"
-  ],
-  "BS Biochemistry": [
-    "Biochemist", "Geneticist", "Clinical Laboratory Scientist",
-    "Pharmaceutical Researcher", "Molecular Biologist", "Biotechnology Specialist",
-    "Forensic Scientist", "Toxicologist"
-  ],
-  "BS Hotel & Restaurant Management": [
-    "Hotel Manager", "Event Coordinator", "Resort Manager",
-    "Food and Beverage Manager", "Front Office Manager", "Revenue Manager",
-    "Catering Manager", "Hospitality Consultant"
-  ],
-  "BS Tourism Management": [
-    "Tourism Officer", "Travel Consultant", "Hospitality Director",
-    "Tour Operator", "Destination Manager", "Event Planner",
-    "Travel Writer", "Cultural Tourism Specialist"
-  ],
-  "BS Culinary Arts": [
-    "Chef", "Food & Beverage Manager", "Culinary Consultant",
-    "Pastry Chef", "Catering Manager", "Food Stylist",
-    "Recipe Developer", "Restaurant Owner"
-  ],
-  "BS Travel Management": [
-    "Travel Agent", "Airline Operations Manager", "Tour Manager",
-    "Travel Consultant", "Cruise Director", "Destination Specialist",
-    "Travel Blogger", "Adventure Tour Guide"
-  ],
-  "BS Hospitality Management": [
-    "Resort Manager", "Front Office Manager", "Casino Manager",
-    "Event Planner", "Guest Relations Manager", "Revenue Manager",
-    "Hospitality Trainer", "Luxury Brand Manager"
-  ],
-  "BS Cruise Line Operations": [
-    "Cruise Director", "Onboard Manager", "Hospitality Supervisor",
-    "Entertainment Manager", "Guest Services Manager", "Cruise Sales Manager",
-    "Catering Manager", "Cruise Operations Specialist"
-  ],
-  "BS Agriculture": [
-    "Agricultural Scientist", "Farm Manager", "Agribusiness Consultant",
-    "Soil Scientist", "Crop Consultant", "Agricultural Economist",
-    "Sustainable Agriculture Specialist", "Agricultural Extension Officer"
-  ],
-  "BS Forestry": [
-    "Forester", "Environmental Conservationist", "Wildlife Manager",
-    "Forest Ecologist", "Timber Manager", "Park Ranger",
-    "Conservation Scientist", "Forest Policy Analyst"
-  ],
-  "BS Environmental Management": [
-    "Sustainability Consultant", "Environmental Officer", "Waste Management Specialist",
-    "Climate Change Analyst", "Environmental Auditor", "Renewable Energy Consultant",
-    "Environmental Educator", "Corporate Sustainability Manager"
-  ],
-  "BS Fisheries": [
-    "Fisheries Scientist", "Marine Biologist", "Aquaculture Manager",
-    "Fisheries Consultant", "Fish Health Specialist", "Marine Conservationist",
-    "Aquatic Ecologist", "Fisheries Policy Analyst"
-  ],
-  "BS Agricultural Engineering": [
-    "Agricultural Engineer", "Irrigation Specialist", "Soil Scientist",
-    "Farm Equipment Designer", "Food Process Engineer", "Renewable Energy Engineer",
-    "Precision Agriculture Specialist", "Agricultural Automation Engineer"
-  ],
-  "BS Agribusiness": [
-    "Agribusiness Manager", "Food Supply Chain Analyst", "Farm Entrepreneur",
-    "Agricultural Economist", "Commodity Trader", "Rural Development Specialist",
-    "Agricultural Marketing Specialist", "Agri-Tech Consultant"
-  ]
+        "Structural Engineer", "Project Manager", "Construction Engineer", "Urban Planner"
+    ],
+    "BS Mechanical Engineering": [
+        "Mechanical Engineer", "Automotive Engineer", "Robotics Engineer"
+    ],
+    "BS Electrical Engineering": [
+        "Electrical Engineer", "Power Systems Engineer", "Telecommunications Engineer", "Embedded Systems Developer"
+    ],
+    "BS Electronics Engineering": [
+        "Electronics Engineer", "Hardware Engineer", "Robotics Engineer"
+    ],
+    "BS Industrial Engineering": [
+        "Process Engineer", "Operations Manager", "Supply Chain Analyst"
+    ],
+    "BS Aerospace Engineering": [
+        "Aerospace Engineer", "Aircraft Designer", "Spacecraft Systems Engineer", "Propulsion Engineer"
+    ],
+    "BS Nursing": [
+        "Registered Nurse", "Health Administrator", "Critical Care Nurse"
+    ],
+    "BS Medical Technology": [
+        "Medical Technologist", "Clinical Analyst", "Pathology Specialist", "Research Scientist"
+    ],
+    "BS Pharmacy": [
+        "Pharmacist", "Clinical Researcher", "Hospital Pharmacist"
+    ],
+    "BS Radiologic Technology": [
+        "Radiologic Technologist", "MRI Technician", "Ultrasound Technician"
+    ],
+    "BS Physical Therapy": [
+        "Physical Therapist", "Rehabilitation Specialist", "Sports Therapist", "Occupational Health Specialist"
+    ],
+    "Doctor of Medicine": [
+        "Medical Doctor", "Surgeon", "Pediatrician"
+    ],
+    "BS Midwifery": [
+        "Midwife", "Maternal Health Specialist", "Neonatal Nurse"
+    ],
+    "BS Nutrition and Dietetics": [
+        "Dietitian", "Nutritionist", "Health Coach"
+    ],
+    "BS Computer Science": [
+        "Software Developer", "Data Scientist", "Cybersecurity Analyst", "AI Specialist"
+    ],
+    "BS Information Technology": [
+        "IT Specialist", "System Administrator", "Network Engineer"
+    ],
+    "BS Software Engineering": [
+        "Software Engineer", "Mobile App Developer", "Game Developer"
+    ],
+    "BS Data Science": [
+        "Data Scientist", "Machine Learning Engineer", "Big Data Specialist"
+    ],
+    "BS Game Development": [
+        "Game Developer", "Game Designer", "VR/AR Developer"
+    ],
+    "BS Cybersecurity": [
+        "Cybersecurity Analyst", "Ethical Hacker", "Security Engineer", "Cryptographer"
+    ],
+    "BS Artificial Intelligence": [
+        "AI Engineer", "Machine Learning Specialist", "Robotics Engineer"
+    ],
+    "BS Business Administration": [
+        "Business Consultant", "Operations Manager", "Marketing Manager"
+    ],
+    "BS Accountancy": [
+        "Accountant", "Auditor", "Tax Consultant", "Chief Financial Officer (CFO)"
+    ],
+    "BS Marketing Management": [
+        "Marketing Specialist", "Brand Manager", "Digital Marketing Manager"
+    ],
+    "BS Financial Management": [
+        "Financial Analyst", "Investment Banker", "Risk Manager"
+    ],
+    "BS Economics": [
+        "Economist", "Financial Analyst", "Market Researcher"
+    ],
+    "BS Entrepreneurship": [
+        "Startup Founder", "Business Owner", "Venture Capitalist"
+    ],
+    "BS Human Resource Management": [
+        "HR Manager", "Talent Acquisition Specialist", "Training and Development Manager"
+    ],
+    "BA Political Science": [
+        "Policy Analyst", "Government Officer", "Diplomat", "Political Consultant"
+    ],
+    "BA Psychology": [
+        "Psychologist", "Counselor", "Human Resource Specialist"
+    ],
+    "BA Sociology": [
+        "Sociologist", "Community Development Officer", "Social Researcher"
+    ],
+    "BA Literature": [
+        "Writer", "Editor", "Literary Critic"
+    ],
+    "BA Philosophy": [
+        "Philosopher", "Ethicist", "Academic Researcher"
+    ],
+    "BA Communication": [
+        "Journalist", "Public Relations Specialist", "Media Producer"
+    ],
+    "BA Creative Writing": [
+        "Author", "Screenwriter", "Poet"
+    ],
+    "Bachelor of Laws (LLB)": [
+        "Lawyer", "Judge", "Corporate Lawyer"
+    ],
+    "BS Criminology": [
+        "Criminologist", "Police Officer", "Forensic Analyst"
+    ],
+    "BS Legal Management": [
+        "Legal Consultant", "Corporate Legal Advisor", "Compliance Officer"
+    ],
+    "BS Public Administration": [
+        "Government Administrator", "Policy Analyst", "Community Development Officer"
+    ],
+    "BA International Relations": [
+        "Diplomat", "International Policy Analyst", "Foreign Service Officer"
+    ],
+    "BA Political Science (Pre-Law)": [
+        "Legal Researcher", "Government Policy Analyst", "Lobbyist"
+    ],
+    "BS Elementary Education": [
+        "Elementary Teacher", "Curriculum Developer", "Education Consultant", "School Administrator"
+    ],
+    "BS Secondary Education Major in Mathematics": [
+        "Math Teacher", "Education Researcher", "Instructional Designer"
+    ],
+    "BS Secondary Education Major in Science": [
+        "Science Teacher", "Lab Instructor", "STEM Curriculum Specialist"
+    ],
+    "BS Special Education": [
+        "Special Education Teacher", "Therapeutic Instructor", "Inclusion Specialist"
+    ],
+    "BS Physical Education": [
+        "PE Teacher", "Sports Coach", "Fitness Trainer"
+    ],
+    "BS Early Childhood Education": [
+        "Preschool Teacher", "Child Development Specialist", "Montessori Educator"
+    ],
+    "BS Biology": [
+        "Biologist", "Biomedical Researcher", "Wildlife Biologist"
+    ],
+    "BS Chemistry": [
+        "Chemist", "Pharmaceutical Scientist", "Forensic Scientist"
+    ],
+    "BS Physics": [
+        "Physicist", "Medical Physicist", "Astrophysicist"
+    ],
+    "BS Environmental Science": [
+        "Environmental Consultant", "Sustainability Officer", "Climate Change Analyst"
+    ],
+    "BS Applied Mathematics": [
+        "Mathematician", "Operations Research Analyst", "Quantitative Analyst"
+    ],
+    "BS Statistics": [
+        "Statistician", "Data Analyst", "Survey Methodologist"
+    ],
+    "BS Biochemistry": [
+        "Biochemist", "Pharmaceutical Researcher", "Geneticist"
+    ],
+    "BS Hotel & Restaurant Management": [
+        "Hotel Manager", "Event Coordinator", "Food and Beverage Manager"
+    ],
+    "BS Tourism Management": [
+        "Tourism Officer", "Travel Consultant", "Event Planner", "Cultural Tourism Specialist"
+    ],
+    "BS Culinary Arts": [
+        "Chef", "Food & Beverage Manager", "Culinary Consultant"
+    ],
+    "BS Agriculture": [
+        "Agricultural Scientist", "Farm Manager", "Agribusiness Consultant"
+    ]
 }
 
 @app.route('/api/predict-career', methods=['POST'])
@@ -1188,6 +1078,339 @@ def college_grade():
     extracted_data = extract_subjects_and_grades(file_path)
 
     return jsonify(extracted_data)
+  
 
+
+UPLOAD_FOLDER = "certificate_uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+career_mapping = {
+    "computer": {
+        "careers": [
+            "Software Engineer", "Data Scientist", "Cybersecurity Analyst", "AI Specialist", 
+            "Game Developer", "Network Engineer", "IT Specialist", "Mobile App Developer", 
+            "System Administrator", "Big Data Specialist", "Machine Learning Engineer"
+        ],
+        "keywords": [
+            "programming", "coding", "Python", "Java", "C++", "web development", "cloud computing", 
+            "database management", "software development", "data analysis", "machine learning", 
+            "artificial intelligence", "game programming", "blockchain", "IT security", "ethical hacking"
+        ]
+    },
+
+    "business administration": {
+        "careers": [
+            "Marketing Manager", "Financial Analyst", "HR Specialist", "Operations Manager", 
+            "Business Consultant", "Brand Manager", "Digital Marketing Manager", "Venture Capitalist"
+        ],
+        "keywords": [
+            "marketing", "business strategy", "corporate finance", "advertising", "SEO", "e-commerce", 
+            "supply chain", "leadership", "entrepreneurship", "human resources", "business analytics", 
+            "customer relations", "brand management", "management consulting"
+        ]
+    },
+
+    "mechanical engineering": {
+        "careers": [
+            "Mechanical Engineer", "Automotive Engineer", "Robotics Engineer", "Manufacturing Engineer"
+        ],
+        "keywords": [
+            "mechanics", "thermodynamics", "CAD", "solid mechanics", "fluid dynamics", "automotive design", 
+            "robotics", "manufacturing", "aerospace technology", "mechanical automation"
+        ]
+    },
+
+    "nursing": {
+        "careers": [
+            "Registered Nurse", "Medical Assistant", "Healthcare Administrator", "Critical Care Nurse"
+        ],
+        "keywords": [
+            "first aid", "medical assistance", "patient care", "emergency response", "anatomy", "nursing procedures", 
+            "clinical practice", "hospice care", "mental health nursing", "community health", "nursing"
+        ]
+    },
+
+    "engineering": {
+        "careers": [
+            "Structural Engineer", "Aerospace Engineer", "Construction Engineer", "Power Systems Engineer", 
+            "Telecommunications Engineer", "Process Engineer", "Embedded Systems Developer", "Electronics Engineer", 
+            "Hardware Engineer", "Propulsion Engineer", "Aircraft Designer", "Spacecraft Systems Engineer"
+        ],
+        "keywords": [
+            "civil engineering", "electrical systems", "infrastructure", "transportation", "renewable energy", 
+            "robotics", "aerodynamics", "mechanical systems", "satellite technology", "bridge construction"
+        ]
+    },
+
+    "medical": {
+        "careers": [
+            "Medical Doctor", "Surgeon", "Pediatrician", "Medical Technologist", "Clinical Analyst", 
+            "Pathology Specialist", "Radiologic Technologist", "MRI Technician", "Ultrasound Technician", 
+            "Rehabilitation Specialist", "Sports Therapist", "Occupational Health Specialist", 
+            "Dietitian", "Nutritionist", "Health Coach", "Pharmacist", "Clinical Researcher", "Hospital Pharmacist",
+        ],
+        "keywords": [
+            "healthcare", "medicine", "radiology", "anatomy", "pharmacology", "public health", 
+            "physical therapy", "patient diagnostics", "clinical research", "surgery", "genetics"
+        ]
+    },
+
+    "law": {
+        "careers": [
+            "Lawyer", "Judge", "Corporate Lawyer", "Legal Consultant", "Compliance Officer", 
+            "Government Policy Analyst", "Lobbyist", "Legal Researcher", "Corporate Legal Advisor"
+        ],
+        "keywords": [
+            "law", "jurisprudence", "legal studies", "court proceedings", "corporate law", 
+            "criminal justice", "international law", "intellectual property", "business law", "ethics"
+        ]
+    },
+
+    "education": {
+        "careers": [
+            "Elementary Teacher", "Curriculum Developer", "Education Consultant", "School Administrator", 
+            "Math Teacher", "Science Teacher", "Lab Instructor", "STEM Curriculum Specialist", 
+            "Special Education Teacher", "Therapeutic Instructor", "Inclusion Specialist", 
+            "PE Teacher", "Sports Coach", "Fitness Trainer", "Preschool Teacher", "Child Development Specialist", 
+            "Montessori Educator", "Instructional Designer"
+        ],
+        "keywords": [
+            "teaching", "curriculum development", "early childhood education", "inclusive education", 
+            "special education", "STEM education", "pedagogy", "instructional design", "education"
+        ]
+    },
+
+    "science": {
+        "careers": [
+            "Biologist", "Biomedical Researcher", "Wildlife Biologist", "Chemist", "Pharmaceutical Scientist", 
+            "Forensic Scientist", "Physicist", "Medical Physicist", "Astrophysicist", "Environmental Consultant", 
+            "Sustainability Officer", "Climate Change Analyst", "Operations Research Analyst", "Quantitative Analyst", 
+            "Statistician", "Survey Methodologist", "Geneticist"
+        ],
+        "keywords": [
+            "biology", "physics", "chemistry", "biotechnology", "astronomy", "genetics", 
+            "sustainability", "climate change", "forensic science", "data science"
+        ]
+    },
+
+    "finance": {
+        "careers": [
+            "Accountant", "Auditor", "Tax Consultant", "Chief Financial Officer (CFO)", "Investment Banker", 
+            "Risk Manager", "Economist", "Market Researcher"
+        ],
+        "keywords": [
+            "accounting", "taxation", "auditing", "investment", "corporate finance", 
+            "stock market", "financial modeling", "risk analysis"
+        ]
+    },
+
+    "political": {
+        "careers": [
+            "Policy Analyst", "Government Officer", "Diplomat", "Lobbyist", "International Policy Analyst", 
+            "Foreign Service Officer", "Community Development Officer"
+        ],
+        "keywords": [
+            "public administration", "politics", "government policies", "international relations", 
+            "diplomacy", "foreign affairs", "public service"
+        ]
+    },
+
+    "media": {
+        "careers": [
+            "Journalist", "Public Relations Specialist", "Media Producer", "Author", "Screenwriter", 
+            "Poet", "Literary Critic"
+        ],
+        "keywords": [
+            "journalism", "mass communication", "public relations", "content writing", "film production", 
+            "digital media", "creative writing", "scriptwriting"
+        ]
+    },
+
+    "criminology": {
+        "careers": [
+            "Criminologist", "Police Officer", "Forensic Analyst"
+        ],
+        "keywords": [
+            "criminal justice", "law enforcement", "forensic science", "investigation techniques", 
+            "crime scene analysis", "public safety"
+        ]
+    },
+
+    "hospitality": {
+        "careers": [
+            "Hotel Manager", "Event Coordinator", "Food and Beverage Manager", "Tourism Officer", 
+            "Travel Consultant", "Event Planner", "Cultural Tourism Specialist", "Chef", 
+            "Culinary Consultant", "Agribusiness Consultant"
+        ],
+        "keywords": [
+            "hospitality", "tourism", "event planning", "hotel management", "food service", 
+            "travel industry", "customer service"
+        ]
+    },
+
+    "agriculture": {
+        "careers": [
+            "Agricultural Scientist", "Farm Manager", "Agribusiness Consultant", "Environmental Manager", 
+            "Forestry Specialist", "Fisheries Specialist"
+        ],
+        "keywords": [
+            "agriculture", "farming", "agribusiness", "sustainability", "environmental science", 
+            "crop management", "forestry", "fisheries", "natural resource management"
+        ]
+    }
+}
+@app.route("/predict-career-cert", methods=["POST"])
+def predict_career_from_certificate():
+    """Handles multiple file uploads and predicts careers with scoring based on extracted text."""
+    print("📥 Received request at /predict-career-cert")
+
+    if "certificates" not in request.files:
+        print("❌ No certificates found in request")
+        return jsonify({"error": "No files uploaded"}), 400
+
+    files = request.files.getlist("certificates")  # Get multiple files
+    if not files:
+        print("❌ No selected files")
+        return jsonify({"error": "No selected files"}), 400
+
+    career_scores = {}  # Dictionary to store scores for each career
+    unmatched_keywords = set()  # Store keywords that were not found in the extracted text
+
+    for file in files:
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+        file.save(filepath)
+        print(f"✅ File saved at {filepath}")
+
+        extracted_text = extract_text_from_certificate(filepath).lower().strip()
+        if not extracted_text:
+            print(f"⚠️ No readable text found in {filename}")
+            continue  # Skip empty files
+
+        print(f"🔍 Extracted Text from {filename}: {extracted_text}")
+
+        match_found = False  # Track if at least one match is found
+
+        # Loop through each career category
+        for category, data in career_mapping.items():
+            keywords = data.get("keywords", [])
+            careers = data.get("careers", [])
+
+            for keyword in keywords:
+                keyword_pattern = r"\b" + re.escape(keyword.lower()) + r"\b"
+                if re.search(keyword_pattern, extracted_text, re.IGNORECASE):
+                    match_found = True  # A match is found
+                    for career in careers:
+                        career_scores[career] = career_scores.get(career, 0) + 5
+                        career_scores[career] = min(career_scores[career], 25)  # Cap at 25
+                else:
+                    unmatched_keywords.add(keyword)  # Store unmatched keywords
+
+    # Convert to sorted list [{career: "Career Name", score: Score}, ...]
+    sorted_careers = sorted(career_scores.items(), key=lambda x: x[1], reverse=True)
+    formatted_output = [{"career": career, "score": score} for career, score in sorted_careers]
+
+    if not formatted_output:  # If no careers were matched
+        print(f"📌 No career matches found. Unmatched keywords: {list(unmatched_keywords)}")
+        return jsonify({
+            "careers": [{"career": "No specific career matched.", "score": 0}],
+            "unmatched_keywords": list(unmatched_keywords)
+        })
+
+    print(f"📌 Predicted Careers: {formatted_output}")
+    return jsonify({"careers": formatted_output})
+  
+  
+  # COLLEDGE PERSONAL QUESTIONS------------------------------------------------------------------------------------------------------
+
+
+def predict_career_from_questionnaire(responses):
+    question_mapping = {
+        "Do you enjoy working with computers and technology?": {
+            "Yes": {"computer": 5, "engineering": 3},
+            "No": {}
+        },
+        "Are you interested in managing businesses or finances?": {
+            "Yes": {"business administration": 5, "finance": 5},
+            "No": {}
+        },
+        "Do you like helping people with medical needs?": {
+            "Yes": {"nursing": 5, "medical": 5},
+            "No": {}
+        },
+        "Are you passionate about teaching and education?": {
+            "Yes": {"education": 5},
+            "No": {}
+        },
+        "Do you enjoy designing and building things?": {
+            "Yes": {"engineering": 5, "mechanical engineering": 5},
+            "No": {}
+        },
+        "Are you interested in law and justice?": {
+            "Yes": {"law": 5, "criminology": 3},
+            "No": {}
+        },
+        "Do you like working with numbers, investments, or economics?": {
+            "Yes": {"finance": 5, "business administration": 3},
+            "No": {}
+        },
+        "Are you interested in journalism, writing, or public relations?": {
+            "Yes": {"media": 5},
+            "No": {}
+        },
+        "Do you enjoy working with plants, animals, or environmental sustainability?": {
+            "Yes": {"agriculture": 5, "science": 3},
+            "No": {}
+        },
+        "Do you prefer working in a hands-on, practical environment rather than theoretical work?": {
+            "Yes": {"trade skills": 5, "engineering": 3},
+            "No": {}
+        }
+    }
+    
+    career_scores = {field: 0 for field in {career for options in question_mapping.values() for career in options.get("Yes", {})}}
+    
+    for question, answer in responses.items():
+        if question in question_mapping and answer in question_mapping[question]:
+            for career, score in question_mapping[question][answer].items():
+                career_scores[career] += score
+    
+    # Normalize scores to a max of 25
+    max_score = max(career_scores.values(), default=1)
+    for career in career_scores:
+        career_scores[career] = round((career_scores[career] / max_score) * 25, 2)
+    
+    sorted_careers = sorted(career_scores.items(), key=lambda x: x[1], reverse=True)
+    
+    if sorted_careers[0][1] == 0:
+        return {"message": "No clear career match found. Consider exploring various fields."}
+    
+    top_careers = [{"career": career[0], "score": career[1]} for career in sorted_careers if career[1] > 0]
+    return top_careers  # Return top careers with scores
+
+@app.route('/predict-career-pq', methods=['POST'])
+def predict_career_pq():
+    try:
+        data = request.get_json()
+        responses = data.get("responses", {})
+
+        if not isinstance(responses, dict):
+            return jsonify({"error": "Invalid data format. 'responses' must be a dictionary."}), 400
+
+        predicted_careers = predict_career_from_questionnaire(responses)
+
+        return jsonify({"predicted_careers": predicted_careers})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+      
+      
 if __name__ == "__main__":
     app.run(debug=True, port=5001, host="0.0.0.0")
+
+
+
+
+
+
+

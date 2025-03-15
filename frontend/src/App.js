@@ -79,6 +79,9 @@ import ResetPassword from './components/ResetPassword';
 import Overallgraphjhs from './components/Overallgraphjhs';
 import Overallgraphshs from './components/Overallgraphshs';
 import CourseSelection from './components/CourseSelection';
+import UploadCertificatesCollege from './components/UploadCertificatesCollege';
+import PQcollege from './components/PQcollege';
+
 
 function App() {
     const [file, setFile] = useState(null);
@@ -149,6 +152,9 @@ function App() {
                 <Route path="/graph" element={<Overallgraphjhs />} />
                 <Route path="/graphshs" element={<Overallgraphshs />} />
                 <Route path="/CourseSelection/:type" element={<CourseSelection />} />
+                <Route path="/UploadCertificatesCollege" element={<UploadCertificatesCollege />} />
+                <Route path="/PQcollege" element={<PQcollege />} />
+                
 
 
                 <Route path="/admin/dashboard" element={

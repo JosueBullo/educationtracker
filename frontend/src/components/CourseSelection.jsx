@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -35,15 +36,12 @@ const courseOptions = courses.map(course => ({ value: course, label: course }));
 const CourseSelection = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [predictedCareers, setPredictedCareers] = useState([]);
-  const [savedCareers, setSavedCareers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     console.log("Course Selection Page Loaded");
     document.title = "Course Selection - Career Prediction";
-
-    const savedCareersData = JSON.parse(localStorage.getItem("careers_with_scores")) || [];
-    setSavedCareers(savedCareersData);
   }, []);
 
   const handleSubmit = async () => {
@@ -54,7 +52,7 @@ const CourseSelection = () => {
 
     setLoading(true);
     setPredictedCareers([]);
-
+    
     try {
       setTimeout(async () => {
         const response = await axios.post("http://localhost:5001/api/predict-career", {
@@ -63,18 +61,10 @@ const CourseSelection = () => {
 
         const newCareers = response.data.careers.map(career => ({ career, score: 25 }));
         
-        // Prevent duplicates
-        const updatedCareers = [...savedCareers];
-        newCareers.forEach(newCareer => {
-          if (!savedCareers.some(c => c.career === newCareer.career)) {
-            updatedCareers.push(newCareer);
-          }
-        });
-
-        setSavedCareers(updatedCareers);
-        localStorage.setItem("careers_with_scores", JSON.stringify(updatedCareers));
-
+        // Clear local storage and save new results
+        localStorage.setItem("colledge_course_predict", JSON.stringify(newCareers));
         setPredictedCareers(response.data.careers);
+
         toast.success("Career prediction successful!");
         setLoading(false);
       }, 5000);
@@ -123,18 +113,14 @@ const CourseSelection = () => {
           </div>
         )}
 
-        {savedCareers.length > 0 && (
-          <div className="saved-careers">
-            <h3>Saved Careers:</h3>
-            <ul>
-              {savedCareers.map((career, index) => (
-                <li key={index}>{career.career} - {career.score}%</li>
-              ))}
-            </ul>
-          </div>
-        )}
+        {/* New Button to Redirect to UploadCertificatesCollege */}
+        <button 
+          onClick={() => navigate("/UploadCertificatesCollege")} 
+          className="upload-cert-btn"
+        >
+          Upload Certificates
+        </button>
       </div>
-
       <ToastContainer />
     </div>
   );

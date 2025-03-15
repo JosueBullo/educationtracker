@@ -24,6 +24,8 @@ const UserProfile = () => {
 
       if (!token) {
         console.error("No token found");
+        setError("Unauthorized: No token found.");
+        setLoading(false);
         return;
       }
 
@@ -68,6 +70,7 @@ const UserProfile = () => {
     const token = localStorage.getItem("auth-token");
     if (!token) {
       console.error("No token found");
+      toast.error("Unauthorized: No token found.");
       return;
     }
 
@@ -82,6 +85,7 @@ const UserProfile = () => {
     }
 
     try {
+      // Update user profile in the database
       const response = await axios.put(
         `http://localhost:4000/api/auth/update-profile/${user._id}`,
         formData,
@@ -93,8 +97,13 @@ const UserProfile = () => {
         }
       );
 
+      // Update the state with new user data from the database
       setUser(response.data.user);
       setProfilePictureUrl(`${response.data.user.profilePicture?.url}?t=${Date.now()}`);
+
+      // Update localStorage with the latest user data (for quick access)
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
       toast.success('Profile updated successfully!');
     } catch (error) {
       console.error("Error updating profile:", error.response?.data || error.message);
@@ -102,7 +111,8 @@ const UserProfile = () => {
     }
   };
 
-  if (error || !user) return <div><Navbar /><div className="no-user"><p>{error || 'No user information available.'}</p></div></div>;
+  if (loading) return <div><Navbar /><p>Loading...</p></div>;
+  if (error) return <div><Navbar /><div className="no-user"><p>{error}</p></div></div>;
 
   return (
     <>

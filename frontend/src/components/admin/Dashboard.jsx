@@ -1,113 +1,147 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, BarChart, Bar
-} from 'recharts';
-import Nav2 from '../Nav2';
-import Footer from '../Footer';
-import '../admin/css/AdminDashboard.css';
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+} from "recharts";
+import Nav2 from "../Nav2";
+import Footer from "../Footer";
+import "../admin/css/AdminDashboard.css";
 
 const AdminDashboard = () => {
   const [registrationData, setRegistrationData] = useState([]);
   const [gradeLevelData, setGradeLevelData] = useState([]);
   const [topStrands, setTopStrands] = useState([]);
+  const [topCourses, setTopCourses] = useState([]); // 🆕 New State
   const [examScoresData, setExamScoresData] = useState([]);
 
   useEffect(() => {
-    // Fetch user registration data
     const fetchRegistrationData = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/api/auth/registrations-over-time');
-        const formattedData = response.data.data.map(item => ({
-          date: item._id,
-          count: item.count
-        }));
-        setRegistrationData(formattedData);
+        const response = await axios.get(
+          "http://localhost:4000/api/auth/registrations-over-time"
+        );
+        setRegistrationData(
+          response.data.data.map((item) => ({
+            date: item._id,
+            count: item.count,
+          }))
+        );
       } catch (error) {
-        console.error('Error fetching registration data:', error);
+        console.error("Error fetching registration data:", error);
       }
     };
 
-    // Fetch grade level distribution data
     const fetchGradeLevelData = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/api/auth/grade-level-distribution');
-        const formattedData = response.data.data.map(item => ({
-          name: item._id,
-          value: item.count
-        }));
-        setGradeLevelData(formattedData);
+        const response = await axios.get(
+          "http://localhost:4000/api/auth/grade-level-distribution"
+        );
+        setGradeLevelData(
+          response.data.data.map((item) => ({
+            name: item._id,
+            value: item.count,
+          }))
+        );
       } catch (error) {
-        console.error('Error fetching grade level data:', error);
+        console.error("Error fetching grade level data:", error);
       }
     };
 
-    // Fetch top predicted strands
     const fetchTopStrands = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/api/predictions/top-strands');
-        const formattedData = response.data.data.map(item => ({
-          strand: item.strand,
-          average: item.average
-        }));
-        setTopStrands(formattedData);
+        const response = await axios.get(
+          "http://localhost:4000/api/predictions/top-strands"
+        );
+        setTopStrands(
+          response.data.data.map((item) => ({
+            strand: item.strand,
+            average: item.average,
+          }))
+        );
       } catch (error) {
-        console.error('Error fetching top strands:', error);
+        console.error("Error fetching top strands:", error);
       }
     };
 
-    // Fetch Exam Scores by Category
+    // 🆕 Fetch Top Courses
+    const fetchTopCourses = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/api/prediction_shs/top-courses");
+        console.log("Top Courses API Response:", response.data); // Debugging log
+        
+        setTopCourses(
+          response.data.data.map((item) => ({
+            course: item.course,
+            average: parseFloat(item.averagePercentage), // Convert to number
+          }))
+        );
+        
+      } catch (error) {
+        console.error("Error fetching top courses:", error);
+      }
+    };
+    
     const fetchExamScores = async () => {
       try {
         const response = await axios.get("http://localhost:4000/api/predictions/exam-scores");
     
-        if (response.data.success) {
-          const formattedData = Object.entries(response.data.totalExamScores).map(([category, score]) => ({
-            category,
-            score, // Already in percentage
-          }));
+        console.log("API Response for Exam Scores:", response.data); // Debugging log
     
-          console.log("Processed Exam Scores:", formattedData);
-          setExamScoresData(formattedData);
+        if (response.data.success && response.data.data) {
+          setExamScoresData(response.data.data);
+        } else {
+          console.error("Unexpected API Response:", response.data);
         }
       } catch (error) {
-        console.error("Error fetching exam scores:", error);
+        console.error("❌ Error fetching all exam scores:", error);
       }
     };
     
+    fetchExamScores();
+    
+   
     
     
-
     fetchRegistrationData();
     fetchGradeLevelData();
     fetchTopStrands();
+    fetchTopCourses(); // 🆕 Fetch Top Courses
     fetchExamScores();
+
   }, []);
 
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#790000'];
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#790000"];
 
   return (
     <>
       <Nav2 />
       <div className="dashboard-container">
-        {/* Admin Profile */}
         <div className="admin-profile">
           <div className="admin-avatar">👤</div>
           <div>
             <h2 className="admin-name">Admin Name</h2>
-            <p className="admin-role">ROLE: <span>ADMIN</span></p>
+            <p className="admin-role">
+              ROLE: <span>ADMIN</span>
+            </p>
           </div>
         </div>
 
-        {/* Dashboard Title */}
         <h2 className="dashboard-title">
           Here’s the daily record of our insights on our website today.
         </h2>
 
-        {/* Charts Section */}
         <div className="charts-container">
-          {/* User Registrations Line Chart */}
           <div className="chart-box">
             <h3 className="chart-title">User Registrations Over Time</h3>
             <ResponsiveContainer width="100%" height={250}>
@@ -116,12 +150,16 @@ const AdminDashboard = () => {
                 <XAxis dataKey="date" />
                 <YAxis />
                 <Tooltip />
-                <Line type="monotone" dataKey="count" stroke="#790000" strokeWidth={3} />
+                <Line
+                  type="monotone"
+                  dataKey="count"
+                  stroke="#790000"
+                  strokeWidth={3}
+                />
               </LineChart>
             </ResponsiveContainer>
           </div>
 
-          {/* Grade Level Distribution Pie Chart */}
           <div className="chart-box">
             <h3 className="chart-title">Grade Level Distribution</h3>
             <ResponsiveContainer width="100%" height={250}>
@@ -144,9 +182,8 @@ const AdminDashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          {/* Top Predicted Strands Bar Chart */}
           <div className="chart-box">
-            <h3 className="chart-title">Top Predicted Strands</h3>
+            <h3 className="chart-title">Top Predicted SHS Strands</h3>
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={topStrands}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -158,22 +195,27 @@ const AdminDashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          {/* 🆕 Exam Scores Bar Chart */}
-          {/* Exam Scores Bar Chart */}
+          {/* 🆕 Top Predicted Courses Bar Chart */}
           <div className="chart-box">
-  <h3 className="chart-title">Total Exam Scores by Category</h3>
+            <h3 className="chart-title">Top Predicted Courses</h3>
+            {topCourses.length > 0 ? (
   <ResponsiveContainer width="100%" height={250}>
-    <BarChart data={examScoresData}>
+    <BarChart data={topCourses}>
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="category" />
-      <YAxis />
+      <XAxis dataKey="course" />
+      <YAxis domain={[0, "auto"]} />
       <Tooltip />
-      <Bar dataKey="score" fill="#0088FE" radius={[10, 10, 0, 0]} />
+      <Bar dataKey="average" fill="#0088FE" radius={[10, 10, 0, 0]} />
     </BarChart>
   </ResponsiveContainer>
-</div>
+) : (
+  <p>No Top Courses data available.</p>
+)}
 
 
+          </div>
+
+        
 
         </div>
       </div>
