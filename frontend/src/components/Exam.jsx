@@ -129,6 +129,8 @@ const Exam = () => {
           endpoint = "http://localhost:5001/predict_exam_jhs";
         } else if (gradeLevel === "shs") {
           endpoint = "http://localhost:5001/prediction_exam_shs";
+        } else if (gradeLevel === "college") {
+          endpoint = "http://localhost:5001/prediction_exam_college";
         } else {
           toast.error("⚠️ Invalid grade level!", { position: "top-center", autoClose: 3000 });
           return;
@@ -153,6 +155,9 @@ const Exam = () => {
           } else if (gradeLevel === "shs") {
             localStorage.setItem("prediction_exam_shs", JSON.stringify(result.course_percentages));
             setPrediction(result.course_percentages); // Store the course percentages
+          }else if (gradeLevel === "college") {
+            localStorage.setItem("prediction_exam_college", JSON.stringify(result.career_percentages));
+            setPrediction(result.career_percentages); // Store the course percentages
           }
         } else {
           toast.error("⚠️ Error in prediction!", { position: "top-center", autoClose: 3000 });
@@ -184,6 +189,8 @@ const Exam = () => {
           endpoint = "http://localhost:5001/predict_exam_jhs";
         } else if (gradeLevel === "shs") {
           endpoint = "http://localhost:5001/prediction_exam_shs";
+        }else if (gradeLevel === "college") {
+          endpoint = "http://localhost:5001/prediction_exam_college";
         } else {
           toast.error("⚠️ Invalid grade level!", { position: "top-center", autoClose: 3000 });
           return;
@@ -201,14 +208,17 @@ const Exam = () => {
         const result = await response.json();
   
         if (response.ok) {
-          // Store the updated prediction result in localStorage
           if (gradeLevel === "jhs") {
             localStorage.setItem("prediction_exam_jhs", JSON.stringify(result.strand_percentages));
-            setPrediction(result.strand_percentages); // Store the updated strand percentages
+            setPrediction(result.strand_percentages);
           } else if (gradeLevel === "shs") {
             localStorage.setItem("prediction_exam_shs", JSON.stringify(result.course_percentages));
-            setPrediction(result.course_percentages); // Store the updated course percentages
+            setPrediction(result.course_percentages);
+          } else if (gradeLevel === "college") {
+            localStorage.setItem("prediction_exam_college", JSON.stringify(result.career_percentages));
+            setPrediction(result.career_percentages); // ✅ Store college predictions
           }
+        
           console.log("Updated prediction:", result); // Optional: Log result to the console
         } else {
           toast.error("⚠️ Error in prediction!", { position: "top-center", autoClose: 3000 });

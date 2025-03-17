@@ -1,90 +1,261 @@
+/* General Styles */
 .landing-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #600000;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+  color: #333;
+  line-height: 1.6;
+  background: #f9f9f9;
 }
 
-.content {
-    max-width: 700px;
-    padding: 20px;
+/* Hero Section */
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #800000, #660022); /* Maroon gradient */
+  color: white;
 }
 
-.title-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;  /* Reduced gap for better fit */
-    margin-bottom: 30px;
+.hero-content {
+  max-width: 500px;
 }
 
-.open-book-icon {
-    font-size: 80px;  /* Reduced size to fit better */
-    color: white;
+.hero-icon {
+  font-size: 60px;
+  margin-bottom: 20px;
+  animation: float 3s ease-in-out infinite;
+  color: #ffd1dc; /* Light pink for contrast */
 }
 
-.title-text {
-    text-align: left;
-    line-height: 0.9;
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
 }
 
-.heading {
-    font-size: 3rem;  /* Adjusted to fit the screen */
-    font-weight: bold;
-    letter-spacing: 2px;
-    margin-bottom: 5px;
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
-.tagline {
-    margin-top: 20px;
-    font-style: italic;
-    font-family: 'Lucida Handwriting', cursive;
-    font-size: 1.4rem;  /* Reduced to avoid scroll */
-    line-height: 1.5;
-    color: #ffcccb;
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+.highlight {
+  color: #ffd1dc; /* Light pink for contrast */
 }
 
-.button-container {
-    margin-top: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;  /* Adjusted spacing */
+.hero-tagline {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
 }
 
-.start-button {
-    width: 250px;  /* Medium-long rectangle */
-    padding: 14px 0;
-    background-color: #D32F2F;
-    color: white;
-    font-size: 1.6rem;  /* Slightly smaller for better layout */
-    font-weight: bold;
-    border-radius: 6px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    border: none;
-    cursor: pointer;
-    text-align: center;
+.cta-button {
+  padding: 12px 24px;
+  background: white;
+  color: #800000; /* Maroon */
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.start-button:hover {
-    background-color: #C62828;
-    transform: translateY(-2px);
+.cta-button:hover {
+  background: #ffe6f2; /* Light pink */
 }
 
-.user-icon-left {
-    font-size: 40px;  /* Adjusted icon size */
-    color: white;
+.hero-video video {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.journey-text {
-    margin-top: 20px;
-    font-size: 1.3rem;  /* Adjusted for consistency */
-    font-weight: 500;
+/* Features Section */
+.features-section {
+  padding: 80px 20px;
+  background: white;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 40px;
+  color: #800000; /* Maroon */
+}
+
+.features-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.feature-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+}
+
+.feature-icon {
+  font-size: 40px;
+  color: #800000; /* Maroon */
+  margin-bottom: 15px;
+}
+
+.feature-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #800000; /* Maroon */
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* About Section */
+.about-section {
+  padding: 80px 20px;
+  background: #ffe6f2; /* Light pink */
+  text-align: center;
+}
+
+.about-section p {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Why Choose Us Section */
+.why-choose-section {
+  padding: 80px 20px;
+  background: white;
+  text-align: center;
+}
+
+.why-choose-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.why-choose-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.why-choose-card:hover {
+  transform: translateY(-10px);
+}
+
+.why-choose-icon {
+  font-size: 40px;
+  color: #800000; /* Maroon */
+  margin-bottom: 15px;
+}
+
+.why-choose-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #800000; /* Maroon */
+}
+
+.why-choose-card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+  padding: 80px 20px;
+  background: #ffe6f2; /* Light pink */
+  text-align: center;
+}
+
+.testimonials-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.testimonial-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  text-align: center;
+}
+
+.testimonial-card p {
+  font-size: 0.9rem;
+  color: #555;
+  font-style: italic;
+}
+
+.testimonial-card span {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #800000; /* Maroon */
+}
+
+/* Call to Action Section */
+.cta-section {
+  padding: 80px 20px;
+  background: #800000; /* Maroon */
+  color: white;
+  text-align: center;
+}
+
+.cta-section .cta-button {
+  background: white;
+  color: #800000; /* Maroon */
+}
+
+.cta-section .cta-button:hover {
+  background: #ffe6f2; /* Light pink */
+}
+
+/* Footer Section */
+.footer-section {
+  padding: 20px;
+  background: #333;
+  color: white;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-section {
+      flex-direction: column;
+      text-align: center;
+  }
+
+  .hero-video {
+      margin-top: 30px;
+  }
+
+  .features-grid, .why-choose-grid, .testimonials-grid {
+      flex-direction: column;
+      align-items: center;
+  }
 }

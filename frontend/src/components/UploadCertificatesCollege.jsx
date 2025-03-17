@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Correctly import useNavigate
 import axios from "axios";
 import "../components/css/colledgecert.css";
 import Nav2 from "./Nav2"; // Import Navbar
@@ -9,6 +10,8 @@ const UploadCertificates = ({ onUpload = () => {} }) => {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState("");
     const [predictedCareers, setPredictedCareers] = useState([]);
+    
+    const navigate = useNavigate(); // Define navigate function
 
     const handleImageChange = (event) => {
         const files = event.target.files;
@@ -51,14 +54,10 @@ const UploadCertificates = ({ onUpload = () => {} }) => {
 
     return (
         <>
-            {/* Navbar */}
             <Nav2 />
-
-            {/* Upload Section */}
             <div className="cert-upload-flex">
                 <div className="cert-upload-card-container">
                     <h2 className="cert-upload-title">Upload Certificate</h2>
-                    
                     <label className="cert-upload-file-input">
                         📂 Click to Select Files
                         <input 
@@ -69,7 +68,6 @@ const UploadCertificates = ({ onUpload = () => {} }) => {
                             className="cert-upload-hidden-input"
                         />
                     </label>
-                    
                     <div className="cert-upload-preview-container">
                         {selectedImages.map((image, index) => (
                             <div key={index} className="cert-upload-preview-box">
@@ -83,9 +81,7 @@ const UploadCertificates = ({ onUpload = () => {} }) => {
                             </div>
                         ))}
                     </div>
-                    
                     {error && <p className="cert-upload-error-message">{error}</p>}
-                    
                     <button 
                         onClick={handleUpload} 
                         className={`cert-upload-button cert-upload-btn ${selectedImages.length ? "" : "disabled"}`}
@@ -100,7 +96,6 @@ const UploadCertificates = ({ onUpload = () => {} }) => {
                             "Predict Career"
                         )}
                     </button>
-
                     {predictedCareers.length > 0 && (
                         <div className="cert-upload-prediction-box">
                             <h3>Predicted Careers:</h3>
@@ -111,14 +106,14 @@ const UploadCertificates = ({ onUpload = () => {} }) => {
                             </ul>
                         </div>
                     )}
-                    
-                    <button className="cert-upload-button cert-upload-proceed-btn">
+                    <button
+                        className="cert-upload-button cert-upload-proceed-btn"
+                        onClick={() => navigate("/PQcollege")}
+                    >
                         Proceed
                     </button>
                 </div>
             </div>
-
-            {/* Footer */}
             <Footer />
         </>
     );

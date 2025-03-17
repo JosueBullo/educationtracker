@@ -1327,46 +1327,240 @@ def predict_career_from_certificate():
 def predict_career_from_questionnaire(responses):
     question_mapping = {
         "Do you enjoy working with computers and technology?": {
-            "Yes": {"computer": 5, "engineering": 3},
+            "Yes": {
+                "Software Engineer": 5,
+                "Data Scientist": 5,
+                "Cybersecurity Analyst": 4,
+                "AI Specialist": 4,
+                "Game Developer": 3,
+                "Network Engineer": 3,
+                "IT Specialist": 3,
+                "Mobile App Developer": 3,
+                "System Administrator": 3,
+                "Big Data Specialist": 3,
+                "Machine Learning Engineer": 4
+            },
             "No": {}
         },
         "Are you interested in managing businesses or finances?": {
-            "Yes": {"business administration": 5, "finance": 5},
+            "Yes": {
+                "Marketing Manager": 5,
+                "Financial Analyst": 5,
+                "HR Specialist": 4,
+                "Operations Manager": 4,
+                "Business Consultant": 4,
+                "Brand Manager": 3,
+                "Digital Marketing Manager": 3,
+                "Venture Capitalist": 3
+            },
             "No": {}
         },
         "Do you like helping people with medical needs?": {
-            "Yes": {"nursing": 5, "medical": 5},
+            "Yes": {
+                "Registered Nurse": 5,
+                "Medical Assistant": 4,
+                "Healthcare Administrator": 4,
+                "Critical Care Nurse": 4,
+                "Medical Doctor": 5,
+                "Surgeon": 5,
+                "Pediatrician": 4,
+                "Medical Technologist": 3,
+                "Clinical Analyst": 3,
+                "Pathology Specialist": 3,
+                "Radiologic Technologist": 3,
+                "MRI Technician": 3,
+                "Ultrasound Technician": 3,
+                "Rehabilitation Specialist": 3,
+                "Sports Therapist": 3,
+                "Occupational Health Specialist": 3,
+                "Dietitian": 3,
+                "Nutritionist": 3,
+                "Health Coach": 3,
+                "Pharmacist": 4,
+                "Clinical Researcher": 4,
+                "Hospital Pharmacist": 4
+            },
             "No": {}
         },
         "Are you passionate about teaching and education?": {
-            "Yes": {"education": 5},
+            "Yes": {
+                "Elementary Teacher": 5,
+                "Curriculum Developer": 4,
+                "Education Consultant": 4,
+                "School Administrator": 4,
+                "Math Teacher": 4,
+                "Science Teacher": 4,
+                "Lab Instructor": 3,
+                "STEM Curriculum Specialist": 3,
+                "Special Education Teacher": 3,
+                "Therapeutic Instructor": 3,
+                "Inclusion Specialist": 3,
+                "PE Teacher": 3,
+                "Sports Coach": 3,
+                "Fitness Trainer": 3,
+                "Preschool Teacher": 3,
+                "Child Development Specialist": 3,
+                "Montessori Educator": 3,
+                "Instructional Designer": 3
+            },
             "No": {}
         },
         "Do you enjoy designing and building things?": {
-            "Yes": {"engineering": 5, "mechanical engineering": 5},
+            "Yes": {
+                "Mechanical Engineer": 5,
+                "Automotive Engineer": 4,
+                "Robotics Engineer": 4,
+                "Manufacturing Engineer": 4,
+                "Structural Engineer": 4,
+                "Aerospace Engineer": 4,
+                "Construction Engineer": 4,
+                "Power Systems Engineer": 3,
+                "Telecommunications Engineer": 3,
+                "Process Engineer": 3,
+                "Embedded Systems Developer": 3,
+                "Electronics Engineer": 3,
+                "Hardware Engineer": 3,
+                "Propulsion Engineer": 3,
+                "Aircraft Designer": 3,
+                "Spacecraft Systems Engineer": 3
+            },
             "No": {}
         },
         "Are you interested in law and justice?": {
-            "Yes": {"law": 5, "criminology": 3},
+            "Yes": {
+                "Lawyer": 5,
+                "Judge": 4,
+                "Corporate Lawyer": 4,
+                "Legal Consultant": 4,
+                "Compliance Officer": 3,
+                "Government Policy Analyst": 3,
+                "Lobbyist": 3,
+                "Legal Researcher": 3,
+                "Corporate Legal Advisor": 3
+            },
             "No": {}
         },
         "Do you like working with numbers, investments, or economics?": {
-            "Yes": {"finance": 5, "business administration": 3},
+            "Yes": {
+                "Accountant": 5,
+                "Auditor": 4,
+                "Tax Consultant": 4,
+                "Chief Financial Officer (CFO)": 4,
+                "Investment Banker": 4,
+                "Risk Manager": 3,
+                "Economist": 3,
+                "Market Researcher": 3
+            },
             "No": {}
         },
         "Are you interested in journalism, writing, or public relations?": {
-            "Yes": {"media": 5},
+            "Yes": {
+                "Journalist": 5,
+                "Public Relations Specialist": 4,
+                "Media Producer": 4,
+                "Author": 3,
+                "Screenwriter": 3,
+                "Poet": 3,
+                "Literary Critic": 3
+            },
             "No": {}
         },
         "Do you enjoy working with plants, animals, or environmental sustainability?": {
-            "Yes": {"agriculture": 5, "science": 3},
+            "Yes": {
+                "Agricultural Scientist": 5,
+                "Farm Manager": 4,
+                "Agribusiness Consultant": 4,
+                "Environmental Manager": 4,
+                "Forestry Specialist": 3,
+                "Fisheries Specialist": 3
+            },
             "No": {}
         },
         "Do you prefer working in a hands-on, practical environment rather than theoretical work?": {
-            "Yes": {"trade skills": 5, "engineering": 3},
+            "Yes": {
+                "Mechanical Engineer": 5,
+                "Automotive Engineer": 4,
+                "Robotics Engineer": 4,
+                "Manufacturing Engineer": 4,
+                "Construction Engineer": 4,
+                "Process Engineer": 3,
+                "Embedded Systems Developer": 3,
+                "Electronics Engineer": 3,
+                "Hardware Engineer": 3
+            },
+            "No": {}
+        },
+        "Are you interested in scientific research and discovery?": {
+            "Yes": {
+                "Biologist": 5,
+                "Biomedical Researcher": 4,
+                "Wildlife Biologist": 4,
+                "Chemist": 4,
+                "Pharmaceutical Scientist": 4,
+                "Forensic Scientist": 3,
+                "Physicist": 3,
+                "Medical Physicist": 3,
+                "Astrophysicist": 3,
+                "Environmental Consultant": 3,
+                "Sustainability Officer": 3,
+                "Climate Change Analyst": 3,
+                "Operations Research Analyst": 3,
+                "Quantitative Analyst": 3,
+                "Statistician": 3,
+                "Survey Methodologist": 3,
+                "Geneticist": 3
+            },
+            "No": {}
+        },
+        "Do you enjoy creative activities like writing, art, or design?": {
+            "Yes": {
+                "Journalist": 5,
+                "Public Relations Specialist": 4,
+                "Media Producer": 4,
+                "Author": 3,
+                "Screenwriter": 3,
+                "Poet": 3,
+                "Literary Critic": 3
+            },
+            "No": {}
+        },
+        "Are you interested in politics or public service?": {
+            "Yes": {
+                "Policy Analyst": 5,
+                "Government Officer": 4,
+                "Diplomat": 4,
+                "Lobbyist": 3,
+                "International Policy Analyst": 3,
+                "Foreign Service Officer": 3,
+                "Community Development Officer": 3
+            },
+            "No": {}
+        },
+        "Do you enjoy working in hospitality or tourism?": {
+            "Yes": {
+                "Hotel Manager": 5,
+                "Event Coordinator": 4,
+                "Food and Beverage Manager": 4,
+                "Tourism Officer": 4,
+                "Travel Consultant": 3,
+                "Event Planner": 3,
+                "Cultural Tourism Specialist": 3,
+                "Chef": 3,
+                "Culinary Consultant": 3,
+                "Agribusiness Consultant": 3
+            },
+            "No": {}
+        },
+        "Are you interested in solving crimes or working in law enforcement?": {
+            "Yes": {
+                "Criminologist": 5,
+                "Police Officer": 4,
+                "Forensic Analyst": 4
+            },
             "No": {}
         }
     }
+
     
     career_scores = {field: 0 for field in {career for options in question_mapping.values() for career in options.get("Yes", {})}}
     
@@ -1403,7 +1597,262 @@ def predict_career_pq():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+    # COLLEGE EXAM--------------------------------------------------------------------------------------------------------------------
       
+      
+      # Career mapping dictionary
+career_mapping = {
+    "computer": {
+        "careers": [
+            "Software Engineer", "Data Scientist", "Cybersecurity Analyst", "AI Specialist", 
+            "Game Developer", "Network Engineer", "IT Specialist", "Mobile App Developer", 
+            "System Administrator", "Big Data Specialist", "Machine Learning Engineer"
+        ],
+        "keywords": [
+            "programming", "coding", "Python", "Java", "C++", "web development", "cloud computing", 
+            "database management", "software development", "data analysis", "machine learning", 
+            "artificial intelligence", "game programming", "blockchain", "IT security", "ethical hacking"
+        ]
+    },
+    "business administration": {
+        "careers": [
+            "Marketing Manager", "Financial Analyst", "HR Specialist", "Operations Manager", 
+            "Business Consultant", "Brand Manager", "Digital Marketing Manager", "Venture Capitalist"
+        ],
+        "keywords": [
+            "marketing", "business strategy", "corporate finance", "advertising", "SEO", "e-commerce", 
+            "supply chain", "leadership", "entrepreneurship", "human resources", "business analytics", 
+            "customer relations", "brand management", "management consulting"
+        ]
+    },
+    "mechanical engineering": {
+        "careers": [
+            "Mechanical Engineer", "Automotive Engineer", "Robotics Engineer", "Manufacturing Engineer"
+        ],
+        "keywords": [
+            "mechanics", "thermodynamics", "CAD", "solid mechanics", "fluid dynamics", "automotive design", 
+            "robotics", "manufacturing", "aerospace technology", "mechanical automation"
+        ]
+    },
+    "nursing": {
+        "careers": [
+            "Registered Nurse", "Medical Assistant", "Healthcare Administrator", "Critical Care Nurse"
+        ],
+        "keywords": [
+            "first aid", "medical assistance", "patient care", "emergency response", "anatomy", "nursing procedures", 
+            "clinical practice", "hospice care", "mental health nursing", "community health", "nursing"
+        ]
+    },
+    "engineering": {
+        "careers": [
+            "Structural Engineer", "Aerospace Engineer", "Construction Engineer", "Power Systems Engineer", 
+            "Telecommunications Engineer", "Process Engineer", "Embedded Systems Developer", "Electronics Engineer", 
+            "Hardware Engineer", "Propulsion Engineer", "Aircraft Designer", "Spacecraft Systems Engineer"
+        ],
+        "keywords": [
+            "civil engineering", "electrical systems", "infrastructure", "transportation", "renewable energy", 
+            "robotics", "aerodynamics", "mechanical systems", "satellite technology", "bridge construction"
+        ]
+    },
+    "medical": {
+        "careers": [
+            "Medical Doctor", "Surgeon", "Pediatrician", "Medical Technologist", "Clinical Analyst", 
+            "Pathology Specialist", "Radiologic Technologist", "MRI Technician", "Ultrasound Technician", 
+            "Rehabilitation Specialist", "Sports Therapist", "Occupational Health Specialist", 
+            "Dietitian", "Nutritionist", "Health Coach", "Pharmacist", "Clinical Researcher", "Hospital Pharmacist",
+        ],
+        "keywords": [
+            "healthcare", "medicine", "radiology", "anatomy", "pharmacology", "public health", 
+            "physical therapy", "patient diagnostics", "clinical research", "surgery", "genetics"
+        ]
+    },
+    "law": {
+        "careers": [
+            "Lawyer", "Judge", "Corporate Lawyer", "Legal Consultant", "Compliance Officer", 
+            "Government Policy Analyst", "Lobbyist", "Legal Researcher", "Corporate Legal Advisor"
+        ],
+        "keywords": [
+            "law", "jurisprudence", "legal studies", "court proceedings", "corporate law", 
+            "criminal justice", "international law", "intellectual property", "business law", "ethics"
+        ]
+    },
+    "education": {
+        "careers": [
+            "Elementary Teacher", "Curriculum Developer", "Education Consultant", "School Administrator", 
+            "Math Teacher", "Science Teacher", "Lab Instructor", "STEM Curriculum Specialist", 
+            "Special Education Teacher", "Therapeutic Instructor", "Inclusion Specialist", 
+            "PE Teacher", "Sports Coach", "Fitness Trainer", "Preschool Teacher", "Child Development Specialist", 
+            "Montessori Educator", "Instructional Designer"
+        ],
+        "keywords": [
+            "teaching", "curriculum development", "early childhood education", "inclusive education", 
+            "special education", "STEM education", "pedagogy", "instructional design", "education"
+        ]
+    },
+    "science": {
+        "careers": [
+            "Biologist", "Biomedical Researcher", "Wildlife Biologist", "Chemist", "Pharmaceutical Scientist", 
+            "Forensic Scientist", "Physicist", "Medical Physicist", "Astrophysicist", "Environmental Consultant", 
+            "Sustainability Officer", "Climate Change Analyst", "Operations Research Analyst", "Quantitative Analyst", 
+            "Statistician", "Survey Methodologist", "Geneticist"
+        ],
+        "keywords": [
+            "biology", "physics", "chemistry", "biotechnology", "astronomy", "genetics", 
+            "sustainability", "climate change", "forensic science", "data science"
+        ]
+    },
+    "finance": {
+        "careers": [
+            "Accountant", "Auditor", "Tax Consultant", "Chief Financial Officer (CFO)", "Investment Banker", 
+            "Risk Manager", "Economist", "Market Researcher"
+        ],
+        "keywords": [
+            "accounting", "taxation", "auditing", "investment", "corporate finance", 
+            "stock market", "financial modeling", "risk analysis"
+        ]
+    },
+    "political": {
+        "careers": [
+            "Policy Analyst", "Government Officer", "Diplomat", "Lobbyist", "International Policy Analyst", 
+            "Foreign Service Officer", "Community Development Officer"
+        ],
+        "keywords": [
+            "public administration", "politics", "government policies", "international relations", 
+            "diplomacy", "foreign affairs", "public service"
+        ]
+    },
+    "media": {
+        "careers": [
+            "Journalist", "Public Relations Specialist", "Media Producer", "Author", "Screenwriter", 
+            "Poet", "Literary Critic"
+        ],
+        "keywords": [
+            "journalism", "mass communication", "public relations", "content writing", "film production", 
+            "digital media", "creative writing", "scriptwriting"
+        ]
+    },
+    "criminology": {
+        "careers": [
+            "Criminologist", "Police Officer", "Forensic Analyst"
+        ],
+        "keywords": [
+            "criminal justice", "law enforcement", "forensic science", "investigation techniques", 
+            "crime scene analysis", "public safety"
+        ]
+    },
+    "hospitality": {
+        "careers": [
+            "Hotel Manager", "Event Coordinator", "Food and Beverage Manager", "Tourism Officer", 
+            "Travel Consultant", "Event Planner", "Cultural Tourism Specialist", "Chef", 
+            "Culinary Consultant", "Agribusiness Consultant"
+        ],
+        "keywords": [
+            "hospitality", "tourism", "event planning", "hotel management", "food service", 
+            "travel industry", "customer service"
+        ]
+    },
+    "agriculture": {
+        "careers": [
+            "Agricultural Scientist", "Farm Manager", "Agribusiness Consultant", "Environmental Manager", 
+            "Forestry Specialist", "Fisheries Specialist"
+        ],
+        "keywords": [
+            "agriculture", "farming", "agribusiness", "sustainability", "environmental science", 
+            "crop management", "forestry", "fisheries", "natural resource management"
+        ]
+    }
+}
+# Helper function to extract numeric scores
+def extract_numeric_score(score_str):
+    """Extract numeric score from a string (e.g., '5/20' -> 5)."""
+    if isinstance(score_str, str) and '/' in score_str:
+        return int(score_str.split('/')[0])
+    return 0
+
+@app.route('/prediction_exam_college', methods=['POST'])
+def prediction_exam_college():
+    """Predict careers based on extracted scores from the frontend."""
+    try:
+        # Get the data sent from the frontend
+        data = request.get_json()
+        print("Received data:", data)  # Log the incoming data
+
+        # Extract the scores from the request data, default to empty dict if not found
+        scores = data.get("scores", {})
+        print("Scores from frontend:", scores)  # Log the scores received from frontend
+
+        # Extract numeric scores using the extract_numeric_score function
+        doctoral_score = extract_numeric_score(scores.get('DOCTORAL', '0'))
+        it_score = extract_numeric_score(scores.get('IT', '0'))
+        engineer_score = extract_numeric_score(scores.get('ENGINEER', '0'))
+        business_score = extract_numeric_score(scores.get('BUSINESS', '0'))
+        media_score = extract_numeric_score(scores.get('Media', '0'))
+        education_score = extract_numeric_score(scores.get('Education', '0'))
+        law_score = extract_numeric_score(scores.get('Law', '0'))
+        science_score = extract_numeric_score(scores.get('Science', '0'))
+        aviation_score = extract_numeric_score(scores.get('Aviation', '0'))
+        sports_score = extract_numeric_score(scores.get('Sports', '0'))
+        entertainment_score = extract_numeric_score(scores.get('Entertainment', '0'))
+        skill_trade_score = extract_numeric_score(scores.get('Skill Trade', '0'))
+
+        # Print extracted scores to debug
+        print(f"Extracted Scores -> DOCTORAL: {doctoral_score}, IT: {it_score}, ENGINEER: {engineer_score}, BUSINESS: {business_score}, Media: {media_score}, Education: {education_score}, Law: {law_score}, Science: {science_score}, Aviation: {aviation_score}, Sports: {sports_score}, Entertainment: {entertainment_score}, Skill Trade: {skill_trade_score}")
+
+        # Initialize the dictionary to store career percentages
+        career_percentages = {}
+
+        # Define the maximum score per section
+        max_section_score = 20
+        max_percentage = 25  # Maximum allowed percentage per career
+
+        # Helper function to calculate percentage for a career
+        def calculate_percentage(score1, score2=0, divisor=2):
+            return round(((score1 + score2) / (divisor * max_section_score)) * max_percentage, 2)
+
+        # Map exam subjects to career categories and calculate percentages
+        # Computer Careers (IT)
+        for career in career_mapping["computer"]["careers"]:
+            career_percentages[career] = calculate_percentage(it_score, engineer_score)
+
+        # Business Administration Careers (BUSINESS)
+        for career in career_mapping["business administration"]["careers"]:
+            career_percentages[career] = calculate_percentage(business_score, 0)
+
+        # Engineering Careers (ENGINEER)
+        for career in career_mapping["engineering"]["careers"]:
+            career_percentages[career] = calculate_percentage(engineer_score, science_score)
+
+        # Medical Careers (DOCTORAL)
+        for career in career_mapping["medical"]["careers"]:
+            career_percentages[career] = calculate_percentage(doctoral_score, science_score)
+
+        # Law Careers (Law)
+        for career in career_mapping["law"]["careers"]:
+            career_percentages[career] = calculate_percentage(law_score, 0)
+
+        # Education Careers (Education)
+        for career in career_mapping["education"]["careers"]:
+            career_percentages[career] = calculate_percentage(education_score, 0)
+
+        # Science Careers (Science)
+        for career in career_mapping["science"]["careers"]:
+            career_percentages[career] = calculate_percentage(science_score, 0)
+
+        # Media Careers (Media)
+        for career in career_mapping["media"]["careers"]:
+            career_percentages[career] = calculate_percentage(media_score, 0)
+
+        # Log final results
+        print(f"Final Calculated Career Percentages: {career_percentages}")
+
+        # Return the result as a JSON response
+        return jsonify({'career_percentages': career_percentages})
+
+    except Exception as e:
+        # Log any errors for debugging purposes
+        print(f"Error in prediction: {e}")  # Log the error message
+        return jsonify({'error': str(e)}), 500  # Return the error message in the response
       
 if __name__ == "__main__":
     app.run(debug=True, port=5001, host="0.0.0.0")

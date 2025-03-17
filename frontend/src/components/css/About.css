@@ -1,4 +1,46 @@
 /* Centering the entire content */
+
+/* Video Container with Book-Style Frame */
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+  perspective: 1000px;
+}
+
+.video-frame {
+  position: relative;
+  width: 80%;
+  max-width: 900px;
+  padding: 20px;
+  background: linear-gradient(145deg, #e5e5e5, #ffffff);
+  box-shadow: inset -5px 0px 10px rgba(0, 0, 0, 0.2), /* Left side shadow (spine) */
+              inset 5px 0px 10px rgba(255, 255, 255, 0.8), /* Right side highlight (pages) */
+              5px 5px 15px rgba(0, 0, 0, 0.3), 
+              -5px -5px 15px rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  border-left: 8px solid maroon; /* Simulates book spine */
+  transform: rotateX(10deg) rotateY(-5deg);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Hover Effect - Glowing Book */
+.video-frame:hover {
+  transform: rotateX(0deg) rotateY(0deg) scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.7), 
+              0 0 40px rgba(255, 0, 0, 0.5),
+              5px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.video-frame video {
+  width: 100%;
+  border-radius: 5px;
+  display: block;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
 .about-container {
   display: flex;
   flex-direction: column;
@@ -343,4 +385,171 @@
 
 .team-member, .offer-item {
   font-family: 'Roboto', sans-serif;
+}
+
+.mission-vision-container {
+  text-align: center;
+  padding: 100px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.mission-vision-container {
+  text-align: center;
+  padding: 80px 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+.mission-vision-container .contact-title {
+  font-size: 50px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #333;
+}
+
+.mission-vision-container .contact-divider {
+  width: 120px;
+  height: 6px;
+  background-color: #ff4444;
+  margin: 25px auto;
+  border-radius: 10px;
+}
+
+.mission-vision-container .contact-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin-top: 40px;
+}
+
+.mission-vision-container .contact-item {
+  background-color: #ffe5e5;
+  padding: 50px;
+  border-radius: 20px;
+  width: 400px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2), 
+              -5px -5px 15px rgba(255, 255, 255, 0.5);
+}
+
+.mission-vision-container .contact-item:hover {
+  background-color: #ffcccc;
+  transform: translateY(-10px);
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.3), 
+              -10px -10px 20px rgba(255, 255, 255, 0.6);
+}
+
+.mission-vision-container .contact-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  color: #ff4444;
+  transition: transform 0.3s ease-in-out;
+}
+
+.mission-vision-container .contact-item:hover .contact-icon {
+  transform: rotate(10deg) scale(1.1);
+}
+
+.mission-vision-container .contact-header {
+  font-size: 28px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 3px solid #ff4444;
+  padding-bottom: 8px;
+  color: #333;
+}
+
+.mission-vision-container .contact-subtext {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #555;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.mission-vision-container .vertical-line {
+  width: 4px;
+  height: 250px;
+  background-color: #ff4444;
+  border-radius: 10px;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(-1deg); }
+  100% { transform: translateY(0px) rotate(1deg); }
+}
+
+@keyframes hoverEffect {
+  0% { transform: translateY(0px) rotate(0deg) scale(1); }
+  50% { transform: translateY(-12px) rotate(-2deg) scale(1.03); }
+  100% { transform: translateY(0px) rotate(2deg) scale(1); }
+}
+
+.education-importance {
+  background: linear-gradient(to bottom, #f9f5e3, #efe1c3);
+  border-radius: 20px;
+  padding: 20px 30px;
+  max-width: 800px;
+  margin: 40px auto;
+  font-family: "Georgia", serif;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+  position: relative;
+  border-left: 10px solid #c4a484;
+  border-right: 10px solid #c4a484;
+  animation: float 4s infinite ease-in-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Top and bottom curled effect */
+.education-importance::before,
+.education-importance::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 30px;
+  background: linear-gradient(to right, #e3d6b5, #f9f5e3, #e3d6b5);
+  left: 0;
+}
+
+.education-importance::before {
+  top: -15px;
+  border-radius: 50% / 10px;
+}
+
+.education-importance::after {
+  bottom: -15px;
+  border-radius: 50% / 10px;
+}
+
+/* Hover Effect - Intensifies floating and rocking */
+.education-importance:hover {
+  animation: hoverEffect 2s infinite ease-in-out;
+  box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Title Styling */
+.education-importance h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #7a4f2e;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Paragraph Styling */
+.education-importance p {
+  color: #4b382a;
+  text-align: justify;
+  margin-bottom: 15px;
 }

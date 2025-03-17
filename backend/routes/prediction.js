@@ -143,6 +143,10 @@ router.get("/exam-scores", async (req, res) => {
 
 
 
+
+module.exports = router;
+
+
 // ✅ THEN define the user-specific exam scores route
 // router.get("/exam-scores/:userId", async (req, res) => {
 //   try {
@@ -167,6 +171,3 @@ router.get("/exam-scores", async (req, res) => {
 //     res.status(500).json({ success: false, message: "Server error", error });
 //   }
 // });
-
-
-module.exports = router;

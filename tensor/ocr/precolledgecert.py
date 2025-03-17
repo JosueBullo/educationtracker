@@ -1,14 +1,24 @@
 import cv2
 import numpy as np
+import pytesseract
+import easyocr
 
-def preprocess_certificate(image_path):
-    """Enhance and preprocess a certificate image for improved OCR accuracy across different lighting and color backgrounds."""
-    
+# Initialize EasyOCR reader
+reader = easyocr.Reader(['en'])
+
+def preprocess_certificate(image_path, resize=True, blur=True, canny=False, thresholding=True, color=True):
+    """Enhance and preprocess a certificate image for improved OCR accuracy."""
     # Load the image
-    image = cv2.imread(image_path)
+    img = cv2.imread(image_path)
+    if img is None:
+        raise ValueError(f"Failed to load image: {image_path}")
+
+    # Resize the image for consistent processing
+    if resize:
+        img = cv2.resize(img, (1600, 1200))
 
     # Convert to LAB color space and apply White Balance Correction
-    lab = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
+    lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
     l, a, b = cv2.split(lab)
     l = cv2.equalizeHist(l)  # Normalize brightness
     balanced_lab = cv2.merge((l, a, b))
@@ -28,13 +38,22 @@ def preprocess_certificate(image_path):
     clahe = cv2.createCLAHE(clipLimit=3.5, tileGridSize=(8, 8))
     gray = clahe.apply(gray)
 
-    # Adaptive Thresholding (adjusted window size for better text contrast)
-    adaptive_thresh = cv2.adaptiveThreshold(
-        gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 25, 10
-    )
+    # Apply Gaussian Blur to reduce noise
+    if blur:
+        gray = cv2.GaussianBlur(gray, (3, 3), 0)
+
+    # Apply Canny Edge Detection (optional)
+    if canny:
+        gray = cv2.Canny(gray, 50, 150)
+
+    # Adaptive Thresholding for better text contrast
+    if thresholding:
+        gray = cv2.adaptiveThreshold(
+            gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 25, 10
+        )
 
     # Edge-Preserving Smoothing to reduce noise while keeping text intact
-    smooth = cv2.fastNlMeansDenoising(adaptive_thresh, None, h=20, templateWindowSize=7, searchWindowSize=21)
+    smooth = cv2.fastNlMeansDenoising(gray, None, h=20, templateWindowSize=7, searchWindowSize=21)
 
     # Apply a sharpening kernel to make text more legible
     sharpening_kernel = np.array([[0, -1, 0],
@@ -51,4 +70,27 @@ def preprocess_certificate(image_path):
     preprocessed_path = image_path.replace(".png", "_processed.png").replace(".jpg", "_processed.jpg")
     cv2.imwrite(preprocessed_path, processed)
 
-    return preprocessed_path
+    return processed if not color else balanced_image
+
+def extract_text(image_path, use_easyocr=True):
+    """Extract text from certificate images using either EasyOCR or Tesseract."""
+    processed_img = preprocess_certificate(image_path, color=False)
+
+    if use_easyocr:
+        # Use EasyOCR for text extraction
+        results = reader.readtext(processed_img, detail=1)
+        text_data = [text[1] for text in results if text[2] > 0.7]  # Filter by confidence score
+    else:
+        # Use Tesseract for text extraction
+        custom_config = r'--oem 3 --psm 6 -c tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz% '
+        text_data = pytesseract.image_to_string(processed_img, config=custom_config).split('\n')
+
+    # Clean and return the extracted text
+    return [line.strip() for line in text_data if line.strip()]
+
+# Example usage
+if __name__ == "__main__":
+    image_path = "certificate.jpg"
+    preprocessed_image = preprocess_certificate(image_path)
+    extracted_text = extract_text(image_path, use_easyocr=True)
+    print("Extracted Text:", extracted_text)

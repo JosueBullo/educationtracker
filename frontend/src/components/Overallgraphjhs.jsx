@@ -227,6 +227,9 @@ const OverallResult = () => {
       };
     });
   };
+  const redirectToFinalResultJHS = () => {
+    navigate("/FinalResultJHS"); // Redirect to FinalResultSHS page
+  };
 
    return (
     <>
@@ -269,6 +272,10 @@ const OverallResult = () => {
   <button onClick={downloadPDF} className="btn">Download PDF</button>
   <button onClick={sendEmail} className="btn">Send via Email</button>
   <button onClick={printChart} className="btn">Print</button>
+  <button onClick={redirectToFinalResultJHS} className="btn">Generate Final Report</button>
+         
+        
+
   
 </div>
 

@@ -1,0 +1,137 @@
+/* Overall Container */
+.career-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f9fafb; /* Light gray background */
+  }
+  
+  .content-wrapper {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  /* Main Container */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* White background */
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
+  
+  /* Headings */
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b; /* Dark gray */
+    margin-bottom: 20px;
+  }
+  
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1e293b; /* Dark gray */
+    margin-bottom: 16px;
+  }
+  
+  h4 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1e293b; /* Dark gray */
+    margin-bottom: 12px;
+  }
+  
+  /* Loading Text */
+  .text-center {
+    text-align: center;
+    color: #64748b; /* Medium gray */
+  }
+  
+  /* Top Careers List */
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 8px;
+    background-color: #f8fafc; /* Light gray */
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+  
+  li:hover {
+    background-color: #e2e8f0; /* Slightly darker gray on hover */
+  }
+  
+  li span {
+    font-size: 16px;
+    color: #1e293b; /* Dark gray */
+  }
+  
+  li span:last-child {
+    font-weight: 600;
+    color: #4f46e5; /* Indigo */
+  }
+  
+  /* Bar Chart Container */
+  .responsive-container {
+    margin-top: 16px;
+  }
+  
+  /* Interpretation Section */
+  .interpretation-section {
+    padding: 16px;
+    background-color: #f8fafc; /* Light gray */
+    border-radius: 8px;
+    margin-top: 24px;
+  }
+  
+  .interpretation-section p {
+    font-size: 16px;
+    color: #475569; /* Medium gray */
+    line-height: 1.6;
+  }
+  
+  /* Footer */
+  footer {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #1e293b; /* Dark gray */
+    color: #ffffff; /* White text */
+    text-align: center;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .container {
+      padding: 16px;
+    }
+  
+    h2 {
+      font-size: 22px;
+    }
+  
+    h3 {
+      font-size: 18px;
+    }
+  
+    h4 {
+      font-size: 16px;
+    }
+  
+    li span {
+      font-size: 14px;
+    }
+  
+    .interpretation-section p {
+      font-size: 14px;
+    }
+  }

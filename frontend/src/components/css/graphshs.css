@@ -1,0 +1,130 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  
+  .graph-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    color: #6a11cb;
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    color: #2575fc;
+    margin-bottom: 15px;
+  }
+  
+  /* Top Choices Section */
+  .top-choices {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .top-choices p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #555;
+  }
+  
+  .top-choices strong {
+    color: #ff416c;
+  }
+  
+  /* Charts Container */
+  .charts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .chart-wrapper {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+  }
+  
+  .large-chart {
+    max-width: 100%;
+  }
+  
+  /* Buttons */
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    background-color: #6a11cb;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn:hover {
+    background-color: #2575fc;
+  }
+  
+  .back-btn {
+    background-color: #ff416c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+  }
+  
+  .back-btn:hover {
+    background-color: #ff4b2b;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .charts-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .chart-wrapper {
+      width: 90%;
+    }
+  
+    .button-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .btn {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }

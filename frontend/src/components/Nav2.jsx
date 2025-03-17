@@ -10,9 +10,8 @@ function Nav2() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if the user is logged in
     const token = localStorage.getItem('auth-token');
-    const user = JSON.parse(localStorage.getItem('user')); // Assuming user details are stored in localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
 
     if (token) {
       setIsLoggedIn(true);
@@ -26,14 +25,8 @@ function Nav2() {
 
   const handleLogout = () => {
     localStorage.clear();
-
-
-
-    // Update state to reflect logout
     setIsLoggedIn(false);
     setIsAdmin(false);
-
-    // Redirect to login page
     navigate('/login');
   };
 
@@ -51,8 +44,9 @@ function Nav2() {
           </div>
         </div>
 
-        {/* Show Logout button if logged in, otherwise show Login */}
-        <div className="logout-container">
+        {/* About Us & Logout Container */}
+        <div className="nav-right-container">
+          <Link to="/Aboutus" className="nav2-link" style={{ color: 'white', marginRight: '20px' }}>About Us</Link>
           {isLoggedIn ? (
             <button className="logout-button" onClick={handleLogout}>Logout</button>
           ) : (
@@ -76,7 +70,6 @@ function Nav2() {
             </li>
           )}
 
-          {/* Hide User Profile link if not logged in */}
           {isLoggedIn && !isAdmin && (
             <li className="nav2-item">
               <Link to="/user-profile" className="nav2-link">User Profile</Link>
@@ -91,7 +84,6 @@ function Nav2() {
             <Link to="/contact" className="nav2-link">Contact</Link>
           </li>
 
-          {/* Hide SHS Strands, Courses, and Careers if admin is logged in */}
           {!isAdmin && (
             <>
               <li className="nav2-item">
@@ -106,7 +98,6 @@ function Nav2() {
             </>
           )}
 
-          {/* Admin-specific links */}
           {isAdmin && (
             <li className="nav2-item">
               <Link to="/admin/users" className="nav2-link">Manage Users</Link>

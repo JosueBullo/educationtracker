@@ -28,33 +28,58 @@ const Portal = () => {
   }, []);
 
   const handlePortalClick = (portalType) => {
-    let newGradeLevel = "";
+    // Retrieve the user object from localStorage
+    const storedUser = localStorage.getItem("user");
+    let userGradeLevel = "";
 
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        userGradeLevel = parsedUser.gradeLevel || "";
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+      }
+    }
+
+    // Check if the user is allowed to access the selected portal
     if (portalType === "shs") {
-      if (gradeLevel === "Senior High School" || gradeLevel === "College") {
-        toast.error("🚫 You cannot access the Senior High School portal.");
+      if (userGradeLevel !== "Junior High School") {
+        toast.error("🚫 This portal is only for Junior High School students.", {
+          position: "top-center",
+          autoClose: 3000,
+        });
         return;
       }
-      newGradeLevel = "jhs";
+      // Update gradeLevel in localStorage to "jhs"
+      localStorage.setItem("gradeLevel", "jhs");
       navigate("/UploadGrades/jhs");
     } 
     
     else if (portalType === "college") {
-      if (gradeLevel === "College") {
-        toast.error("🚫 You cannot access the College portal.");
+      if (userGradeLevel !== "Senior High School") {
+        toast.error("🚫 This portal is only for Senior High School students.", {
+          position: "top-center",
+          autoClose: 3000,
+        });
         return;
       }
-      newGradeLevel = "shs";
+      // Update gradeLevel in localStorage to "shs"
+      localStorage.setItem("gradeLevel", "shs");
       navigate("/UploadGrades/shs");
     } 
     
     else if (portalType === "career") {
-      newGradeLevel = "college";
+      if (userGradeLevel !== "College") {
+        toast.error("🚫 This portal is only for College students.", {
+          position: "top-center",
+          autoClose: 3000,
+        });
+        return;
+      }
+      // Update gradeLevel in localStorage to "college"
+      localStorage.setItem("gradeLevel", "college");
       navigate("/CourseSelection/college");
     }
-
-    // Save the selected grade level to localStorage
-    localStorage.setItem("gradeLevel", newGradeLevel);
   };
 
   return (
@@ -87,7 +112,7 @@ const Portal = () => {
             </button>
           </div>
 
-          {/* Career Portal (Always Enabled) */}
+          {/* Career Portal */}
           <div className="portal">
             <h2>For Your Future Career</h2>
             <img src={careerImg} alt="Upload Certificates" />
@@ -102,116 +127,12 @@ const Portal = () => {
       </div>
       
       {/* Toast Notification Container */}
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
-<div></div>
-<div style={{ height: "150px" }}></div>
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
+      <div></div>
+      <div style={{ height: "150px" }}></div>
       <Footer />
     </>
   );
 };
 
 export default Portal;
-
-
-
-
-
-// import React from "react";
-// import Nav2 from "./Nav2";
-// import Footer from "./Footer";
-// import "../components/css/Portal.css";
-// import shsImg from "../assets/shs.png";
-// import collegeImg from "../assets/college.png";
-// import careerImg from "../assets/career.png";
-
-// const Portal = () => {
-//   return (
-//     <>
-//       <Nav2 />
-//       <div className="portal-container">
-//         <h1>Portal</h1>
-//         <div className="portal-grid">
-//           <div className="portal">
-//             <h2>For Incoming Senior HighSchool</h2>
-//             <img src={shsImg} alt="Select Portal" />
-            
-//             <button className="portal-btn" onClick={() => window.location.href = '/documents'}>Predict Your Strand</button>
-//           </div>
-
-//           <div className="portal">
-//             <h2>For Incoming College</h2>
-//             <img src={collegeImg} alt="Upload Grades" />
-           
-//             <button className="portal-btn" onClick={() => window.location.href = '/documents'}>Predict Your Course</button>
-//           </div>
-
-//           <div className="portal">
-//             <h2>For Your Future Career</h2>
-//             <img src={careerImg} alt="Upload Certificates" />
-            
-//             <button className="portal-btn" onClick={() => window.location.href = '/documents'}>Predict Your Career</button>
-//           </div>
-//         </div>
-//       </div>
-
-//       <Footer />
-//     </>
-//   );
-// };
-
-// export default Portal;
-
-// import React from "react";
-// import { useNavigate } from "react-router-dom";
-// import Nav2 from "./Nav2";
-// import Footer from "./Footer";
-// import "../components/css/Portal.css";
-// import shsImg from "../assets/shs.png";
-// import collegeImg from "../assets/college.png";
-// import careerImg from "../assets/career.png";
-
-// const Portal = () => {
-//   const navigate = useNavigate();
-
-//   const handleSelection = (type) => {
-//     localStorage.setItem("gradeLevel", type); // Store selected type in local storage
-//     navigate(`/UploadGrades/${type}`);
-//   };
-
-//   return (
-//     <>
-//       <Nav2 />
-//       <div className="portal-container">
-//         <h1>Portal</h1>
-//         <div className="portal-grid">
-//           <div className="portal">
-//             <h2>For Incoming Senior High School</h2>
-//             <img src={shsImg} alt="Select Portal" />
-//             <button className="portal-btn" onClick={() => handleSelection("jhs")}>
-//               Predict Your Strand
-//             </button>
-//           </div>
-
-//           <div className="portal">
-//             <h2>For Incoming College</h2>
-//             <img src={collegeImg} alt="Upload Grades" />
-//             <button className="portal-btn" onClick={() => handleSelection("shs")}>
-//               Predict Your Course
-//             </button>
-//           </div>
-
-//           <div className="portal">
-//             <h2>For Your Future Career</h2>
-//             <img src={careerImg} alt="Upload Certificates" />
-//             <button className="portal-btn" onClick={() => handleSelection("college")}>
-//               Predict Your Career
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//       <Footer />
-//     </>
-//   );
-// };
-
-// export default Portal;

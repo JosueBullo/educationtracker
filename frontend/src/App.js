@@ -81,6 +81,11 @@ import Overallgraphshs from './components/Overallgraphshs';
 import CourseSelection from './components/CourseSelection';
 import UploadCertificatesCollege from './components/UploadCertificatesCollege';
 import PQcollege from './components/PQcollege';
+import Aboutus from './components/Aboutus';
+import OverallCollegegraph from './components/OverallCollegegraph';
+import Finalshs from './components/Finalshs';
+import Finaljhs from './components/Finaljhs';
+import Finalcollege from './components/Finalcollege';
 
 
 function App() {
@@ -154,6 +159,12 @@ function App() {
                 <Route path="/CourseSelection/:type" element={<CourseSelection />} />
                 <Route path="/UploadCertificatesCollege" element={<UploadCertificatesCollege />} />
                 <Route path="/PQcollege" element={<PQcollege />} />
+                <Route path="/Aboutus" element={<Aboutus />} />
+                <Route path="/graphcollege" element={<OverallCollegegraph />} />
+                <Route path="/FinalResultSHS" element={<Finalshs />} />
+                <Route path="/FinalResultJHS" element={<Finaljhs />} />
+                <Route path="/FinalResultCOLLEGE" element={<Finalcollege />} />
+
                 
 
 

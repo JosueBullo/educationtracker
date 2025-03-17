@@ -1,0 +1,498 @@
+/* Color variables */
+:root {
+    --maroon-primary: #800020;
+    --maroon-dark: #5a0017;
+    --maroon-light: #a6193d;
+    --maroon-lighter: #c41e3a;
+    --maroon-accent: #d2042d;
+    --maroon-muted: rgba(128, 0, 32, 0.1);
+    --maroon-border: rgba(128, 0, 32, 0.2);
+    --maroon-text: #2d0208;
+    --maroon-text-light: #580410;
+  }
+  
+  /* Container with maroon accents */
+  .dashboard-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    box-shadow: 0 10px 25px rgba(128, 0, 32, 0.1), 0 5px 10px rgba(128, 0, 32, 0.05);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--maroon-border);
+  }
+  
+  /* Header with maroon typography */
+  .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  
+  .dashboard-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--maroon-primary);
+    letter-spacing: -0.025em;
+  }
+  
+  /* Controls group with spacing */
+  .dashboard-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  /* Chart Type Selector with maroon accents */
+  .chart-type-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .chart-type-selector span {
+    font-size: 0.875rem;
+    color: var(--maroon-text-light);
+    font-weight: 500;
+  }
+  
+  .chart-type-selector select {
+    border: 1px solid var(--maroon-border);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    color: var(--maroon-text);
+    background-color: rgba(128, 0, 32, 0.03);
+    transition: all 0.2s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23800020' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 28px;
+  }
+  
+  .chart-type-selector select:hover {
+    border-color: var(--maroon-primary);
+  }
+  
+  .chart-type-selector select:focus {
+    outline: none;
+    border-color: var(--maroon-primary);
+    box-shadow: 0 0 0 2px rgba(128, 0, 32, 0.2);
+  }
+  
+  /* Tabs with maroon accents */
+  .tabs-container {
+    display: flex;
+    border-bottom: 1px solid var(--maroon-border);
+    margin-bottom: 24px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--maroon-primary) transparent;
+    gap: 4px;
+  }
+  
+  .tabs-container::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .tabs-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .tabs-container::-webkit-scrollbar-thumb {
+    background-color: var(--maroon-primary);
+    border-radius: 100px;
+  }
+  
+  .tab-button {
+    padding: 12px 16px;
+    color: var(--maroon-text-light);
+    font-weight: 500;
+    white-space: nowrap;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+  
+  .tab-button:hover {
+    color: var(--maroon-primary);
+  }
+  
+  .tab-button.active {
+    color: var(--maroon-primary);
+    font-weight: 600;
+  }
+  
+  .tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--maroon-primary);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+  }
+  
+  /* Report Button with maroon styling */
+  .report-button {
+    padding: 10px 18px;
+    background: var(--maroon-primary);
+    color: white;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 4px rgba(128, 0, 32, 0.25);
+  }
+  
+  .report-button:hover {
+    background: var(--maroon-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(128, 0, 32, 0.3);
+  }
+  
+  .report-button:active {
+    transform: translateY(0);
+    background: var(--maroon-dark);
+  }
+  
+  /* Add icon class for the report button */
+  .report-button-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
+  /* Chart Container with maroon loading state */
+  .chart-container {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    transition: opacity 0.3s ease;
+    border: 1px solid var(--maroon-muted);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  
+  .chart-container.loading {
+    opacity: 0.6;
+  }
+  
+  .chart-loading-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    color: var(--maroon-primary);
+  }
+  
+  .chart-container.loading .chart-loading-indicator {
+    display: block;
+  }
+  
+  /* Full Report Section with maroon accents */
+  .full-report {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--maroon-border);
+    animation: slideDown 0.3s ease;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .full-report h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--maroon-primary);
+  }
+  
+  .report-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 24px;
+  }
+  
+  @media (min-width: 768px) {
+    .report-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  /* Card improvements with maroon hover effects */
+  .report-card {
+    background: rgba(128, 0, 32, 0.02);
+    padding: 20px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    border: 1px solid var(--maroon-border);
+  }
+  
+  .report-card:hover {
+    box-shadow: 0 4px 12px rgba(128, 0, 32, 0.1);
+    border-color: var(--maroon-primary);
+  }
+  
+  .report-card h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--maroon-primary);
+  }
+  
+  .report-card ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .report-card li {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--maroon-border);
+  }
+  
+  .report-card li:last-child {
+    border-bottom: none;
+  }
+  
+  .report-card li .career-name {
+    font-weight: 500;
+    color: var(--maroon-text);
+  }
+  
+  .report-card li .career-score {
+    font-weight: 500;
+    color: var(--maroon-primary);
+  }
+  
+  /* Skill strengths visualization with maroon bars */
+  .skill-strength-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .skill-strength-label {
+    font-weight: 500;
+    color: var(--maroon-text);
+    width: 120px;
+  }
+  
+  .skill-strength-bar {
+    flex-grow: 1;
+    height: 8px;
+    background-color: rgba(128, 0, 32, 0.1);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  
+  .skill-strength-fill {
+    height: 100%;
+    border-radius: 100px;
+    background-color: var(--maroon-primary);
+  }
+  
+  .skill-strength-value {
+    width: 40px;
+    text-align: right;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--maroon-text-light);
+  }
+  
+  /* Trends Section with maroon accents */
+  .trends-section {
+    margin-top: 32px;
+  }
+  
+  .trends-section h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--maroon-primary);
+  }
+  
+  .trends-chart {
+    width: 100%;
+    height: 300px;
+    background: rgba(128, 0, 32, 0.02);
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid var(--maroon-border);
+  }
+  
+  /* Legend styling with maroon colors */
+  .custom-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 12px;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.875rem;
+    color: var(--maroon-text);
+  }
+  
+  .legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+  }
+  
+  /* Tooltip customization with maroon accents */
+  .custom-tooltip {
+    background-color: white;
+    border: 1px solid var(--maroon-border);
+    border-radius: 6px;
+    padding: 12px;
+    box-shadow: 0 4px 6px rgba(128, 0, 32, 0.1);
+  }
+  
+  .custom-tooltip-label {
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--maroon-primary);
+  }
+  
+  /* Custom maroon-themed chart colors */
+  .maroon-chart-colors {
+    --chart-color-1: #800020;
+    --chart-color-2: #a6193d;
+    --chart-color-3: #c41e3a;
+    --chart-color-4: #d2042d;
+    --chart-color-5: #8b0000;
+    --chart-color-6: #aa336a;
+    --chart-color-7: #722f37;
+    --chart-color-8: #9b2d30;
+    --chart-color-9: #ab4e52;
+    --chart-color-10: #3c1414;
+  }
+  
+  /* Specialized components for maroon theme */
+  .maroon-badge {
+    background-color: var(--maroon-primary);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .maroon-tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--maroon-muted);
+    color: var(--maroon-primary);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-right: 6px;
+    margin-bottom: 6px;
+  }
+  
+  /* Maroon-themed data visualization elements */
+  .data-highlight {
+    font-weight: 700;
+    color: var(--maroon-primary);
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .data-highlight-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+  }
+  
+  .maroon-progress-ring {
+    position: relative;
+    width: 60px;
+    height: 60px;
+  }
+  
+  .maroon-progress-ring circle {
+    stroke: var(--maroon-primary);
+    fill: transparent;
+    stroke-width: 8;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+  }
+  
+  .maroon-progress-ring circle.ring-bg {
+    stroke: var(--maroon-muted);
+  }
+  
+  .maroon-progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--maroon-primary);
+  }
+  
+  /* Responsive improvements */
+  @media (max-width: 640px) {
+    .dashboard-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    
+    .dashboard-controls {
+      width: 100%;
+      justify-content: space-between;
+    }
+    
+    .chart-container {
+      height: 350px;
+    }
+  }
+  
+  /* Dark maroon mode */
+  .dark-maroon {
+    --maroon-primary: #c41e3a;
+    --maroon-dark: #800020;
+    --maroon-light: #e25f6c;
+    --maroon-lighter: #f2889a;
+    --maroon-accent: #ff3e4d;
+    --maroon-muted: rgba(196, 30, 58, 0.15);
+    --maroon-border: rgba(196, 30, 58, 0.3);
+    --maroon-text: #f9d5dc;
+    --maroon-text-light: #fae5e9;
+    
+    background: #1a0208;
+    color: #f9d5dc;
+  }
+  
+  .dark-maroon .dashboard-container {
+    background: #2d0208;
+    border-color: var(--maroon-border);
+  }
+
+  

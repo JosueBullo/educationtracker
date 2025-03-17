@@ -329,6 +329,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/predictions", predictionRoutes);
 app.use("/api/prediction_shs", predictionShs);
 
+
 // ✅ Quiz Prediction Route
 app.post("/api/predict-quiz", async (req, res) => {
     try {

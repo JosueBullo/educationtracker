@@ -1,0 +1,113 @@
+/* Abt.css */
+
+.edutracker-container {
+    padding: 50px;
+    background: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+.abt-container {
+    width: 85%; /* Adjusted for better responsiveness */
+    max-width: 1200px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+    perspective: 1000px;
+    position: relative;
+    border: 3px solid transparent;
+}
+
+.abt-container:hover {
+    transform: translateY(-12px) rotateX(3deg) rotateY(3deg);
+    box-shadow: 0px 25px 50px rgba(0, 0, 0, 0.5);
+    border: 3px solid rgba(255, 87, 51, 0.9);
+    box-shadow: 0 0 30px rgba(255, 87, 51, 1);
+}
+
+.abt-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.txt-content {
+    flex: 1;
+    color: #333;
+}
+
+h1 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #ff5733;
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    margin-bottom: 20px;
+    letter-spacing: 1.5px;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+h1:hover {
+    color: #ff2e00;
+    text-shadow: 0 0 15px rgba(255, 46, 0, 0.8);
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #222;
+    text-align: justify;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+p:hover {
+    color: #ff5733;
+    text-shadow: 0 0 12px rgba(255, 87, 51, 0.8);
+}
+
+.icon {
+    font-size: 140px; /* Increased size */
+    color: #ff5733;
+    transition: transform 0.5s ease, color 0.3s ease, text-shadow 0.3s ease;
+    animation: floating 3s infinite ease-in-out;
+}
+
+.icon:hover {
+    transform: scale(1.4) rotate(12deg);
+    color: #ff2e00;
+    text-shadow: 0 0 25px rgba(255, 46, 0, 1);
+}
+
+@keyframes floating {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+@media (max-width: 768px) {
+    .abt-container {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px;
+    }
+    .icon {
+        margin-top: 20px;
+        font-size: 120px;
+    }
+    h1 {
+        font-size: 36px;
+    }
+    p {
+        font-size: 22px;
+    }
+}

@@ -1,0 +1,438 @@
+/* Base styles for the report page */
+.report-page {
+    font-family: 'Roboto', 'Segoe UI', sans-serif;
+    color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f9fc;
+  }
+  
+  .report-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin-bottom: 20px;
+  }
+  
+  /* Header styles */
+  .report-header {
+    text-align: center;
+    border-bottom: 2px solid #3f51b5;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .report-header h1 {
+    color: white;
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  
+  .report-header h2 {
+    font-size: 20px;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 5px;
+  }
+  
+  .report-date {
+    color: #78909c;
+    font-style: italic;
+  }
+  
+  /* Section styles */
+  .report-summary, .report-visualizations, .personalized-analysis, .next-steps {
+    margin-bottom: 40px;
+  }
+  
+  .report-summary h2, .report-visualizations h2, .personalized-analysis h2, .next-steps h2 {
+    color: #3f51b5;
+    font-size: 24px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Recommendation cards */
+  .recommendation-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .recommendation-card {
+    flex: 1;
+    min-width: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #e0e0e0;
+  }
+  
+  .recommendation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recommendation-card.primary {
+    border-top: 5px solid #4caf50;
+  }
+  
+  .recommendation-card.secondary {
+    border-top: 5px solid #2196f3;
+  }
+  
+  .recommendation-card.tertiary {
+    border-top: 5px solid #ff9800;
+  }
+  
+  .card-header {
+    background-color: #f5f5f5;
+    padding: 15px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .card-header h4 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+    flex-grow: 1;
+  }
+  
+  .rank-badge {
+    background-color: #3f51b5;
+    color: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+  
+  .compatibility-score {
+    text-align: center;
+    background: white;
+    border-radius: 6px;
+    padding: 5px 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .score-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #3f51b5;
+    display: block;
+  }
+  
+  .score-label {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .card-body {
+    padding: 15px;
+  }
+  
+  .strand-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #555;
+    margin-bottom: 15px;
+  }
+  
+  .career-paths h5 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #3f51b5;
+  }
+  
+  .career-paths ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+  
+  .career-paths li {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  /* Charts layout */
+  .charts-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .chart-wrapper {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .large-chart {
+    flex: 2;
+    min-width: 500px;
+  }
+  
+  .radar-chart {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .chart-wrapper h3 {
+    text-align: center;
+    color: #3f51b5;
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  
+  .individual-assessments h3 {
+    color: #3f51b5;
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .assessment-charts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .individual-chart-wrapper {
+    flex: 1;
+    min-width: 300px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+  }
+  
+  .individual-chart-wrapper h4 {
+    text-align: center;
+    color: #546e7a;
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  
+  /* Personalized analysis section */
+  .personalized-analysis .analysis-content {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    line-height: 1.6;
+  }
+  
+  .markdown-content h1 {
+    font-size: 24px;
+    color: #3f51b5;
+    margin-bottom: 15px;
+  }
+  
+  .markdown-content h2 {
+    font-size: 20px;
+    color: #455a64;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .markdown-content p {
+    margin-bottom: 15px;
+    color: #546e7a;
+    font-size: 15px;
+  }
+  
+  .markdown-content strong {
+    color: #333;
+    font-weight: 600;
+  }
+  
+  /* Next steps section */
+  .steps-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .step-item {
+    display: flex;
+    align-items: flex-start;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    padding: 15px;
+    transition: transform 0.2s ease;
+  }
+  
+  .step-item:hover {
+    transform: translateX(5px);
+  }
+  
+  .step-number {
+    background-color: #3f51b5;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 15px;
+    flex-shrink: 0;
+  }
+  
+  .step-info h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #3f51b5;
+    font-size: 18px;
+  }
+  
+  .step-info p {
+    margin: 0;
+    color: #546e7a;
+    font-size: 15px;
+  }
+  
+  /* Disclaimer */
+  .disclaimer {
+    background-color: #f5f5f5;
+    border-left: 4px solid #ff9800;
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: 30px;
+  }
+  
+  .disclaimer h3 {
+    color: #ff9800;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+  
+  .disclaimer p {
+    color: #616161;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+  }
+  
+  /* Action buttons */
+  .report-actions {
+    margin-top: 30px;
+  }
+  
+  .action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .action-btn {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: rgb(16, 1, 1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .action-btn.primary {
+    background-color: #3f51b5;
+  }
+  
+  .action-btn.secondary {
+    background-color: #00acc1;
+  }
+  
+  .action-btn.tertiary {
+    background-color: #5c6bc0;
+  }
+  
+  .action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .btn-icon {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+  
+  .back-btn {
+    background-color: #f5f5f5;
+    color: #546e7a;
+    border: 1px solid #e0e0e0;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .back-btn:hover {
+    background-color: #e0e0e0;
+  }
+  
+  /* Save status notification */
+  .save-status {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeOut 5s forwards;
+  }
+  
+  @keyframes fadeOut {
+    0% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .report-container {
+      padding: 15px;
+    }
+    
+    .recommendation-card {
+      min-width: 100%;
+    }
+    
+    .large-chart, .radar-chart, .individual-chart-wrapper {
+      min-width: 100%;
+    }
+    
+    .action-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }

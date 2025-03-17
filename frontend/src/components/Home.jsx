@@ -3,9 +3,11 @@ import "../components/css/About.css";
 import Nav2 from "./Nav2";
 import Footer from "./Footer";
 import bookImage from "../assets/books-icon.jpg";
+import advertVideo from "../assets/advert.mp4";
 
 // Import icons
-import { FaBullseye, FaCamera, FaGamepad } from "react-icons/fa";
+import { FaBullseye, FaCamera, FaGamepad, FaFlag, FaLightbulb } from "react-icons/fa";
+
 
 // Import team member images
 import charlesImage from "../assets/charles.png";
@@ -43,10 +45,13 @@ const teamMembers = [
   },
 ];
 
-const Home = () => {
+const About = () => {
   return (
     <>
       <Nav2 />
+
+      
+
       <div className="about-container">
         <div className="about-content">
           <div className="text-content">
@@ -71,6 +76,42 @@ const Home = () => {
             <img src={bookImage} alt="Books" className="book-image" />
           </div>
         </div>
+
+        <div className="mission-vision-container">
+          <h2 className="contact-title">Mission & Vision</h2>
+          <div className="contact-divider"></div>
+
+          <div className="contact-content">
+            <div className="contact-item">
+              <FaFlag className="contact-icon" />
+              <h3 className="contact-header">Our Mission</h3>
+              <p className="contact-subtext">
+                To provide students with an innovative and accessible platform that guides
+                them in making informed educational and career decisions, utilizing AI-driven
+                predictive analysis and personalized recommendations.
+              </p>
+            </div>
+            <div className="vertical-line"></div>
+            <div className="contact-item">
+              <FaLightbulb className="contact-icon" />
+              <h3 className="contact-header">Our Vision</h3>
+              <p className="contact-subtext">
+                To be the leading educational technology platform that empowers students
+                worldwide, shaping a future where every learner confidently pursues their
+                passion and potential with clarity and direction.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="video-container">
+        <div className="video-frame">
+          <video controls className="advert-video">
+            <source src={advertVideo} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
 
         {/* What Our Website Offers Section */}
         <div className="website-offers">
@@ -168,6 +209,39 @@ const Home = () => {
       </div>
     </div>
 
+
+    <div className="education-importance">
+  <h2>Why Choosing Your Future Education Matters</h2>
+  <p>
+    Your education is more than just a diploma—it’s the foundation of your future. Every course, 
+    every subject, and every decision you make today shapes the opportunities you will have 
+    tomorrow. Choosing the right educational path isn't just about getting a degree; it's about 
+    discovering your strengths, passions, and the career that will bring you fulfillment. 
+  </p>
+  <p>
+    In today’s fast-changing world, industries evolve rapidly, and new career paths emerge every year. 
+    That’s why making an informed choice about your education is crucial. By selecting the right 
+    Senior High School strand or College course, you are setting yourself up for a career that matches 
+    your skills and interests, increasing your chances of success and job satisfaction. 
+  </p>
+  <p>
+    Moreover, investing in the right education opens doors to better career opportunities, 
+    financial stability, and personal growth. It enhances your ability to adapt to new challenges, 
+    think critically, and contribute meaningfully to society. Whether you dream of becoming a doctor, 
+    engineer, artist, or entrepreneur, the right education provides you with the tools to turn those 
+    dreams into reality. 
+  </p>
+  <p>
+    At EduTracker, we understand that choosing your future education can feel overwhelming. That’s 
+    why we provide personalized guidance, predictive analysis, and career insights to help you make 
+    the best decision. Remember, your future starts with the choices you make today—so take the time 
+    to explore, evaluate, and choose wisely. Your education is your greatest investment, and it will 
+    shape the life you build for yourself.
+  </p>
+</div>
+
+
+
         {/* Meet the Team Section */}
         <div className="team-section">
           <h2>MEET THE TEAM</h2>
@@ -187,4 +261,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default About;

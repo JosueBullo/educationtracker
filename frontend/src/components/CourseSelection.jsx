@@ -62,7 +62,7 @@ const CourseSelection = () => {
         const newCareers = response.data.careers.map(career => ({ career, score: 25 }));
         
         // Clear local storage and save new results
-        localStorage.setItem("colledge_course_predict", JSON.stringify(newCareers));
+        localStorage.setItem("college_course_predict", JSON.stringify(newCareers));
         setPredictedCareers(response.data.careers);
 
         toast.success("Career prediction successful!");
