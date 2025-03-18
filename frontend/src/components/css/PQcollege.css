@@ -1,280 +1,377 @@
-/* Maroon color scheme */
-:root {
-    --maroon-500: #800000;
-    --maroon-600: #deb4b4;
-    --maroon-700: #4d0000;
-    --maroon-800: #330000;
-  }
-  
-  /* Apply maroon theme to buttons and text */
-  .bg-maroon-500 {
-    background-color: var(--maroon-500);
-  }
-  
-  .bg-maroon-600 {
-    background-color: var(--maroon-600);
-  }
-  
-  .bg-maroon-700 {
-    background-color: var(--maroon-700);
-  }
-  
-  .text-maroon-800 {
-    color: var(--maroon-800);
-  }
-  
-  /* Hover effects */
-  .hover\:bg-maroon-500:hover {
-    background-color: var(--maroon-500);
-  }
-  
-  .hover\:bg-maroon-700:hover {
-    background-color: var(--maroon-700);
-  }
-  
-  /* Transition effects */
-  .transition-all {
-    transition: all 0.3s ease;
-  }
-  
-  /* Center the container */
-  .min-h-screen {
-    min-height: 100vh;
-  }
-  
-  .flex {
+/* Main container styles */
+.pq-page {
     display: flex;
-  }
-  
-  .items-center {
-    align-items: center;
-  }
-  
-  .justify-center {
-    justify-content: center;
-  }
-  
-  /* Container styling */
-  .career-quiz-container {
-    max-width: 40rem; /* Equivalent to max-w-lg */
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    padding: 2rem; /* Equivalent to p-8 */
-    border-radius: 0.5rem; /* Equivalent to rounded-lg */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Equivalent to shadow-lg */
-  }
-  
- /* Button styling */
-.career-quiz-option {
-    padding: 0.75rem 1.5rem; /* Equivalent to px-6 py-3 */
-    border-radius: 0.5rem; /* Equivalent to rounded-lg */
-    font-weight: 500;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    background-color: #800000; /* Maroon color */
-    color: white; /* White text */
-    border: none; /* Remove default border */
-    cursor: pointer; /* Add pointer cursor */
-    gap: 100;
-  }
-  
-  /* Hover effect for maroon buttons */
-  .career-quiz-option:hover {
-    background-color: #660000; /* Darker maroon on hover */
-    
-  }
-  
-  /* Navigation button styling */
-  .career-quiz-navigation button {
-    padding: 0.5rem 1.5rem; /* Equivalent to px-6 py-2 */
-    border-radius: 0.5rem; /* Equivalent to rounded-lg */
-    font-weight: 500;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    background-color: #800000; /* Maroon color */
-  }
-  
-  /* Error message styling */
-  .text-red-500 {
-    color: #ef4444; /* Equivalent to text-red-500 */
-  }
-  
-  /* Results styling */
-  .career-quiz-results ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .career-quiz-results li {
-    background-color: #f3f4f6; /* Equivalent to bg-gray-100 */
-    padding: 1rem; /* Equivalent to p-4 */
-    border-radius: 0.5rem; /* Equivalent to rounded-lg */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .career-quiz-results li span:last-child {
-    background-color: var(--maroon-600);
-    color: white;
-    padding: 0.25rem 0.75rem; /* Equivalent to px-3 py-1 */
-    border-radius: 9999px; /* Equivalent to rounded-full */
-  }
-
-  /* Maroon color scheme */
-:root {
-    --maroon-500: #800000;
-    --maroon-600: #660000;
-    --maroon-700: #4d0000;
-    --maroon-800: #330000;
-  }
-  
-  /* Apply maroon theme to buttons and text */
-  .bg-maroon-500 {
-    background-color: var(--maroon-500);
-  }
-  
-  .bg-maroon-600 {
-    background-color: var(--maroon-600);
-  }
-  
-  .bg-maroon-700 {
-    background-color: var(--maroon-700);
-  }
-  
-  .text-maroon-800 {
-    color: var(--maroon-800);
-  }
-  
-  /* Hover effects */
-  .hover\:bg-maroon-500:hover {
-    background-color: var(--maroon-500);
-  }
-  
-  .hover\:bg-maroon-700:hover {
-    background-color: var(--maroon-700);
-  }
-  
-  /* Transition effects */
-  .transition-all {
-    transition: all 0.3s ease;
-  }
-  
-  /* Center the container */
-  .min-h-screen {
-    min-height: 100vh;
-  }
-  
-  .flex {
-    display: flex;
-  }
-  
-  .flex-col {
     flex-direction: column;
+    min-height: 100vh;
+    background-color: #f8f5f5;
+    font-family: "Poppins", sans-serif;
   }
   
-  .items-center {
-    align-items: center;
-  }
-  
-  .justify-center {
-    justify-content: center;
-  }
-  
-  /* Container styling */
-  .career-quiz-container {
-    max-width: 32rem; /* Equivalent to max-w-lg */
-    width: 100%;
-    margin: 0 auto;
-    padding: 2rem; /* Equivalent to p-8 */
-    border-radius: 0.5rem; /* Equivalent to rounded-lg */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Equivalent to shadow-lg */
-  }
-  
-  /* Button styling */
-  .career-quiz-option {
-    padding: 0.75rem 1.5rem; /* Equivalent to px-6 py-3 */
-    border-radius: 0.5rem; /* Equivalent to rounded-lg */
-    font-weight: 500;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    background-color: var(--maroon-600); /* Maroon color */
-    color: white; /* White text */
-    border: none; /* Remove default border */
-    cursor: pointer; /* Add pointer cursor */
-  }
-  
-  /* Hover effect for maroon buttons */
-  .career-quiz-option:hover {
-    background-color: var(--maroon-700); /* Darker maroon on hover */
-  }
-  
-  /* Active state for maroon buttons */
-  .career-quiz-option:active {
-    background-color: var(--maroon-800); /* Even darker maroon when clicked */
-  }
-  
-  /* Error message styling */
-  .text-red-500 {
-    color: #ef4444; /* Equivalent to text-red-500 */
-  }
-  
-  /* Results styling */
-  .career-quiz-results ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .career-quiz-results li {
-    background-color: #f3f4f6; /* Equivalent to bg-gray-100 */
-    padding: 1rem; /* Equivalent to p-4 */
-    border-radius: 0.5rem; /* Equivalent to rounded-lg */
+  .pq-content {
+    flex: 1;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
   }
   
-  .career-quiz-results li span:last-child {
-    background-color: var(--maroon-600);
-    color: white;
-    padding: 0.25rem 0.75rem; /* Equivalent to px-3 py-1 */
-    border-radius: 9999px; /* Equivalent to rounded-full */
-  }
-
-
-  .bg-maroon-600 {
-    background-color: #660000; /* Dark maroon */
+  .pq-container {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
   }
   
-  .bg-gray-200 {
-    background-color: #e9a0af; /* Light gray */
-  }
-  
-  .hover\:bg-maroon-500:hover {
-    background-color: #800000; /* Maroon on hover */
-  }
-  
-  .transition-all {
+  .pq-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(95, 10, 26, 0.1);
+    overflow: hidden;
     transition: all 0.3s ease;
   }
-
-  .go-to-exam-btn {
-    background-color: #800000; /* Maroon color */
+  
+  /* Header styles */
+  .pq-header {
+    background: linear-gradient(135deg, #7d0a24 0%, #5f0a1a 100%);
+    padding: 1.5rem;
+    text-align: center;
     color: white;
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
+  }
+  
+  .pq-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 1rem;
+  }
+  
+  .pq-progress-container {
+    margin-top: 1rem;
+  }
+  
+  .pq-progress-bar {
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+  
+  .pq-progress-fill {
+    height: 100%;
+    background-color: #ffffff;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+  
+  .pq-progress-text {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  /* Question section styles */
+  .pq-question-section {
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .pq-question-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: #7d0a24;
+    color: white;
+    border-radius: 50%;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+  }
+  
+  .pq-question-text {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+  
+  .pq-options {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .pq-option {
+    padding: 0.8rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border: 2px solid #e0e0e0;
+    background-color: white;
+    color: #555;
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+    transition: all 0.2s ease;
   }
   
-  .go-to-exam-btn:hover {
-    background-color: #990000; /* Darker maroon on hover */
-    transform: scale(1.05); /* Slight zoom effect */
+  .pq-option:hover {
+    border-color: #7d0a24;
+    color: #7d0a24;
   }
   
-  .go-to-exam-btn:active {
-    background-color: #660000; /* Even darker maroon when clicked */
-    transform: scale(0.98);
+  .pq-option.pq-selected {
+    background-color: #7d0a24;
+    color: white;
+    border-color: #7d0a24;
   }
+  
+  .pq-navigation {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .pq-back-btn,
+  .pq-next-btn,
+  .pq-submit-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .pq-back-btn {
+    background-color: #f0f0f0;
+    color: #555;
+    border: none;
+  }
+  
+  .pq-back-btn:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .pq-next-btn {
+    background-color: #7d0a24;
+    color: white;
+    border: none;
+  }
+  
+  .pq-next-btn:hover {
+    background-color: #5f0a1a;
+  }
+  
+  .pq-next-btn:disabled,
+  .pq-submit-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .pq-submit-btn {
+    background-color: #2e7d32;
+    color: white;
+    border: none;
+  }
+  
+  .pq-submit-btn:hover {
+    background-color: #1b5e20;
+  }
+  
+  .pq-error {
+    color: #d32f2f;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Results section styles */
+  .pq-results {
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .pq-results h2 {
+    font-size: 1.8rem;
+    color: #7d0a24;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+  
+  .pq-results-intro {
+    color: #555;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+  }
+  
+  .pq-career-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+  }
+  
+  .pq-career-item {
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.2s ease;
+  }
+  
+  .pq-career-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .pq-career-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.8rem;
+  }
+  
+  .pq-career-rank {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background-color: #7d0a24;
+    color: white;
+    border-radius: 50%;
+    font-weight: 600;
+    margin-right: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .pq-career-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    text-align: left;
+  }
+  
+  .pq-career-score-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .pq-career-score-bar {
+    flex: 1;
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .pq-career-score-fill {
+    height: 100%;
+    background-color: #7d0a24;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+  
+  .pq-career-score {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #7d0a24;
+    min-width: 45px;
+    text-align: right;
+  }
+  
+  .pq-action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .pq-restart-btn,
+  .pq-exam-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .pq-restart-btn {
+    background-color: #f0f0f0;
+    color: #555;
+    border: none;
+  }
+  
+  .pq-restart-btn:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .pq-exam-btn {
+    background-color: #7d0a24;
+    color: white;
+    border: none;
+  }
+  
+  .pq-exam-btn:hover {
+    background-color: #5f0a1a;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .pq-header h1 {
+      font-size: 1.5rem;
+    }
+  
+    .pq-question-text {
+      font-size: 1.1rem;
+    }
+  
+    .pq-options {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .pq-option {
+      width: 100%;
+    }
+  
+    .pq-action-buttons {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .pq-restart-btn,
+    .pq-exam-btn {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .pq-content {
+      padding: 1.5rem 0.5rem;
+    }
+  
+    .pq-question-section,
+    .pq-results {
+      padding: 1.5rem;
+    }
+  
+    .pq-navigation {
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+  
+    .pq-back-btn,
+    .pq-next-btn,
+    .pq-submit-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
   

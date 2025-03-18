@@ -14,6 +14,7 @@ import charlesImage from "../assets/charles.png";
 import christianImage from "../assets/chan.jpg";
 import carlaImage from "../assets/carla.jpg";
 import johnImage from "../assets/josue.jpg";
+import advisers from "../assets/adviser.jpg";
 
 import Image1 from "../assets/1.png";
 import Image2 from "../assets/2.png";
@@ -43,8 +44,17 @@ const teamMembers = [
     role: "Full Stack Developer",
     image: johnImage,
   },
+
 ];
 
+const adviser = [
+
+{
+  name: "POPS V. MADRIAGA",
+  role: "",
+  image: advisers,
+},
+];
 const About = () => {
   return (
     <>
@@ -239,6 +249,19 @@ const About = () => {
     shape the life you build for yourself.
   </p>
 </div>
+
+  <div className="team-section">
+          <h2>CLASS ADVISER</h2>
+          <div className="team-members">
+            {adviser.map((member, index) => (
+              <div key={index} className="team-member">
+                <img src={member.image} alt={member.name} className="team-image" />
+                <h3>{member.name}</h3>
+                <p>{member.role}</p>
+              </div>
+            ))}
+          </div>
+        </div>
 
 
 

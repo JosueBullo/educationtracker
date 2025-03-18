@@ -85,8 +85,9 @@ const Portal = () => {
   return (
     <>
       <Nav2 />
+      <div style={{ height: "100px" }}></div>
       <div className="portal-container">
-        <h1>Portal</h1>
+        <h1>CHOOSE PORTAL</h1>
         <div className="portal-grid">
           {/* Senior High School Portal */}
           <div className="portal">

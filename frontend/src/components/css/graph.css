@@ -111,3 +111,15 @@
 .back-btn:active {
   transform: scale(0.95); /* Slight scale on click */
 }
+
+.chart-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 0.85rem;
+}
